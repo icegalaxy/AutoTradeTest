@@ -1,14 +1,12 @@
 package icegalaxy.net;
 
-import java.io.PrintStream;
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JTextArea;
 
 public class StockDataController implements Runnable {
 
@@ -103,30 +101,13 @@ public class StockDataController implements Runnable {
 			
 			asql = new SQLite(Setting.dataBase);
 		
-//		setOHLC();
-		
-//		CSVparser csv = new CSVparser("5minOHLC.csv");
-//		csv.parseOHLC();
-				
-//		for (int i=0; i<csv.getLow().size(); i++){
-//			
-//			System.out.println(getCSVTime(csv.getTime().get(i)));
-//			System.out.println(csv.getHigh().get(i));
-//			System.out.println(csv.getLow().get(i));
-//			System.out.println(csv.getOpen().get(i));
-//			System.out.println(csv.getClose().get(i));
-//			
-//
-//			
-//			getLongTB().addPoint(csv.getClose().get(i).floatValue());
-//			getLongTB().addCandle(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i), csv.getOpen().get(i), csv.getClose().get(i), (double) i+1);
-//			
-//		}
+		setOHLC();
+		getPreviousData();
 		
 		
 		try {
 			ResultSet result = asql.stmt.executeQuery("SELECT * FROM \""
-					+ tableName + Setting.index + "\" ORDER BY MyIndex ASC");
+					+ Setting.index + tableName + "\" ORDER BY MyIndex ASC");
 
 			System.out.println("Connected to table");
 			
@@ -167,8 +148,8 @@ public class StockDataController implements Runnable {
 				continue;
 
 			timeNow = new StringBuffer((String) time.get(i));
-
-			sec = new Integer(timeNow.substring(15, 17)).intValue();
+			
+			sec = new Integer(timeNow.substring(7, 9)).intValue();
 			AutoTradeDB.setTime(timeNow.toString());
 
 			if (Global.isTradeTime()) {
@@ -390,33 +371,33 @@ public class StockDataController implements Runnable {
 
 	}
 
-	private Date addTime() {
-		if (candles.size() == 0)
-			return getTime();
-		else {
-			DateFormat formatter = new SimpleDateFormat("hh:mm");
-			Date time = candles.get(candles.size() - 1).getTime();
-			String hr = time.toString().substring(0, 2);
-			String min = time.toString().substring(3, 5);
-
-			if (min.equals("59")) {
-				min = "00";
-				Integer i = new Integer(hr);
-				i++;
-				hr = i.toString();
-			} else {
-				Integer i = new Integer(min);
-				i++;
-				min = i.toString();
-			}
-			try {
-				return formatter.parse(hr + ":" + min);
-			} catch (ParseException e) {
-				e.printStackTrace();
-				return getTime();
-			}
-		}
-	}
+//	private Date addTime() {
+//		if (candles.size() == 0)
+//			return getTime();
+//		else {
+//			DateFormat formatter = new SimpleDateFormat("hh:mm");
+//			Date time = candles.get(candles.size() - 1).getTime();
+//			String hr = time.toString().substring(0, 2);
+//			String min = time.toString().substring(3, 5);
+//
+//			if (min.equals("59")) {
+//				min = "00";
+//				Integer i = new Integer(hr);
+//				i++;
+//				hr = i.toString();
+//			} else {
+//				Integer i = new Integer(min);
+//				i++;
+//				min = i.toString();
+//			}
+//			try {
+//				return formatter.parse(hr + ":" + min);
+//			} catch (ParseException e) {
+//				e.printStackTrace();
+//				return getTime();
+//			}
+//		}
+//	}
 
 	private void setGlobal() {
 		if (Global.getDayHigh() - Global.getDayLow() < 100.0F)
@@ -440,7 +421,7 @@ public class StockDataController implements Runnable {
 		Date s = null;
 		DateFormat formatter = new SimpleDateFormat("hh:mm");
 		try {
-			s = formatter.parse(timeNow.substring(9, 14));
+			s = formatter.parse(timeNow.substring(1, 6));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -562,6 +543,34 @@ public class StockDataController implements Runnable {
 		// System.out.println(Setting.quantities[7]);
 
 	}
+	
+	private void getPreviousData() {
+
+		CSVparser csv = null;
+		csv = new CSVparser("OHLC/" + tableName + ".csv");
+		csv.parseOHLC();
+//		int j = 0;
+
+		for (int i = 0; i < csv.getLow().size(); i++) {
+
+			// addPoint is for technical indicators
+			getLongTB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
+			// addCandle History is made for previous data, volume is not
+			// accumulated
+			getLongTB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
+					csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
+
+//			j++;
+//			if (j == 3) {
+//				getM15TB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
+//				getM15TB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
+//						csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
+//				j = 0;
+//			}
+
+		}
+
+	}
 
 	private void setOHLC(){
 		XMLReader ohlc = new XMLReader(tableName);
@@ -570,6 +579,13 @@ public class StockDataController implements Runnable {
 		Global.setpOpen(ohlc.getpOpen());
 		Global.setpClose(ohlc.getpClose());
 		Global.setpFluc(ohlc.getpFluc());
+		
+		if (Global.getpHigh() != 0){
+			Global.addLog("-------------------------------------");
+			Global.addLog("P.High: " + Global.getpHigh());
+			Global.addLog("P.Low: " + Global.getpLow());
+			Global.addLog("-------------------------------------");
+		}
 	}
 
 }

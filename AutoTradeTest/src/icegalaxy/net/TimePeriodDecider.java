@@ -134,7 +134,7 @@ public class TimePeriodDecider implements Runnable {
 		String time = AutoTradeDB.getTime();
 		// System.out.println(time);
 
-		Integer a = new Integer(time.replaceAll(":", "").substring(9, 15));
+		Integer a = new Integer(time.replaceAll(":", "").substring(1, 7));
 		// System.out.println(a);
 		int i = a;
 		return i;

@@ -91,7 +91,7 @@ public class Global {
 	}
 
 	public static synchronized void addLog(String msg) {
-		msg = Global.getTableName() +" " + AutoTradeDB.getTime() .substring(9,17) + "	" + msg + "\r\n";
+		msg = Global.getTableName() +" " + AutoTradeDB.getTime() .substring(1,9) + "	" + msg + "\r\n";
 		System.out.println(msg);
 		Global.log.append(msg);
 		// DB.stringtoFile(Global.log.toString(),

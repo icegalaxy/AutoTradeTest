@@ -49,8 +49,8 @@ public class Setting extends JFrame {
 			240, 270, 285 };
 	public static double quantities[] = new double[11];
 //	public static String index = "FHI";
-	public static String index = "";
-	public static String dataBase = "/Volumes/LY/The Link office use/D2/Joe Cheung/Personal backup/Analyse";
+	public static String index = "HSF";
+	public static String dataBase = "AutoTrade";
 //	public static String dataBase = "Analyse";
 	private static int shortTB;
 	private static int mediumTB;

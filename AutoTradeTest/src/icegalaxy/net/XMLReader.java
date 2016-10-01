@@ -17,6 +17,13 @@ public class XMLReader {
 	double pLow;
 	double pClose;
 	double pFluc;
+	
+	double AOH;
+	double AOL;
+	double open;
+	double nOpen;
+	
+	boolean stop;
 
 	public XMLReader(String tradeDate) {
 
@@ -60,11 +67,13 @@ public class XMLReader {
 					setpLow(Double.parseDouble(eElement.getElementsByTagName("pLow").item(0).getTextContent()));
 					setpClose(Double.parseDouble(eElement.getElementsByTagName("pClose").item(0).getTextContent()));
 					setpFluc(Double.parseDouble(eElement.getElementsByTagName("pFluc").item(0).getTextContent()));
-							
-					
-				
-					 System.out.println("XMLpHigh : " +
-					 eElement.getElementsByTagName("pHigh").item(0).getTextContent());
+					setAOH(Double.parseDouble(eElement.getElementsByTagName("AOH").item(0).getTextContent()));
+					setAOL(Double.parseDouble(eElement.getElementsByTagName("AOL").item(0).getTextContent()));
+					setOpen(Double.parseDouble(eElement.getElementsByTagName("open").item(0).getTextContent()));
+					setnOpen(Double.parseDouble(eElement.getElementsByTagName("nOpen").item(0).getTextContent()));
+					setStop(Boolean.parseBoolean(eElement.getElementsByTagName("stop").item(0).getTextContent().trim()));
+//					 System.out.println("XMLpHigh : " +
+//					 eElement.getElementsByTagName("pHigh").item(0).getTextContent());
 
 				}
 			}
@@ -74,19 +83,39 @@ public class XMLReader {
 		}
 	}
 	
+	
+	
+	public boolean isStop() {
+		return stop;
+	}
+
+	public void setStop(boolean stop) {
+		this.stop = stop;
+	}
+
 	public double getpOpen() {
 		return pOpen;
 	}
 
-	public void setpOpen(double pOpen) {
+	private void setpOpen(double pOpen) {
 		this.pOpen = pOpen;
+	}
+	
+	
+
+	public double getnOpen() {
+		return nOpen;
+	}
+
+	public void setnOpen(double nOpen) {
+		this.nOpen = nOpen;
 	}
 
 	public double getpHigh() {
 		return pHigh;
 	}
 
-	public void setpHigh(double pHigh) {
+	private void setpHigh(double pHigh) {
 		this.pHigh = pHigh;
 	}
 
@@ -94,7 +123,7 @@ public class XMLReader {
 		return pLow;
 	}
 
-	public void setpLow(double pLow) {
+	private void setpLow(double pLow) {
 		this.pLow = pLow;
 	}
 
@@ -102,7 +131,7 @@ public class XMLReader {
 		return pClose;
 	}
 
-	public void setpClose(double pClose) {
+	private void setpClose(double pClose) {
 		this.pClose = pClose;
 	}
 
@@ -110,8 +139,34 @@ public class XMLReader {
 		return pFluc;
 	}
 
-	public void setpFluc(double pFluc) {
+	private void setpFluc(double pFluc) {
 		this.pFluc = pFluc;
 	}
 
+	public double getAOH() {
+		return AOH;
+	}
+
+	private void setAOH(double aOH) {
+		AOH = aOH;
+	}
+
+	public double getAOL() {
+		return AOL;
+	}
+
+	private void setAOL(double aOL) {
+		AOL = aOL;
+	}
+
+	public double getOpen() {
+		return open;
+	}
+
+	private void setOpen(double open) {
+		this.open = open;
+	}
+
+	
+	
 }

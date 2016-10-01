@@ -1,102 +1,117 @@
 package icegalaxy.net;
 
-import java.util.ArrayList;
 
-import org.jfree.chart.renderer.xy.CandlestickRenderer;
 
-import com.sun.javafx.binding.LongConstant;
+
 
 //Use the OPEN Line
 
 public class RuleTest2 extends Rules {
 
-	int candleSize = 0;
-	double refHLPoint;
-	boolean lowFluc = true;
-	boolean shutDownUp;
-	boolean shutDownDown;
-	double highestPt = 0;
-	double lowestPt = 99999;
-	boolean shortContract;
-	boolean longContract;
-	boolean shutdownthis;
-
-	double refPt = 0;
-
-	boolean reachLittleProfit;
-
-	boolean isOpenPeriod = true;
-	boolean tradeTimesReseted = false;
-
-	double openPt = Global.getPreviousClose() + Global.getGap();
-	private int lossTimes = 0;
-
-	double refEMA;
+	private int lossTimes;
+	// private double refEMA;
+	
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
-		super(wan1, wan2, globalRunRule);
-
-		setOrderTime(91500, 114500, 131500, 160000);
-		// testing = true;
-		// TODO Auto-generated constructor stub
-		Global.addLog("Open Point: " + openPt);
-
+		 super(wan1, wan2, globalRunRule);
+		setOrderTime(94500, 113000, 130500, 160000);
+		// wait for EMA6, that's why 0945
 	}
 
-	@Override
 	public void openContract() {
-
-		// checkLowFluc();
 
 		if (shutdown) {
 			lossTimes++;
 			shutdown = false;
-
 		}
 
-		if (!isOrderTime() || getTimeBase().getEMA(6) == -1)
+		// Reset the lossCount at afternoon because P.High P.Low is so important
+		// if (isAfternoonTime() && !tradeTimesReseted) {
+		// lossTimes = 0;
+		// tradeTimesReseted = true;
+		// }
+
+		if (!isOrderTime() || lossTimes >= 2 || Global.getNoOfContracts() != 0)
 			return;
 
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) && getTimeBase().isEMARising(5, 1))
-			longContract();
-		else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)  && getTimeBase().isEMADropping(5, 1))
-			shortContract();
+		// used 1hr instead of 15min
 
+		if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10) {
+
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+
+				Global.addLog(className + ": waiting for a better position");
+
+				while (Global.getCurrentPoint() > getTimeBase().getEMA(6)) {
+					wanPrevious.middleWaiter(wanNext);
+
+					if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+						Global.addLog(className + ": wrong trend");
+						return;
+					}
+				}
+				longContract();
+
+			} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+
+				Global.addLog(className + ": waiting for a better position");
+
+				while (Global.getCurrentPoint() < getTimeBase().getEMA(6)) {
+					wanPrevious.middleWaiter(wanNext);
+
+					if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+						Global.addLog(className + ": wrong trend");
+						return;
+					}
+				}
+				shortContract();
+
+			}
+		}
+
+	}
+	
+	void stopEarn() {
+		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss){
+			
+			closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
+			if (lossTimes > 0)
+				lossTimes--;
+				
+		}
+		else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint()> tempCutLoss){
+			
+			closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
+			if (lossTimes > 0)
+				lossTimes--;
+		}
 	}
 
 	void updateStopEarn() {
 
-		if (Global.getNoOfContracts() > 0) {
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+		if(getProfit() > getStopEarnPt())	{
+			
+			if(Global.getNoOfContracts() > 0)
 				tempCutLoss = 99999;
-		} else if (Global.getNoOfContracts() < 0)
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-				tempCutLoss = 0;
-
-		if (getTimeBase().getCandles().size() > candleSize) {
-
-			System.out.println("EMA5:" + getTimeBase().getEMA(5));
-			System.out.println("EMA6:" + getTimeBase().getEMA(6));
-			System.out.println("");
-			candleSize++;
+			else if(Global.getNoOfContracts() < 0)
+				tempCutLoss = 0;		
 		}
+		
+			
+
+	}
+
+	double getCutLossPt() {
+		return 15;
+	}
+
+	double getStopEarnPt() {
+		return 30;
 	}
 
 	@Override
 	public TimeBase getTimeBase() {
-
 		return StockDataController.getLongTB();
-	}
-
-	double getCutLossPt() {
-
-		return 100;
-
-	}
-
-	double getStopEarnPt() {
-
-		return -100;
 	}
 
 }
