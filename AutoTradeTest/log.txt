@@ -1,0 +1,11 @@
+1899-12-30 09:15:30	RuleMA Start
+1899-12-30 09:15:30	RuleRSI Start
+1899-12-30 09:15:30	ruleMACD Start
+1899-12-30 09:15:30	RuleMA2 Start
+1899-12-30 09:15:30	Login false
+1899-12-30 09:15:30	RuleSync Start
+1899-12-30 11:15:00	Long at 12527.0 false
+1899-12-30 11:15:00	RuleMA2: Long
+1899-12-30 11:51:31	Short at 12556.0 false
+1899-12-30 11:51:31	Current Balance: 26.0 points
+1899-12-30 11:51:31	StopEarn RuleMA2

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<FHIdata>
+
+	<OHLC>
+		<date> 160829 </date>
+		<pOpen> 22820 </pOpen>
+		<pHigh> 22996 </pHigh>
+		<pLow> 22795 </pLow>
+		<pClose> 22914 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+	</OHLC>
+
+	<OHLC>
+		<date> 160826 </date>
+		<pOpen> 22785 </pOpen>
+		<pHigh> 22905 </pHigh>
+		<pLow> 22728 </pLow>
+		<pClose> 22790 </pClose>
+		<pFluctuation> 177 </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+	</OHLC>
+
+</FHIdata>
