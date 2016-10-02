@@ -1,5 +1,6 @@
 package icegalaxy.net;
 
+
 public abstract class Rules implements Runnable {
 
 	protected boolean hasContract;
@@ -26,6 +27,8 @@ public abstract class Rules implements Runnable {
 	int noonClose = 154500;
 	
 	int holdingCount = 0;
+	
+	int lossTimes;
 	
 	boolean shutdown;
 	boolean testing;
@@ -163,60 +166,21 @@ public abstract class Rules implements Runnable {
 
 		if (getCutLossPt() < cutLossPt)
 			cutLossPt = getCutLossPt();
-		
-		//�C��[0.016�A�C�����[1.�X
-		earnAdjustment = earnAdjustment + 0.02;
-		lossAdjustment = lossAdjustment + 0.02;
-
-		// if (getStopEarnPt() < stopEarnPt)
-		// stopEarnPt = getStopEarnPt();
 
 		if (Global.getNoOfContracts() > 0) {
-			// if (Global.getCurrentPoint() - tempCutLoss > cutLossPt) {
-			// tempCutLoss = Global.getCurrentPoint() - cutLossPt;
-			// System.out.println("CurrentPt: " + Global.getCurrentPoint());
-			// System.out.println("cutLossPt: " + cutLossPt);
-			// System.out.println("TempCutLoss: " + tempCutLoss);
-			// }
-			
-			if (Global.getCurrentPoint() - buyingPoint > lossAdjustment)
-				lossAdjustment = Global.getCurrentPoint() - buyingPoint;
-			
-			if (buyingPoint - Global.getCurrentPoint() > earnAdjustment)
-				earnAdjustment = buyingPoint - Global.getCurrentPoint();
-
+		
 			if (buyingPoint - cutLossPt > tempCutLoss)
 				tempCutLoss = buyingPoint - cutLossPt;
-			
-			earnAdjustment = earnAdjustment - 0.01;
-			lossAdjustment = lossAdjustment - 0.01;
 
-			// if (Global.getCurrentPoint() + stopEarnPt < tempStopEarn) {
-			// tempStopEarn = Global.getCurrentPoint() + stopEarnPt;
-			// System.out.println("TempStopEarn: " + tempStopEarn);
-			// }
+		
 
 		} else if (Global.getNoOfContracts() < 0) {
-			// if (tempCutLoss - Global.getCurrentPoint() > cutLossPt) {
-			// tempCutLoss = Global.getCurrentPoint() + cutLossPt;
-			// System.out.println("CurrentPt: " + Global.getCurrentPoint());
-			// System.out.println("cutLossPt: " + cutLossPt);
-			// System.out.println("TempCutLoss: " + tempCutLoss);
-			// }
+			
 
 			if (buyingPoint + cutLossPt < tempCutLoss)
 				tempCutLoss = buyingPoint + cutLossPt;
 
-			if (buyingPoint - Global.getCurrentPoint() > lossAdjustment)
-				lossAdjustment = buyingPoint - Global.getCurrentPoint();
 			
-			if (Global.getCurrentPoint() - buyingPoint > earnAdjustment)
-				earnAdjustment = Global.getCurrentPoint() - buyingPoint;
-			
-			// if (Global.getCurrentPoint() - stopEarnPt > tempStopEarn) {
-			// tempStopEarn = Global.getCurrentPoint() - stopEarnPt;
-			// System.out.println("TempStopEarn: " + tempStopEarn);
-			// }
 		}
 	}
 
@@ -234,12 +198,30 @@ public abstract class Rules implements Runnable {
 	}
 
 	void stopEarn() {
-		if (Global.getNoOfContracts() > 0
-				&& Global.getCurrentPoint() < tempCutLoss)
-			closeContract(className + ": StopEarn, short @" + Global.getCurrentBid());
-		else if (Global.getNoOfContracts() < 0
-				&& Global.getCurrentPoint() > tempCutLoss)
-			closeContract(className + ": StopEarn, long @" + Global.getCurrentAsk());
+		if (Global.getNoOfContracts() > 0 && StockDataController.getShortTB().getLatestCandle().getClose() < tempCutLoss){
+			
+			if(Global.getCurrentPoint() < buyingPoint){
+				cutLoss();
+				return;
+			}
+			
+			closeContract(className + ": StopEarn, short @ " + Global.getCurrentBid());
+			if (lossTimes > 0)
+				lossTimes--;
+				
+		}
+		else if (Global.getNoOfContracts() < 0 && StockDataController.getShortTB().getLatestCandle().getClose() > tempCutLoss){
+			
+
+			if(Global.getCurrentPoint() > buyingPoint){
+				cutLoss();
+				return;
+			}
+			
+			closeContract(className + ": StopEarn, long @ " + Global.getCurrentAsk());
+			if (lossTimes > 0)
+				lossTimes--;
+		}
 	}
 
 	public void closeContract(String msg) {
@@ -359,8 +341,10 @@ public abstract class Rules implements Runnable {
 				return;
 			}
 
+			updateCutLoss();
+			cutLoss();
+			
 			updateStopEarn();
-
 			stopEarn();
 
 			// System.out.println("Temp Stop Earn" + tempCutLoss);

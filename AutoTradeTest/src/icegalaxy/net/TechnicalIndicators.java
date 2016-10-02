@@ -89,7 +89,7 @@ public class TechnicalIndicators {
 
 			ema = getfirstMA(noOfPeriods);
 
-			for (int i = noOfPeriods; i < previosPeriods; i++) {
+			for (int i = noOfPeriods; i < close.size() - previosPeriods; i++) {
 
 				ema = (close.get(i) - ema) * smoothingConstant + ema;
 

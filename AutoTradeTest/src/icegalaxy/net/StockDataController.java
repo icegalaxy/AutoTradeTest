@@ -320,6 +320,10 @@ public class StockDataController implements Runnable {
 					// + getLongTB().getMACDHistogram());
 					longMinutes = 0;
 					longData.reset();
+					
+//					Global.addLog("EMA5/6: " + getLongTB().getEMA(5) + " / " + getLongTB().getEMA(6));
+//					Global.addLog("Diff: " + (getLongTB().getEMA(5) - getLongTB().getEMA(6)));
+//					Global.addLog("------------------------");
 				}
 
 				setGlobal();

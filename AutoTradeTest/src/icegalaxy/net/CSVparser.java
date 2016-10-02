@@ -79,6 +79,8 @@ public class CSVparser {
 					low.add(sc.nextDouble());
 
 					close.add(sc.nextDouble());
+					
+//					System.out.println("Close: " + close.get(close.size()-1));
 
 					sc.useDelimiter("\r");
 					volume.add(Double.parseDouble(sc.next().replace(",", "")));
