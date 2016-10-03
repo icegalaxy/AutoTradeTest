@@ -339,13 +339,11 @@ public class StockDataController implements Runnable {
 		Global.setTradeTime(false);
 		Global.setQuotePowerTime(false);
 		Global.setOrderTime(false);
-		Global.setRunning(false);
+
 		Global.setForceSellTime(false);
 
 	
 		addQuantities();
-
-		Global.totalBalance += Global.balance;
 
 		if (!(Global.analysingAll)) {
 
@@ -365,6 +363,9 @@ public class StockDataController implements Runnable {
 		shortMinutes = 0;
 		longMinutes = 0;
 		mediumMinutes = 0;
+		
+		//should be put to the end
+		Global.setRunning(false);
 	}
 
 	private void addRenko() {

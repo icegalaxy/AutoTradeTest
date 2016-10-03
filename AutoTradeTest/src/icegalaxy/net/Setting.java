@@ -43,6 +43,8 @@ public class Setting extends JFrame {
 	private JRadioButton trendingBtn;
 	private ButtonGroup btnGroup;
 
+	
+	//seems like this: 11periods (as below); 30min per period
 	public static double quantity[][] = new double[11][30];
 
 	public static int quantityPeriods[] = { 0, 15, 60, 90, 120, 150, 180, 210,
@@ -190,21 +192,21 @@ public class Setting extends JFrame {
 				AnalyseAll aa = new AnalyseAll();
 				ArrayList<String> al = aa.getTables();
 
-				int startDate = new Integer(startTestingDate.getText());
-
-				for (int i = 0; i < al.size(); i++) {
-					if (new Integer(al.get(i).substring(0, 6)) < startDate) {
-//						System.out.println("Remove " + al.get(i));
-//						try {
-//							Thread.sleep(100);
-//						} catch (InterruptedException e1) {
-//							// TODO Auto-generated catch block
-//							e1.printStackTrace();
-//						}
-						al.remove(i);
-						i--;
-					}
-				}
+//				int startDate = new Integer(startTestingDate.getText());
+//
+//				for (int i = 0; i < al.size(); i++) {
+//					if (new Integer(al.get(i).substring(0, 6)) < startDate) {
+////						System.out.println("Remove " + al.get(i));
+////						try {
+////							Thread.sleep(100);
+////						} catch (InterruptedException e1) {
+////							// TODO Auto-generated catch block
+////							e1.printStackTrace();
+////						}
+//						al.remove(i);
+//						i--;
+//					}
+//				}
 
 				String s = "";
 
@@ -212,9 +214,7 @@ public class Setting extends JFrame {
 				asql = new SQLite(Setting.dataBase);
 
 				for (int i = 0; i < al.size(); i++) {
-
-					
-					
+				
 					Global.setCutLost(new Float(cutLoss.getText()));
 					Global.setGreatProfit(new Float(greatProfit.getText()));
 					Global.maxContracts = new Integer(maxContracts.getText());
@@ -233,7 +233,7 @@ public class Setting extends JFrame {
 					Global.ruleSync = ruleSynccheckBox.isSelected();
 
 
-					fileName = al.get(i).substring(0, 6);
+					fileName = al.get(i).substring(3, 9);
 
 					
 					Global.setTableName(fileName);
@@ -241,6 +241,7 @@ public class Setting extends JFrame {
 					
 					runThreads();
 
+					// wait for the day to end
 					while (Global.isRunning()) {
 						try {
 							Thread.sleep(500);
@@ -252,6 +253,10 @@ public class Setting extends JFrame {
 
 					s = s + al.get(i) + ": " + Global.balance + " trades: "
 							+ Global.noOfTrades + "\n";
+					
+
+
+					Global.totalBalance += Global.balance;
 					Global.balance = 0;
 					totalTrades += Global.noOfTrades;
 					Global.noOfTrades = 0;
