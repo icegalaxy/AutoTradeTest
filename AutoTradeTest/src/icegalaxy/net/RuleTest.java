@@ -3,8 +3,6 @@ package icegalaxy.net;
 public class RuleTest extends Rules {
 
 	private int lossTimes;
-	private double refEMA;
-	private boolean tradeTimesReseted;
 
 	public RuleTest(WaitAndNotify wan1, WaitAndNotify wan2,
 			boolean globalRunRule) {
@@ -23,21 +21,45 @@ public class RuleTest extends Rules {
 //		System.out.println("EMA 5: " + getTimeBase().getEMA(10));
 
 		// Reset the lossCount at afternoon because P.High P.Low is so important
-		if (isAfternoonTime() && !tradeTimesReseted) {
-			lossTimes = 0;
-			tradeTimesReseted = true;
-		}
+//		if (isAfternoonTime() && !tradeTimesReseted) {
+//			lossTimes = 0;
+//			tradeTimesReseted = true;
+//		}
 
 		if (!isOrderTime() 
 				|| lossTimes >= 2 
 				|| Global.getNoOfContracts() != 0
-				|| !Global.isOpenDown())
+//				|| !Global.isOpenDown()
+				)
 			return;
 
-		if (Global.getCurrentPoint() > Global.getOpen() - 30 && Global.getCurrentPoint() < Global.getOpen() - 25) {
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
+				&& Global.getCurrentPoint() > getTimeBase().getEMA(5)
+				){
+			
+			Global.addLog(className + ": Wait for a pull back");
+			
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(5)){
+				wanPrevious.middleWaiter(wanNext);
+			}
+			
 			longContract();
-		} else if (Global.getCurrentPoint() < Global.getOpen() + 30 && Global.getCurrentPoint() > Global.getOpen() + 25)
+			
+		}else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
+				&& Global.getCurrentPoint() < getTimeBase().getEMA(5)){
+			
+			Global.addLog(className + ": Wait for a pull back");
+			
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(5)){
+				wanPrevious.middleWaiter(wanNext);
+			}
+			
 			shortContract();
+			
+		}
+		
+		
+		
 
 	}
 
@@ -72,13 +94,13 @@ public class RuleTest extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return 20;
+		return 15;
 	}
 
 	@Override
 	public TimeBase getTimeBase() {
 		// TODO Auto-generated method stub
-		return StockDataController.getShortTB();
+		return StockDataController.getLongTB();
 	}
 
 }

@@ -374,8 +374,8 @@ public class Setting extends JFrame {
 //		RuleSupportAndResist sar = new RuleSupportAndResist(wan[4], wan[5],
 //				false); // bad
 
-		RuleTest test = new RuleTest(wan[3], wan[4], false); //Bad
-		RuleTest2 test2 = new RuleTest2(wan[2], wan[3], true); //Good
+		RuleTest test = new RuleTest(wan[3], wan[4], true); 
+		RuleTest2 test2 = new RuleTest2(wan[2], wan[3], false); 
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M
 //		RuleBouncing3 bouncing3 = new RuleBouncing3(wan[19], wan[20], false);
