@@ -40,6 +40,7 @@ public class RuleTest2 extends Rules {
 		
 			if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
 					&& Global.getCurrentPoint() > getTimeBase().getEMA(5)
+//					&& Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10
 //					&& getTimeBase().isEMARising(5, 1)
 //					&& StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)
 					){
@@ -67,6 +68,7 @@ public class RuleTest2 extends Rules {
 			}
 			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
 					&& Global.getCurrentPoint() < getTimeBase().getEMA(5)
+//					&& Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10
 //					&& getTimeBase().isEMADropping(5, 1)
 //					&&StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)
 					){
@@ -99,15 +101,32 @@ public class RuleTest2 extends Rules {
 	//use 1min instead of 5min
 	void updateStopEarn() {
 
-		//use 1min TB will have more profit sometime, but will lose so many times when ranging.
 		
+		double ema5;
+		double ema6;
+		int difference;
+		
+		if (getProfit() > 30)
+			difference = 0;
+		else
+			difference = 2;
+		
+//		if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10){
+			ema5 = getTimeBase().getEMA(5);
+			ema6 = getTimeBase().getEMA(6);
+//		}else{
+//			ema5 = StockDataController.getShortTB().getEMA(5);
+//			ema6 = StockDataController.getShortTB().getEMA(6);			
+//		}
+		//use 1min TB will have more profit sometime, but will lose so many times when ranging.
+	
 		if (Global.getNoOfContracts() > 0) {
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - lossTimes) {
+			if (ema5 < ema6 - difference) {
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0) {
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + lossTimes) {
+			if (ema5 > ema6  + difference) {
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
 
