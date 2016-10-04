@@ -343,13 +343,13 @@ public class StockDataController implements Runnable {
 		Global.setForceSellTime(false);
 
 	
-		addQuantities();
+//		addQuantities();
 
 		if (!(Global.analysingAll)) {
 
-			Global.addLog("5 min Quantity: "
-					+ getShortTB().getQuatityByPeriods(5));
-			Global.addLog("total Quantity: " + getShortTB().getTotalQuantity());
+//			Global.addLog("5 min Quantity: "
+//					+ getShortTB().getQuatityByPeriods(5));
+//			Global.addLog("total Quantity: " + getShortTB().getTotalQuantity());
 			Global.addLog("Balance: " + Global.balance + " Trades: "
 					+ Global.noOfTrades);
 			Setting.result.setText(Global.getLog());
