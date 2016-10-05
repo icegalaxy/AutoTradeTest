@@ -1,6 +1,6 @@
 package icegalaxy.net;
 
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -11,6 +11,7 @@ public class TechnicalIndicators {
 //
 //		ResultSet rs;
 //
+	float[] ema;
 //		try {
 //			rs = DB.stmt.executeQuery("Select Point FROM " + table);
 //
@@ -26,6 +27,10 @@ public class TechnicalIndicators {
 
 	public TechnicalIndicators(ArrayList<Float> close) {
 		this.close = close;
+		
+		//max 240periods
+		ema = new float[240];
+		
 	}
 
 	// current RSI,�Ӯa����A�ҥH�ntake currentPoint as para
@@ -151,6 +156,57 @@ public class TechnicalIndicators {
 
 			}
 			return ema;
+//		}
+	}
+	
+	public float getCurrentEMA(int noOfPeriods) {
+
+
+
+		if (ema[noOfPeriods] <= 0)
+			return -1;
+
+		float smoothingConstant = (float) 2 / (noOfPeriods + 1);
+
+//		if (noOfPeriods == close.size()) {
+//			return getfirstMA(noOfPeriods);
+//		} else {
+
+//			ema = getfirstMA(noOfPeriods);
+
+			//close.get(i) starts from 0, so i=noOfPeriods means added 1
+		
+
+				return  (Global.getCurrentPoint() - ema[5]) * smoothingConstant + ema[5];
+
+	
+//		}
+	}
+		
+//		public float getEMA(int noOfPeriods) {
+//			return ema[noOfPeriods];
+//		}
+	
+	public void calculateEMA(int noOfPeriods) {
+
+		float currentEMA = 0;
+
+		if (ema[noOfPeriods] == 0 || close.size() == 0)
+			ema[noOfPeriods] = -1;
+
+		float smoothingConstant = (float) 2 / (noOfPeriods + 1);
+
+//		if (noOfPeriods == close.size()) {
+//			return getfirstMA(noOfPeriods);
+//		} else {
+
+			//close.get(i) starts from 0, so i=noOfPeriods means added 1
+		
+		currentEMA = (close.get(close.size()-1) - ema[noOfPeriods]) * smoothingConstant + ema[noOfPeriods];
+
+//		Global.addLog("Close: " + (close.get(close.size()-1)));
+		
+			ema[noOfPeriods] = currentEMA;
 //		}
 	}
 

@@ -97,12 +97,15 @@ public class StockDataController implements Runnable {
 		SQLite asql;
 		if (Global.analysingAll)
 			asql = Setting.asql;
-		else
-			
+		else		
 			asql = new SQLite(Setting.dataBase);
 		
 		setOHLC();
 		getPreviousData();
+		
+//		getLongTB().setPreviousEMA(5, (float) 23628.89);
+//		getLongTB().setPreviousEMA(6, (float) 23635.57);
+		
 		
 		
 		try {
@@ -144,8 +147,8 @@ public class StockDataController implements Runnable {
 
 		for (int i = 0; i < time.size(); ++i) {
 
-			if (time.get(i).toString().contains("12:59:"))
-				continue;
+//			if (time.get(i).toString().contains("12:59:"))
+//				continue;
 
 			timeNow = new StringBuffer((String) time.get(i));
 			
@@ -320,6 +323,10 @@ public class StockDataController implements Runnable {
 					// + getLongTB().getMACDHistogram());
 					longMinutes = 0;
 					longData.reset();
+					
+//					getLongTB().ti.calculateEMA(5);
+//					getLongTB().ti.calculateEMA(6);
+//					Global.addLog("EMA5: " + getLongTB().getEMA(5));
 					
 //					Global.addLog("EMA5/6: " + getLongTB().getEMA(5) + " / " + getLongTB().getEMA(6));
 //					Global.addLog("Diff: " + (getLongTB().getEMA(5) - getLongTB().getEMA(6)));

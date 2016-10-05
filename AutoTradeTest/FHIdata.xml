@@ -298,4 +298,46 @@
 		<stop>  </stop>
 	</OHLC>
 	
+	<OHLC>
+		<date> 161003 </date>
+		<pOpen> 23504 </pOpen>
+		<pHigh> 23511 </pHigh>
+		<pLow> 23200 </pLow>
+		<pClose> 23313 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open> 23596 </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161004 </date>
+		<pOpen> 23596 </pOpen>
+		<pHigh> 23732 </pHigh>
+		<pLow> 23495 </pLow>
+		<pClose> 23584 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open> 23598 </open>
+		<nOpen> 23571 </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161005 </date>
+		<pOpen> 23598 </pOpen>
+		<pHigh> 23688 </pHigh>
+		<pLow> 23501 </pLow>
+		<pClose> 23682 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
 </FHIdata>

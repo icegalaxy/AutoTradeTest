@@ -16,7 +16,7 @@ public class TimeBase {
 	public ArrayList<Integer> bottoms = new ArrayList<Integer>();
 	public ArrayList<Integer> tops = new ArrayList<Integer>();
 
-	private TechnicalIndicators ti;
+	public TechnicalIndicators ti;
 	private TechnicalIndicators agal;
 	private RSI rsi14;
 	public ArrayList<Candle> candle;
@@ -62,6 +62,10 @@ public class TimeBase {
 
 	public void setBaseMin(int baseMin) {
 		this.baseMin = baseMin;
+	}
+	
+	public void setPreviousEMA(int period, float ema){
+		ti.ema[period] = ema;	
 	}
 
 	public double getRateOfChange(int periods) {
@@ -469,6 +473,10 @@ public class TimeBase {
 
 	public float getEMA(int period) {
 		return ti.getEMA(period);
+	}
+	
+	public float getCurrentEMA(int period) {
+		return ti.getCurrentEMA(period);
 	}
 
 	public float getMA(int period) {

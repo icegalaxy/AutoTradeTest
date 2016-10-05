@@ -9,7 +9,7 @@ public class TimePeriodDecider implements Runnable {
 	public final int dayOpen = 91530; //�]��quotePower�n0945�����A�����e�榡�Y���P���A�Ӯa�n�I�R�J�P��X���A�ҥH�n���榡�@��
 	public final int noonClose = 120030; //�]�����\get���줤�ȳ̫�@��data
 	public final int noonOpen = 125930;
-	public final int dayClose = 161500;
+	public final int dayClose = 163000;
 
 	//public final int morningOrderStart = 101500; // �}�l�R��
 	public final int morningOrderStart = 100000; // �}�l�R��
@@ -20,7 +20,7 @@ public class TimePeriodDecider implements Runnable {
 	public final int afternoonOrderStop = 154500; // 
 
 	public final int forceSell1 = 115900; // �����泥�ɶ��A���QKeep�L�U��or�L�]
-	public final int forceSell2 = 161000; // ����R���P���f�ɶ��������Ӧ��̤֤Q�����A�H���@�R�Y��
+	public final int forceSell2 = 162500; // ����R���P���f�ɶ��������Ӧ��̤֤Q�����A�H���@�R�Y��
 
 	public final int ruleOneStart = 100500; // �Q�I�s�����}�l�R�A�]�����e�����}��
 	public final int ruleOneStop = 103000;
