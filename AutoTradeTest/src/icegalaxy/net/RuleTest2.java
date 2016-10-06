@@ -12,7 +12,7 @@ public class RuleTest2 extends Rules {
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		 super(wan1, wan2, globalRunRule);
-		 setOrderTime(92000, 113000, 130500, 160000, 230000, 230000);
+		 setOrderTime(93000, 113000, 130500, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -87,7 +87,7 @@ public class RuleTest2 extends Rules {
 				longContract();
 			}
 			
-			
+			return;
 		}
 		
 			if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
@@ -128,7 +128,12 @@ public class RuleTest2 extends Rules {
 						return;
 					}
 				}
-							
+					
+				Global.addLog(className + ": waiting for a second corner");
+
+				while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()) 
+					wanPrevious.middleWaiter(wanNext);
+				
 				longContract();
 			}
 			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
@@ -168,7 +173,10 @@ public class RuleTest2 extends Rules {
 					
 				}
 				
-				
+				Global.addLog(className + ": waiting for a second corner");
+
+				while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()) 
+					wanPrevious.middleWaiter(wanNext);
 				
 				shortContract();
 			}
