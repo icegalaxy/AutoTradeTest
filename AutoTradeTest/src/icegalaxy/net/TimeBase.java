@@ -2,6 +2,7 @@ package icegalaxy.net;
 
 import indicators.RateOfChange;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import org.jfree.chart.axis.NumberAxis;
@@ -164,78 +165,80 @@ public class TimeBase {
 	}
 	
 	//for added previous data with volume
-		public void addCandleHistory(Date time, double high, double low, double open,
-				double close, double volume) {
+	//for added previous data with volume
+	public void addCandleHistory(Date time, double high, double low, double open,
+			double close, double volume) {
 
-			this.candle.add(new Candle(time, high, low, open, close, volume, rsi14.getRSI()));
+		this.candle.add(new Candle(time, high, low, open, close, volume, rsi14
+				.getRSI()));
 
-			
-			
-			
-			double upRail = -1.0D;
-			mainUpRailIndex = 0;
-			for (int i = upRails.size() - 1; i >= 0; i--) {
-				upRails.get(i).rail = upRails.get(i).getTheRail();
-				if (i > upRails.size() - 1) {
-//					System.out.println("Up Rail: " + i + " Removed");
-					continue;
-				}
-				// System.out.println("Up Rail " + i + ": " +
-				// upRails.get(i).getRail()
-				// + " Org: " + upRails.get(i).getOrgIndex() + " Support: "
-				// + upRails.get(i).supportIndex + " Slope: "
-				// + upRails.get(i).getSlope() + " Retain: " +
-				// upRails.get(i).slopeRetained);
-
-				try {
-					if (upRails.get(i).getRail() >= upRail) {
-						upRail = upRails.get(i).getRail();
-						mainUpRailIndex = i;
-					}
-				} catch (IndexOutOfBoundsException e) {
-//					System.out.println("Up Rail " + i + " Removed");
-				}
+		
+		
+		
+		double upRail = -1.0D;
+		mainUpRailIndex = 0;
+		for (int i = upRails.size() - 1; i >= 0; i--) {
+			upRails.get(i).rail = upRails.get(i).getTheRail();
+			if (i > upRails.size() - 1) {
+//				System.out.println("Up Rail: " + i + " Removed");
+				continue;
 			}
-//			System.out.println("Main Up Rail(" + baseMin + "): "
-//					+ upRails.get(mainUpRailIndex).getRail());
+			// System.out.println("Up Rail " + i + ": " +
+			// upRails.get(i).getRail()
+			// + " Org: " + upRails.get(i).getOrgIndex() + " Support: "
+			// + upRails.get(i).supportIndex + " Slope: "
+			// + upRails.get(i).getSlope() + " Retain: " +
+			// upRails.get(i).slopeRetained);
 
-			double downRail = 99999.0D;
-			mainDownRailIndex = 0;
-			for (int i = downRails.size() - 1; i >= 0; i--) {
-				downRails.get(i).rail = downRails.get(i).getTheRail();
-				if (i > downRails.size() - 1) {
-//					System.out.println("Down Rail: " + i + " Removed");
-					continue;
+			try {
+				if (upRails.get(i).getRail() >= upRail) {
+					upRail = upRails.get(i).getRail();
+					mainUpRailIndex = i;
 				}
-
-				// System.out.println("Down Rail " + i + ": "
-				// + downRails.get(i).getRail() + " Org: "
-				// + downRails.get(i).getOrgIndex() + " Support: "
-				// + downRails.get(i).supportIndex + " Slope: "
-				// + downRails.get(i).getSlope() + " Retain: " +
-				// downRails.get(i).slopeRetained);
-
-				try {
-					if (downRails.get(i).getRail() <= downRail
-							&& downRails.get(i).getRail() > 0.0D) {
-						downRail = downRails.get(i).getRail();
-						mainDownRailIndex = i;
-					}
-				} catch (IndexOutOfBoundsException e) {
-//					System.out.println("Down Rail " + i + " Removed");
-				}
+			} catch (IndexOutOfBoundsException e) {
+//				System.out.println("Up Rail " + i + " Removed");
 			}
-//			System.out.println("Main Down Rail(" + baseMin + "): "
-//					+ downRails.get(mainDownRailIndex).getRail());
-
-			if ((getMA(10) - getMA(20)) * maDirection > 0) {
-				maRetained++;
-			} else {
-				maDirection = maDirection * -1;
-				maRetained = 0;
-			}
-
 		}
+//		System.out.println("Main Up Rail(" + baseMin + "): "
+//				+ upRails.get(mainUpRailIndex).getRail());
+
+		double downRail = 99999.0D;
+		mainDownRailIndex = 0;
+		for (int i = downRails.size() - 1; i >= 0; i--) {
+			downRails.get(i).rail = downRails.get(i).getTheRail();
+			if (i > downRails.size() - 1) {
+//				System.out.println("Down Rail: " + i + " Removed");
+				continue;
+			}
+
+			// System.out.println("Down Rail " + i + ": "
+			// + downRails.get(i).getRail() + " Org: "
+			// + downRails.get(i).getOrgIndex() + " Support: "
+			// + downRails.get(i).supportIndex + " Slope: "
+			// + downRails.get(i).getSlope() + " Retain: " +
+			// downRails.get(i).slopeRetained);
+
+			try {
+				if (downRails.get(i).getRail() <= downRail
+						&& downRails.get(i).getRail() > 0.0D) {
+					downRail = downRails.get(i).getRail();
+					mainDownRailIndex = i;
+				}
+			} catch (IndexOutOfBoundsException e) {
+//				System.out.println("Down Rail " + i + " Removed");
+			}
+		}
+//		System.out.println("Main Down Rail(" + baseMin + "): "
+//				+ downRails.get(mainDownRailIndex).getRail());
+
+		if ((getMA(10) - getMA(20)) * maDirection > 0) {
+			maRetained++;
+		} else {
+			maDirection = maDirection * -1;
+			maRetained = 0;
+		}
+
+	}
 
 	public boolean isOutsideDay() {
 

@@ -105,14 +105,14 @@ public class RuleRSI extends Rules {
         double slope = 0;
         double longSlope = 0;
 
-        if (StockDataController.getSec10TB().getMainDownRail().getSlope() != 100)
-            slope = StockDataController.getSec10TB().getMainDownRail()
+        if (StockDataController.getShortTB().getMainDownRail().getSlope() != 100)
+            slope = StockDataController.getShortTB().getMainDownRail()
                     .getSlope();
         if (getTimeBase().getMainUpRail().getSlope() != 100)
             longSlope = getTimeBase().getMainUpRail().getSlope();
 
         return slope > longSlope * 2
-                && StockDataController.getSec10TB().getMainDownRail().slopeRetained > 2;
+                && StockDataController.getShortTB().getMainDownRail().slopeRetained > 2;
     }
 
     boolean isRising() {
@@ -120,14 +120,14 @@ public class RuleRSI extends Rules {
         double slope = 0;
         double longSlope = 0;
 
-        if (StockDataController.getSec10TB().getMainUpRail().getSlope() != 100)
-            slope = StockDataController.getSec10TB().getMainUpRail().getSlope();
+        if (StockDataController.getShortTB().getMainUpRail().getSlope() != 100)
+            slope = StockDataController.getShortTB().getMainUpRail().getSlope();
 
         if (getTimeBase().getMainDownRail().getSlope() != 100)
             longSlope = getTimeBase().getMainDownRail().getSlope();
 
         return slope > longSlope * 2
-                && StockDataController.getSec10TB().getMainUpRail().slopeRetained > 2;
+                && StockDataController.getShortTB().getMainUpRail().slopeRetained > 2;
 
     }
 

@@ -1,7 +1,6 @@
 package icegalaxy.net;
 
-import java.io.File;
-import java.io.IOException;
+
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -10,14 +9,9 @@ import java.util.Date;
 
 public class StockDataController implements Runnable {
 
-	// private String hsiDB = new
-	// String("C:/Documents and Settings/Hi2/My Documents/Dropbox/Programming/Stock/Analyse.mdb");
 	private static TimeBase shortTB;
 	private static TimeBase m15TB;
 	private static TimeBase longTB;
-//	private static TimeBase sec10TB;
-//	private static TimeBase secTB;
-	// private static TimeBase secTB;
 
 	private int quantityCounter = 0;
 
@@ -25,9 +19,11 @@ public class StockDataController implements Runnable {
 
 	public boolean done = false;
 	private WaitAndNotify wan;
-	private int shortMinutes;
-	private int longMinutes;
-	private int m15Minutes;
+	
+	//to add the first data as a candle
+	private int shortMinutes = 1;
+	private int longMinutes = 5;
+	private int m15Minutes = 15;
 
 	public float gap;
 	public float previousClose = 0;
@@ -38,9 +34,10 @@ public class StockDataController implements Runnable {
 	public ArrayList<String> time = new ArrayList<String>();
 	private String tableName;
 	private int counter = 1;
-//	private int counter10Sec = 0;
-	StringBuffer timeNow = new StringBuffer();
-	int sec;
+	// private int counter10Sec = 0;
+	String timeNow;
+	int min;
+	int refMin = 15;
 	float dealPt;
 	float askPt;
 	float bidPt;
@@ -55,19 +52,18 @@ public class StockDataController implements Runnable {
 	StockDataController.CandleData shortData;
 	StockDataController.CandleData m15Data;
 	StockDataController.CandleData longData;
-//	StockDataController.CandleData sec10Data;
-//	StockDataController.CandleData secData;
+	// StockDataController.CandleData sec10Data;
+	// StockDataController.CandleData secData;
 
 	// StockDataController.CandleData secData;
 
 	public StockDataController(String tableName, WaitAndNotify wan) {
 		this.wan = wan;
 		this.tableName = tableName;
-		
-		for (int i=0; i<added.length; i++){
+
+		for (int i = 0; i < added.length; i++) {
 			added[i] = false;
 		}
-
 
 		shortTB = new TimeBase();
 		shortTB.setBaseMin(Setting.getShortTB());
@@ -75,45 +71,41 @@ public class StockDataController implements Runnable {
 		m15TB.setBaseMin(15);
 		longTB = new TimeBase();
 		longTB.setBaseMin(Setting.getLongTB());
-		
-		//must after creation of timebase
+
+		// must after creation of timebase
 		getData();
-		
-//		sec10TB = new TimeBase();
-//		secTB = new TimeBase();
-//		secTB = new TimeBase();
+
+		// sec10TB = new TimeBase();
+		// secTB = new TimeBase();
+		// secTB = new TimeBase();
 
 		shortData = new CandleData();
 		m15Data = new CandleData();
 		longData = new CandleData();
-//		sec10Data = new CandleData();
-//		secData = new CandleData();
+		// sec10Data = new CandleData();
+		// secData = new CandleData();
 	}
 
 	public void getData() {
-		
 
-		
 		SQLite asql;
 		if (Global.analysingAll)
 			asql = Setting.asql;
-		else		
+		else
 			asql = new SQLite(Setting.dataBase);
-		
+
 		setOHLC();
 		getPreviousData();
-		
-//		getLongTB().setPreviousEMA(5, (float) 23628.89);
-//		getLongTB().setPreviousEMA(6, (float) 23635.57);
-		
-		
-		
+
+		// getLongTB().setPreviousEMA(5, (float) 23628.89);
+		// getLongTB().setPreviousEMA(6, (float) 23635.57);
+
 		try {
-			ResultSet result = asql.stmt.executeQuery("SELECT * FROM \""
-					+ Setting.index + tableName + "\" ORDER BY MyIndex ASC");
+			ResultSet result = asql.stmt
+					.executeQuery("SELECT * FROM \"" + Setting.index + tableName + "\" ORDER BY MyIndex ASC");
 
 			System.out.println("Connected to table");
-			
+
 			while (result.next()) {
 
 				if (gap == 0) {
@@ -123,16 +115,19 @@ public class StockDataController implements Runnable {
 				deal.add(Float.valueOf(result.getFloat("Deal")));
 				ask.add(Float.valueOf(result.getFloat("Ask")));
 				bid.add(Float.valueOf(result.getFloat("Bid")));
-				if (new Integer(tableName).intValue() >= 110614)
-					quantity.add(Float.valueOf(result.getFloat("TotalQuantity")));
-				else
-					noQuantity = true;
-
-				if (previousClose == 0) {
-					previousClose = deal.get(0) - gap;
-					Global.setPreviousClose(previousClose);
-				}
 				time.add(result.getString("TradeTime"));
+				// if (new Integer(tableName).intValue() >= 110614)
+				quantity.add(Float.valueOf(result.getFloat("TotalQuantity")));
+				// else
+				// noQuantity = true;
+
+				// if (previousClose == 0) {
+				// previousClose = deal.get(0) - gap;
+				// Global.setPreviousClose(previousClose);
+				// }
+
+
+
 			}
 			result.close();
 		} catch (Exception e) {
@@ -147,21 +142,19 @@ public class StockDataController implements Runnable {
 
 		for (int i = 0; i < time.size(); ++i) {
 
-//			if (time.get(i).toString().contains("12:59:"))
-//				continue;
+			// if (time.get(i).toString().contains("12:59:"))
+			// continue;
 
-			timeNow = new StringBuffer((String) time.get(i));
-			
-			sec = new Integer(timeNow.substring(7, 9)).intValue();
-			AutoTradeDB.setTime(timeNow.toString());
+			timeNow = time.get(i);
+
+			min = new Integer(timeNow.substring(4, 6)).intValue();
+			AutoTradeDB.setTime(timeNow);
 
 			if (Global.isTradeTime()) {
 				dealPt = ((Float) deal.get(i)).floatValue();
 				askPt = ((Float) ask.get(i)).floatValue();
 				bidPt = ((Float) bid.get(i)).floatValue();
-
-				if (!(noQuantity))
-					totalQuantity = ((Float) quantity.get(i)).floatValue();
+				totalQuantity = ((Float) quantity.get(i)).floatValue();
 
 				// if (dealPt > askPt) {
 				// calDeal = askPt;
@@ -176,7 +169,7 @@ public class StockDataController implements Runnable {
 				Global.setCurrentBid(bidPt);
 				Global.setCurrentPoint(calDeal);
 
-				addRenko();
+				// addRenko(); ???
 
 				if (calDeal > Global.getDayHigh())
 					Global.setDayHigh(calDeal);
@@ -184,106 +177,52 @@ public class StockDataController implements Runnable {
 					Global.setDayLow(calDeal);
 				}
 
-				// secData.getHighLow();
-				// secData.getOpen();
-
-//				sec10Data.getHighLow();
-//				sec10Data.getOpen();
-
 				shortData.getHighLow();
 				shortData.getOpen();
 
 				m15Data.getHighLow();
 				m15Data.getOpen();
-				
+
 				longData.getHighLow();
 				longData.getOpen();
 
-				// getSecTB().addData(Float.valueOf(calDeal),
-				// Float.valueOf(totalQuantity));
-				//
-				// getSecTB().addCandle(getTime(), sec10Data.periodHigh,
-				// sec10Data.periodLow, sec10Data.openPt, calDeal,
-				// totalQuantity);
-				//
-				// secData.reset();
-
-				// for secTB
-				// �O���ignore���\�]���ӺC getSecTB().addData(Float.valueOf(calDeal),
-				// Float.valueOf(totalQuantity));
-				//
-				// getSecTB().addCandle(getTime(), sec10Data.periodHigh,
-				// sec10Data.periodLow, sec10Data.openPt, calDeal,
-				// totalQuantity);
-				//
-				// secData.reset();
-
-				// for secTB
-
-				if (sec == 58 || sec == 59 || sec == 00 || sec == 01 || sec == 02) {
-					if (counter >= 0) {
-						counter = -20;
+				
+				// that Math.abs is for when min = 59 and ref = -1
+				if (min > refMin && Math.abs(min - refMin) < 10){
+					
+//					System.out.println("min " + min);
+//					System.out.println("refMin " + refMin);
+//					System.out.println(" ");
+					
 						shortMinutes++;
 						longMinutes++;
 						m15Minutes++;
-					}
+						
+						if (refMin == 58)
+							refMin = -1;
+						else					
+							refMin = min;
 				}
 
-//				int remain = sec % 10;
-
-//				if (remain == 9 || remain == 0 || remain == 1
-//						&& counter10Sec > 0) {
-//					counter10Sec = -5;
-//					getSec10TB().addData(Float.valueOf(calDeal),
-//							Float.valueOf(totalQuantity));
-
-//					getSec10TB().addCandle(getTime(), sec10Data.periodHigh,
-//							sec10Data.periodLow, sec10Data.openPt, calDeal,
-//							totalQuantity);
-
-//					sec10Data.reset();
-
-					// System.out.println("Sec10 Up Slope: " +
-					// getSec10TB().getMainUpRail().getSlope());
-					// System.out.println("Sec10 Down Slope: " +
-					// getSec10TB().getMainDownRail().getSlope());
-//				}
-
 				if (shortMinutes == Setting.getShortTB()) {
-					if (!(noQuantity))
-						getShortTB().addData(Float.valueOf(calDeal),
-								Float.valueOf(totalQuantity));
-					else
-						getShortTB().addPoint(Float.valueOf(calDeal));
+
+						getShortTB().addData(Float.valueOf(calDeal), Float.valueOf(totalQuantity));
+
 
 					if (getShortTB().tops.size() > 1)
 						getShortTB().zone.setResist();
 					if (getShortTB().bottoms.size() > 1)
 						getShortTB().zone.setSupport();
 
-					getShortTB().addCandle(getTime(), shortData.periodHigh,
-							shortData.periodLow, shortData.openPt, calDeal,
-							totalQuantity);
+					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
+							calDeal, totalQuantity);
 
-//					System.out.println(AutoTradeDB.getTime() + " " + calDeal);
-//					System.out.println("MA10: " + getShortTB().getMA(10));
-//					System.out.println("MA20: " + getShortTB().getMA(20));
-//					System.out.println("RSI14 :" + getShortTB().getRSI());
-//					System.out.println("Resist: "
-//							+ getShortTB().zone.getTopOfResist());
-//					System.out.println("Support: "
-//							+ getShortTB().zone.getBottomOfSupport());
-//					System.out.println("MovingRSI: "
-//							+ getShortTB().getMovingRSI());
-
-//					try {
-//						System.out.println("Average HL15: "
-//								+ getShortTB().getAverageHL(15));
-//					} catch (NotEnoughPeriodException e) {
-//						System.out.println("Average HL15: Not enough periods");
-//					}
-
-					getShortTB().getMACD();
+					// getShortTB().getMACD();
+					
+//					if (calDeal == 23868)
+//						System.out.println("xxx time: " + getTime());
+//
+//					System.out.println("time: " + getTime());
 
 					shortMinutes = 0;
 					shortData.reset();
@@ -291,16 +230,15 @@ public class StockDataController implements Runnable {
 
 				if (m15Minutes == 15) {
 					if (!(noQuantity))
-						getM15TB().addData(Float.valueOf(calDeal),
-								Float.valueOf(totalQuantity));
+						getM15TB().addData(Float.valueOf(calDeal), Float.valueOf(totalQuantity));
 					else
 						getM15TB().addPoint(Float.valueOf(calDeal));
 
-					getM15TB().addCandle(getTime(), m15Data.periodHigh,
-							m15Data.periodLow, m15Data.openPt, calDeal,
+					getM15TB().addCandle(getTime(), m15Data.periodHigh, m15Data.periodLow, m15Data.openPt, calDeal,
 							totalQuantity);
 
-//					System.out.println(AutoTradeDB.getTime() + " " + calDeal);
+					// System.out.println(AutoTradeDB.getTime() + " " +
+					// calDeal);
 					getM15TB().getMACD();
 					m15Minutes = 0;
 					m15Data.reset();
@@ -308,39 +246,37 @@ public class StockDataController implements Runnable {
 				}
 
 				if (longMinutes == Setting.getLongTB()) {
-					if (!(noQuantity))
-						getLongTB().addData(Float.valueOf(calDeal),
-								Float.valueOf(totalQuantity));
-					else
-						getLongTB().addPoint(Float.valueOf(calDeal));
-					
-					getLongTB().addCandle(getTime(), longData.periodHigh,
-							longData.periodLow, longData.openPt, calDeal,
+
+					getLongTB().addData(Float.valueOf(calDeal), Float.valueOf(totalQuantity));
+
+					getLongTB().addCandle(getTime(), longData.periodHigh, longData.periodLow, longData.openPt, calDeal,
 							totalQuantity);
 
-					getLongTB().getMACD();
+					// getLongTB().getMACD();
 					// System.out.println("MACD Histo: "
 					// + getLongTB().getMACDHistogram());
 					longMinutes = 0;
 					longData.reset();
-					
-//					getLongTB().ti.calculateEMA(5);
-//					getLongTB().ti.calculateEMA(6);
-//					Global.addLog("EMA5: " + getLongTB().getEMA(5));
-					
-//					Global.addLog("EMA5/6: " + getLongTB().getEMA(5) + " / " + getLongTB().getEMA(6));
-//					Global.addLog("Diff: " + (getLongTB().getEMA(5) - getLongTB().getEMA(6)));
-//					Global.addLog("------------------------");
+
+					// getLongTB().ti.calculateEMA(5);
+					// getLongTB().ti.calculateEMA(6);
+					// Global.addLog("EMA5: " + getLongTB().getEMA(5));
+
+					// Global.addLog("EMA5/6: " + getLongTB().getEMA(5) + " / "
+					// + getLongTB().getEMA(6));
+					// Global.addLog("Diff: " + (getLongTB().getEMA(5) -
+					// getLongTB().getEMA(6)));
+					// Global.addLog("------------------------");
 				}
 
 				setGlobal();
-				counter += 1;
-//				counter10Sec += 1;
+//				counter += 1;
+				// counter10Sec += 1;
 			}
 			wan.endWaiter();
-			if (!(Global.isTradeTime()))
-				counter = 1;
-
+			if (!Global.isTradeTime()){
+//				counter = 1;
+			}
 		}
 
 		Global.setTradeTime(false);
@@ -349,16 +285,15 @@ public class StockDataController implements Runnable {
 
 		Global.setForceSellTime(false);
 
-	
-//		addQuantities();
+		// addQuantities();
 
 		if (!(Global.analysingAll)) {
 
-//			Global.addLog("5 min Quantity: "
-//					+ getShortTB().getQuatityByPeriods(5));
-//			Global.addLog("total Quantity: " + getShortTB().getTotalQuantity());
-			Global.addLog("Balance: " + Global.balance + " Trades: "
-					+ Global.noOfTrades);
+			// Global.addLog("5 min Quantity: "
+			// + getShortTB().getQuatityByPeriods(5));
+			// Global.addLog("total Quantity: " +
+			// getShortTB().getTotalQuantity());
+			Global.addLog("Balance: " + Global.balance + " Trades: " + Global.noOfTrades);
 			Setting.result.setText(Global.getLog());
 			Global.balance = 0.0F;
 		}
@@ -370,8 +305,8 @@ public class StockDataController implements Runnable {
 		shortMinutes = 0;
 		longMinutes = 0;
 		m15Minutes = 0;
-		
-		//should be put to the end
+
+		// should be put to the end
 		Global.setRunning(false);
 	}
 
@@ -383,33 +318,33 @@ public class StockDataController implements Runnable {
 
 	}
 
-//	private Date addTime() {
-//		if (candles.size() == 0)
-//			return getTime();
-//		else {
-//			DateFormat formatter = new SimpleDateFormat("hh:mm");
-//			Date time = candles.get(candles.size() - 1).getTime();
-//			String hr = time.toString().substring(0, 2);
-//			String min = time.toString().substring(3, 5);
-//
-//			if (min.equals("59")) {
-//				min = "00";
-//				Integer i = new Integer(hr);
-//				i++;
-//				hr = i.toString();
-//			} else {
-//				Integer i = new Integer(min);
-//				i++;
-//				min = i.toString();
-//			}
-//			try {
-//				return formatter.parse(hr + ":" + min);
-//			} catch (ParseException e) {
-//				e.printStackTrace();
-//				return getTime();
-//			}
-//		}
-//	}
+	// private Date addTime() {
+	// if (candles.size() == 0)
+	// return getTime();
+	// else {
+	// DateFormat formatter = new SimpleDateFormat("hh:mm");
+	// Date time = candles.get(candles.size() - 1).getTime();
+	// String hr = time.toString().substring(0, 2);
+	// String min = time.toString().substring(3, 5);
+	//
+	// if (min.equals("59")) {
+	// min = "00";
+	// Integer i = new Integer(hr);
+	// i++;
+	// hr = i.toString();
+	// } else {
+	// Integer i = new Integer(min);
+	// i++;
+	// min = i.toString();
+	// }
+	// try {
+	// return formatter.parse(hr + ":" + min);
+	// } catch (ParseException e) {
+	// e.printStackTrace();
+	// return getTime();
+	// }
+	// }
+	// }
 
 	private void setGlobal() {
 		if (Global.getDayHigh() - Global.getDayLow() < 100.0F)
@@ -418,20 +353,22 @@ public class StockDataController implements Runnable {
 			Global.setLowFluctuation(false);
 	}
 
-	private Date getCSVTime(String time){
+	private Date getCSVTime(String time) {
 		Date s = new Date();
 		DateFormat formatter = new SimpleDateFormat("hh:mm");
 		try {
-			s = formatter.parse(time.substring(10,12) + ":" + time.substring(12, 14));
+			s = formatter.parse(time.substring(10, 12) + ":" + time.substring(12, 14));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return s;
 	}
-	
+
 	private Date getTime() {
 		Date s = null;
-		DateFormat formatter = new SimpleDateFormat("hh:mm");
+		
+		//HH is 24hr, hh is 12
+		DateFormat formatter = new SimpleDateFormat("HH:mm");
 		try {
 			s = formatter.parse(timeNow.substring(1, 6));
 		} catch (Exception e) {
@@ -445,9 +382,9 @@ public class StockDataController implements Runnable {
 		return s;
 	}
 
-//	public static synchronized double getTotalWeightOfRSI() {
-//		return totalWeightOfRSI;
-//	}
+	// public static synchronized double getTotalWeightOfRSI() {
+	// return totalWeightOfRSI;
+	// }
 
 	public static synchronized TimeBase getShortTB() {
 		return shortTB;
@@ -461,13 +398,13 @@ public class StockDataController implements Runnable {
 		return longTB;
 	}
 
-//	public static synchronized TimeBase getSec10TB() {
-//		return sec10TB;
-//	}
+	// public static synchronized TimeBase getSec10TB() {
+	// return sec10TB;
+	// }
 
-//	public static synchronized TimeBase getSecTB() {
-//		return secTB;
-//	}
+	// public static synchronized TimeBase getSecTB() {
+	// return secTB;
+	// }
 
 	// public static synchronized TimeBase getSecTB() {
 	// return secTB;
@@ -517,8 +454,7 @@ public class StockDataController implements Runnable {
 
 		for (int i = 1; i < Setting.quantity.length; i++) {
 
-			Setting.quantity[i][quantityCounter] = getShortTB()
-					.getQuatityByPeriods(Setting.quantityPeriods[i])
+			Setting.quantity[i][quantityCounter] = getShortTB().getQuatityByPeriods(Setting.quantityPeriods[i])
 			// - getShortTB().getQuatityByPeriods(Setting.quantityPeriods[i]-1)
 			;
 		}
@@ -555,13 +491,13 @@ public class StockDataController implements Runnable {
 		// System.out.println(Setting.quantities[7]);
 
 	}
-	
+
 	private void getPreviousData() {
 
 		CSVparser csv = null;
 		csv = new CSVparser("OHLC/" + tableName + ".csv");
 		csv.parseOHLC();
-//		int j = 0;
+		int j = 0;
 
 		for (int i = 0; i < csv.getLow().size(); i++) {
 
@@ -572,27 +508,27 @@ public class StockDataController implements Runnable {
 			getLongTB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
 					csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
 
-//			j++;
-//			if (j == 3) {
-//				getM15TB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
-//				getM15TB().addCandleHistory(csv.getTime().get(i), csv.getHigh().get(i), csv.getLow().get(i),
-//						csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
-//				j = 0;
-//			}
+			j++;
+			if (j == 3) {
+				getM15TB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
+				getM15TB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
+						csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
+				j = 0;
+			}
 
 		}
 
 	}
 
-	private void setOHLC(){
+	private void setOHLC() {
 		XMLReader ohlc = new XMLReader(tableName);
 		Global.setpHigh(ohlc.getpHigh());
 		Global.setpLow(ohlc.getpLow());
 		Global.setpOpen(ohlc.getpOpen());
 		Global.setpClose(ohlc.getpClose());
 		Global.setpFluc(ohlc.getpFluc());
-		
-		if (Global.getpHigh() != 0){
+
+		if (Global.getpHigh() != 0) {
 			Global.addLog("-------------------------------------");
 			Global.addLog("P.High: " + Global.getpHigh());
 			Global.addLog("P.Low: " + Global.getpLow());

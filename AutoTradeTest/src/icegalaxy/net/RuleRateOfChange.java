@@ -21,7 +21,7 @@ public class RuleRateOfChange extends Rules {
 		if (!Global.isOrderTime())
 			return;
 		
-		if (getTimeBase().GetRsiDifference() > 10 && getTimeBase().getRSI() > 40){ //¦]¬°30¤U­±¤W¥h¦n©ö+10
+		if (getTimeBase().GetRsiDifference() > 10 && getTimeBase().getRSI() > 40){ //ï¿½]ï¿½ï¿½30ï¿½Uï¿½ï¿½ï¿½Wï¿½hï¿½nï¿½ï¿½+10
 			longContract();
 			referencePoint = buyingPoint;
 		}
@@ -47,7 +47,7 @@ public class RuleRateOfChange extends Rules {
 	@Override
 	public TimeBase getTimeBase() {
 		
-		return StockDataController.getSec10TB();
+		return StockDataController.getShortTB();
 	}
 	
 	double getCutLossPt() {

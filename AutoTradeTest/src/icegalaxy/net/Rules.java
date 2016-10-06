@@ -85,10 +85,10 @@ public abstract class Rules implements Runnable {
 			stopEarnPt = getStopEarnPt();
 
 		if (Global.getNoOfContracts() > 0)
-			return Global.getCurrentPoint() - stopEarnPt > buyingPoint; // it's
+			return Global.getCurrentBid() - stopEarnPt > buyingPoint; // it's
 		// moving
 		else if (Global.getNoOfContracts() < 0)
-			return Global.getCurrentPoint() + stopEarnPt < buyingPoint;
+			return Global.getCurrentAsk() + stopEarnPt < buyingPoint;
 		else
 			return false;
 	}
@@ -191,10 +191,12 @@ public abstract class Rules implements Runnable {
 		double refPt = 0;
 
 		if (isInsideDay())
-			refPt = StockDataController.getLongTB().getLatestCandle().getClose();
+//			refPt = StockDataController.getLongTB().getLatestCandle().getClose();
+			refPt = Global.getCurrentPoint();
 		else
-			refPt = StockDataController.getShortTB().getLatestCandle().getClose();
-
+//			refPt = StockDataController.getShortTB().getLatestCandle().getClose();
+			refPt = Global.getCurrentPoint();
+			
 		if (Global.getNoOfContracts() > 0 && refPt < tempCutLoss) {
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
@@ -205,7 +207,7 @@ public abstract class Rules implements Runnable {
 	}
 
 	void stopEarn() {
-		if (Global.getNoOfContracts() > 0 && StockDataController.getShortTB().getLatestCandle().getClose() < tempCutLoss){
+		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss){
 			
 			if(Global.getCurrentPoint() < buyingPoint){
 				cutLoss();
@@ -217,7 +219,7 @@ public abstract class Rules implements Runnable {
 				lossTimes--;
 				
 		}
-		else if (Global.getNoOfContracts() < 0 && StockDataController.getShortTB().getLatestCandle().getClose() > tempCutLoss){
+		else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint()  > tempCutLoss){
 			
 
 			if(Global.getCurrentPoint() > buyingPoint){
@@ -357,7 +359,7 @@ public abstract class Rules implements Runnable {
 		hasContract = true;
 		Global.addLog(className + ": Short @ " + Global.getCurrentBid());
 		buyingPoint = Global.getCurrentBid();
-		balance += buyingPoint;
+		balance += Global.getCurrentBid() ;
 	}
 
 	public void longContract() {
@@ -367,7 +369,7 @@ public abstract class Rules implements Runnable {
 		hasContract = true;
 		Global.addLog(className + ": Long @" + Global.getCurrentAsk());
 		buyingPoint = Global.getCurrentAsk();
-		balance -= buyingPoint;
+		balance -= Global.getCurrentAsk();
 	}
 
 	public abstract void openContract();

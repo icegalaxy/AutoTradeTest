@@ -429,6 +429,16 @@ public class Global {
 		return tableName;
 	}
 
+	public static void setNoonOpened(boolean b) {
+		noonOpened = b;
+		
+	}
+	
+	public static boolean getNoonOpened(){
+		return noonOpened;
+	}
+
+	static boolean noonOpened;
 	
 }
 

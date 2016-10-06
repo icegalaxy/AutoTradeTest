@@ -7,13 +7,12 @@ public class RuleTest2 extends Rules {
 
 	private int lossTimes;
 	// private double refEMA;
-	private boolean tradeTimesReseted;
 	private boolean firstCorner = true;
 	
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		 super(wan1, wan2, globalRunRule);
-		 setOrderTime(92000, 113000, 130500, 160000);
+		 setOrderTime(92000, 113000, 130500, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -45,12 +44,14 @@ public class RuleTest2 extends Rules {
 				while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) 
 					wanPrevious.middleWaiter(wanNext);
 					
-				firstCorner = false;
+	
 				
 				Global.addLog(className + ": waiting for a pull back");
 
 				while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()) 
 					wanPrevious.middleWaiter(wanNext);
+				
+				firstCorner = false;
 //
 //				
 //			

@@ -146,11 +146,11 @@ public class RuleRail extends Rules {
 		double slope = 0;
 
 		if (Global.getNoOfContracts() > 0)
-			slope = StockDataController.getSec10TB().getMainDownRail()
+			slope = StockDataController.getShortTB().getMainDownRail()
 					.getSlope();
 
 		if (Global.getNoOfContracts() < 0)
-			slope = StockDataController.getSec10TB().getMainUpRail().getSlope();
+			slope = StockDataController.getShortTB().getMainUpRail().getSlope();
 
 		return slope > 5 && slope != 100;
 	}

@@ -134,30 +134,29 @@ public class TechnicalIndicators {
 			return f;
 		}
 	
-	public float getEMA(int noOfPeriods) {
+		public float getEMA(int noOfPeriods) {
 
-		float ema = 0;
+			float ema = 0;
 
-		if (close.size() <= noOfPeriods)
-			return -1;
+			if (close.size() < noOfPeriods)
+				return -1;
 
-		float smoothingConstant = (float) 2 / (noOfPeriods + 1);
+			float smoothingConstant = (float) 2 / (noOfPeriods + 1);
 
-//		if (noOfPeriods == close.size()) {
-//			return getfirstMA(noOfPeriods);
-//		} else {
+			if (noOfPeriods == close.size()) {
+				return getfirstMA(noOfPeriods);
+			} else {
 
-			ema = getfirstMA(noOfPeriods);
+				ema = getfirstMA(noOfPeriods);
 
-			//close.get(i) starts from 0, so i=noOfPeriods means added 1
-			for (int i = noOfPeriods; i < close.size(); i++) {
+				for (int i = noOfPeriods; i < close.size(); i++) {
 
-				ema = (close.get(i) - ema) * smoothingConstant + ema;
+					ema = (close.get(i) - ema) * smoothingConstant + ema;
 
+				}
+				return ema;
 			}
-			return ema;
-//		}
-	}
+		}
 	
 	public float getCurrentEMA(int noOfPeriods) {
 

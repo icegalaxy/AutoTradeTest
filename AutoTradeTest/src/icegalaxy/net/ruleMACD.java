@@ -108,13 +108,13 @@ public class ruleMACD extends Rules {
 	}
 	
 	
-	boolean isUpTrend(){
-		return getTimeBase().getMACDHistogram() > 0 && getTimeBase().getMACD() > 0;
-	}
-	
-	boolean isDownTrend(){
-		return getTimeBase().getMACDHistogram() < 0 && getTimeBase().getMACD() < 0;
-	}
+//	boolean isUpTrend(){
+//		return getTimeBase().getMACDHistogram() > 0 && getTimeBase().getMACD() > 0;
+//	}
+//	
+//	boolean isDownTrend(){
+//		return getTimeBase().getMACDHistogram() < 0 && getTimeBase().getMACD() < 0;
+//	}
 
 	boolean isRising(){
 		return getTimeBase().getMA(5) > getTimeBase().getMA(10);
