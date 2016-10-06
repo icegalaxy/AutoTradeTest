@@ -211,7 +211,7 @@ public class ruleMACD extends Rules {
 
 	@Override
 	public TimeBase getTimeBase() {
-		return StockDataController.getMediumTB();
+		return StockDataController.getM15TB();
 	}
 
 

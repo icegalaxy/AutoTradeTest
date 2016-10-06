@@ -13,7 +13,7 @@ public class StockDataController implements Runnable {
 	// private String hsiDB = new
 	// String("C:/Documents and Settings/Hi2/My Documents/Dropbox/Programming/Stock/Analyse.mdb");
 	private static TimeBase shortTB;
-	private static TimeBase mediumTB;
+	private static TimeBase m15TB;
 	private static TimeBase longTB;
 //	private static TimeBase sec10TB;
 //	private static TimeBase secTB;
@@ -27,7 +27,7 @@ public class StockDataController implements Runnable {
 	private WaitAndNotify wan;
 	private int shortMinutes;
 	private int longMinutes;
-	private int mediumMinutes;
+	private int m15Minutes;
 
 	public float gap;
 	public float previousClose = 0;
@@ -53,7 +53,7 @@ public class StockDataController implements Runnable {
 	ArrayList<Candle> candles = new ArrayList<Candle>();
 
 	StockDataController.CandleData shortData;
-	StockDataController.CandleData mediumData;
+	StockDataController.CandleData m15Data;
 	StockDataController.CandleData longData;
 //	StockDataController.CandleData sec10Data;
 //	StockDataController.CandleData secData;
@@ -71,8 +71,8 @@ public class StockDataController implements Runnable {
 
 		shortTB = new TimeBase();
 		shortTB.setBaseMin(Setting.getShortTB());
-		mediumTB = new TimeBase();
-		mediumTB.setBaseMin(Setting.getMediumTB());
+		m15TB = new TimeBase();
+		m15TB.setBaseMin(15);
 		longTB = new TimeBase();
 		longTB.setBaseMin(Setting.getLongTB());
 		
@@ -84,7 +84,7 @@ public class StockDataController implements Runnable {
 //		secTB = new TimeBase();
 
 		shortData = new CandleData();
-		mediumData = new CandleData();
+		m15Data = new CandleData();
 		longData = new CandleData();
 //		sec10Data = new CandleData();
 //		secData = new CandleData();
@@ -193,8 +193,8 @@ public class StockDataController implements Runnable {
 				shortData.getHighLow();
 				shortData.getOpen();
 
-				mediumData.getHighLow();
-				mediumData.getOpen();
+				m15Data.getHighLow();
+				m15Data.getOpen();
 				
 				longData.getHighLow();
 				longData.getOpen();
@@ -225,7 +225,7 @@ public class StockDataController implements Runnable {
 						counter = -20;
 						shortMinutes++;
 						longMinutes++;
-						mediumMinutes++;
+						m15Minutes++;
 					}
 				}
 
@@ -289,21 +289,21 @@ public class StockDataController implements Runnable {
 					shortData.reset();
 				}
 
-				if (mediumMinutes == Setting.getMediumTB()) {
+				if (m15Minutes == 15) {
 					if (!(noQuantity))
-						getMediumTB().addData(Float.valueOf(calDeal),
+						getM15TB().addData(Float.valueOf(calDeal),
 								Float.valueOf(totalQuantity));
 					else
-						getMediumTB().addPoint(Float.valueOf(calDeal));
+						getM15TB().addPoint(Float.valueOf(calDeal));
 
-					getMediumTB().addCandle(getTime(), mediumData.periodHigh,
-							mediumData.periodLow, mediumData.openPt, calDeal,
+					getM15TB().addCandle(getTime(), m15Data.periodHigh,
+							m15Data.periodLow, m15Data.openPt, calDeal,
 							totalQuantity);
 
 //					System.out.println(AutoTradeDB.getTime() + " " + calDeal);
-					getMediumTB().getMACD();
-					mediumMinutes = 0;
-					mediumData.reset();
+					getM15TB().getMACD();
+					m15Minutes = 0;
+					m15Data.reset();
 
 				}
 
@@ -369,7 +369,7 @@ public class StockDataController implements Runnable {
 		Global.clearLog();
 		shortMinutes = 0;
 		longMinutes = 0;
-		mediumMinutes = 0;
+		m15Minutes = 0;
 		
 		//should be put to the end
 		Global.setRunning(false);
@@ -453,8 +453,8 @@ public class StockDataController implements Runnable {
 		return shortTB;
 	}
 
-	public static synchronized TimeBase getMediumTB() {
-		return mediumTB;
+	public static synchronized TimeBase getM15TB() {
+		return m15TB;
 	}
 
 	public static synchronized TimeBase getLongTB() {

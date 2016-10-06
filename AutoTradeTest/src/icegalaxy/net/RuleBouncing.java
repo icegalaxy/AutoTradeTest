@@ -249,8 +249,8 @@ public class RuleBouncing extends Rules {
 	// return;
 	// }
 	//
-	// if (Global.getNoOfContracts() == 0) { // ¥i¯à­Ú¨ä¥Lrule close¥ª¡A©ÎTrend
-	// // truned¡A¥Ì§Y«YÂà¥ª¶Õ¡A¨«
+	// if (Global.getNoOfContracts() == 0) { // ï¿½iï¿½ï¿½Ú¨ï¿½Lrule closeï¿½ï¿½ï¿½Aï¿½ï¿½Trend
+	// // trunedï¿½Aï¿½Ì§Yï¿½Yï¿½à¥ªï¿½Õ¡Aï¿½ï¿½
 	// hasContract = false;
 	// break;
 	// }
@@ -314,7 +314,7 @@ public class RuleBouncing extends Rules {
 	// @Override
 	public TimeBase getTimeBase() {
 
-		return StockDataController.getMediumTB();
+		return StockDataController.getM15TB();
 	}
 
 	// @Override
