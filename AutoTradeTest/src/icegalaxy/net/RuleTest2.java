@@ -87,7 +87,7 @@ public class RuleTest2 extends Rules {
 				longContract();
 			}
 			
-			return;
+//			return;
 		}
 		
 			if(getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2

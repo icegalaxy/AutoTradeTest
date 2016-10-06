@@ -73,7 +73,7 @@ public class Setting extends JFrame {
 		longTimeBase = new JTextField("5", 35);
 		cutLoss = new JTextField("40", 35);
 		greatProfit = new JTextField("40", 35);
-		maxContracts = new JTextField("3", 35);
+		maxContracts = new JTextField("1", 35);
 		dateTested = new JTextField(fileName, 35);
 		startTestingDate = new JTextField("110614", 35);
 		startBtn = new JButton("Start");
