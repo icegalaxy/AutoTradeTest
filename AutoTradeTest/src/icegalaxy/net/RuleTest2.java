@@ -13,7 +13,7 @@ public class RuleTest2 extends Rules {
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		 super(wan1, wan2, globalRunRule);
-		 setOrderTime(91600, 113000, 130500, 160000);
+		 setOrderTime(92000, 113000, 130500, 160000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -42,49 +42,48 @@ public class RuleTest2 extends Rules {
 				// wait for a better position
 				Global.addLog(className + ": waiting for the first corner");
 
-				while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2) 
+				while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) 
 					wanPrevious.middleWaiter(wanNext);
 					
 				firstCorner = false;
 				
 				Global.addLog(className + ": waiting for a pull back");
 
-				while (Global.getCurrentPoint() > getTimeBase().getEMA(5)) 
+				while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()) 
 					wanPrevious.middleWaiter(wanNext);
+//
+//				
+//			
+//				
+//					if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2) {
+//						Global.addLog(className + ": trend changed");
+//						return;
+//					
+//				}
 
-				
-			
-				
-					if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2) {
-						Global.addLog(className + ": trend changed");
-						return;
-					
-				}
-
-				longContract();
+				shortContract();
 			} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
 
 				
 				Global.addLog(className + ": waiting for the first corner");
 
-				while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2) 
+				while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) 
 					wanPrevious.middleWaiter(wanNext);
 				
 				firstCorner = false;
 				
-				// wait for a better position
 				Global.addLog(className + ": waiting for a pull back");
 
-				while (Global.getCurrentPoint() < getTimeBase().getEMA(5)) 
+				while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()) 
 					wanPrevious.middleWaiter(wanNext);
-
-					if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2 ) {
-						Global.addLog(className + ": trend changed");
-						return;
-					}
+//
+//					if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2 ) {
+//						Global.addLog(className + ": trend changed");
+//						return;
+//					}
 				
 
-				shortContract();
+				longContract();
 			}
 			
 			
@@ -228,7 +227,7 @@ public class RuleTest2 extends Rules {
 //				return 30;
 //		}
 		
-		return 30;
+		return 15;
 
 	}
 	

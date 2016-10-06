@@ -33,8 +33,8 @@ public class RuleTest extends Rules {
 				)
 			return;
 
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
-				&& Global.getCurrentPoint() > getTimeBase().getEMA(5)
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
+				&& Global.getCurrentPoint() > getTimeBase().getEMA(5) + 10
 				){
 			
 			Global.addLog(className + ": Wait for a pull back");
@@ -46,7 +46,7 @@ public class RuleTest extends Rules {
 			longContract();
 			
 		}else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
-				&& Global.getCurrentPoint() < getTimeBase().getEMA(5)){
+				&& Global.getCurrentPoint() < getTimeBase().getEMA(5) - 10){
 			
 			Global.addLog(className + ": Wait for a pull back");
 			
