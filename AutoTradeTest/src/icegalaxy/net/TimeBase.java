@@ -663,6 +663,18 @@ public class TimeBase {
 			return null;
 		}
 	}
+	
+	public Candle getPreviousCandle(int noOfPeriodBefore) {
+		
+		if (candle.size() < 1 + noOfPeriodBefore)
+			throw new ArrayIndexOutOfBoundsException();
+		
+		try {
+			return candle.get(candle.size() - 1 - noOfPeriodBefore);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null;
+		}
+	}
 
 	class Rail {
 		public ArrayList<Rail> rails;
