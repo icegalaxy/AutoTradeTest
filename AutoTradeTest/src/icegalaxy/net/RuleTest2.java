@@ -245,6 +245,14 @@ public class RuleTest2 extends Rules {
 		
 
 		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss) {
+//			
+//			while (Global.getCurrentPoint() < StockDataController.getShortTB().getEMA(5)){
+//				wanPrevious.middleWaiter(wanNext);
+//				if (getProfit() < -30)
+//					break;
+//			}
+//			
+			
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
 			
@@ -258,6 +266,14 @@ public class RuleTest2 extends Rules {
 //				wanPrevious.middleWaiter(wanNext);
 			
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint()  > tempCutLoss) {
+//			
+//			
+//			while (Global.getCurrentPoint() > StockDataController.getShortTB().getEMA(5)){
+//				wanPrevious.middleWaiter(wanNext);
+//				if (getProfit() < -30)
+//					break;
+//			}
+			
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 			

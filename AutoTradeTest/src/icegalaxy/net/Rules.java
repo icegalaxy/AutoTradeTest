@@ -353,6 +353,11 @@ public abstract class Rules implements Runnable {
 	}
 
 	public void shortContract() {
+		
+		if (!Global.isOrderTime())
+			return;
+		
+		
 		boolean b = Sikuli.shortContract(1);
 		if (!b)
 			return;
@@ -363,6 +368,12 @@ public abstract class Rules implements Runnable {
 	}
 
 	public void longContract() {
+		
+		
+		if (!Global.isOrderTime())
+			return;
+		
+		
 		boolean b = Sikuli.longContract(1);
 		if (!b)
 			return;
