@@ -142,19 +142,10 @@ public class RuleTest2 extends Rules {
 
 			Global.addLog(className + ": waiting for a pull back");
 
-			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh())
+			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow())
 				wanPrevious.middleWaiter(wanNext);
-
+	
 			firstCorner = false;
-			//
-			//
-			//
-			//
-			// if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2) {
-			// Global.addLog(className + ": trend changed");
-			// return;
-			//
-			// }
 
 			shortContract();
 		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
@@ -168,18 +159,11 @@ public class RuleTest2 extends Rules {
 
 			Global.addLog(className + ": waiting for a pull back");
 
-			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow())
+			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh())
 				wanPrevious.middleWaiter(wanNext);
-			//
-			// if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2 ) {
-			// Global.addLog(className + ": trend changed");
-			// return;
-			// }
-
+			
 			longContract();
 		}
-
-		// return;
 
 	}
 
