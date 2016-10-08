@@ -7,6 +7,7 @@ public class RuleEMA56 extends Rules {
 	private int lossTimes;
 	// private double refEMA;
 	private boolean firstCorner = true;
+	private double cutLoss;
 
 	public RuleEMA56(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
@@ -77,11 +78,19 @@ public class RuleEMA56 extends Rules {
 			}
 
 			Global.addLog(className + ": waiting for a second corner");
+			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh())
+			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()){
 				wanPrevious.middleWaiter(wanNext);
-
+				
+				if (Global.getCurrentPoint() < refPt)
+					refPt = Global.getCurrentPoint();		
+				
+			}
+			
 			longContract();
+			cutLoss = Math.abs(Global.getCurrentPoint() - refPt);
+			Global.addLog("CutLossPt: " + cutLoss);
 		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
 				&& Global.getCurrentPoint() < getTimeBase().getEMA(5)
 		// && Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10
@@ -122,11 +131,18 @@ public class RuleEMA56 extends Rules {
 			}
 
 			Global.addLog(className + ": waiting for a second corner");
-
-			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow())
+			refPt = Global.getCurrentPoint();
+			
+			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()){
 				wanPrevious.middleWaiter(wanNext);
-
+				
+				if (Global.getCurrentPoint() > refPt)
+					refPt = Global.getCurrentPoint();		
+			}
+	
 			shortContract();
+			cutLoss = Math.abs(Global.getCurrentPoint() - refPt);
+			Global.addLog("CutLossPt: " + cutLoss);
 		}
 
 	}
@@ -142,12 +158,20 @@ public class RuleEMA56 extends Rules {
 
 			Global.addLog(className + ": waiting for a pull back");
 
-			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow())
+			refPt = Global.getCurrentPoint();
+			
+			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()){
 				wanPrevious.middleWaiter(wanNext);
+				
+				if (Global.getCurrentPoint() > refPt)
+					refPt = Global.getCurrentPoint();		
+			}
 	
 			firstCorner = false;
-
 			shortContract();
+			cutLoss = Math.abs(Global.getCurrentPoint() - refPt);
+			Global.addLog("CutLossPt: " + cutLoss);
+			
 		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
 
 			Global.addLog(className + ": waiting for the first corner");
@@ -158,11 +182,20 @@ public class RuleEMA56 extends Rules {
 			firstCorner = false;
 
 			Global.addLog(className + ": waiting for a pull back");
+			
+			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh())
+			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()){
 				wanPrevious.middleWaiter(wanNext);
+				
+				if (Global.getCurrentPoint() < refPt)
+					refPt = Global.getCurrentPoint();		
+				
+			}
 			
 			longContract();
+			cutLoss = Math.abs(Global.getCurrentPoint() - refPt);
+			Global.addLog("CutLossPt: " + cutLoss);
 		}
 
 	}
