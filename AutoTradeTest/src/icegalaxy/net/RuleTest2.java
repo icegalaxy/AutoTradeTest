@@ -10,7 +10,7 @@ public class RuleTest2 extends Rules {
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(93000, 113000, 130500, 160000, 230000, 230000);
+		setOrderTime(93000, 113000, 130500, 160000, 172000, 231500);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -20,152 +20,71 @@ public class RuleTest2 extends Rules {
 			lossTimes++;
 			shutdown = false;
 		}
-
-		// Reset the lossCount at afternoon because P.High P.Low is so important
-		// if (isAfternoonTime() && !tradeTimesReseted) {
-		// lossTimes = 0;
-		// tradeTimesReseted = true;
-		// }
-
+		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0)
 			return;
 
-		if (firstCorner)
-			firstCorner();
-
-		if (hasContract)
-			return;
-
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2 && Global.getCurrentPoint() > getTimeBase().getEMA(5)
-		// && Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10
-		// && getTimeBase().isEMARising(5, 1)
-		// && StockDataController.getShortTB().getEMA(5) >
-		// StockDataController.getShortTB().getEMA(6)
-		) {
-
-			// wait for a better position
-			Global.addLog(className + ": waiting for a better position");
-			refPt = Global.getCurrentPoint();
-
-			while (Global.getCurrentPoint() > getTimeBase().getEMA(5)) {
-				wanPrevious.middleWaiter(wanNext);
-
-				// Global.addLog("Current Pt: " + Global.getCurrentPoint() + " /
-				// EMA: " + getTimeBase().getCurrentEMA(5) );
-				//
-				// if(!getTimeBase().isEMARising(5, 1)){
-				// Global.addLog(className + ": wrong trend");
-				// return;
-				// }
-
-				// if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 5
-				// && Global.getCurrentPoint() <
-				// StockDataController.getShortTB().getEMA(5))
-				// break;
-
-				if (Global.getCurrentPoint() > refPt + 50) {
-					Global.addLog(className + ": too far away");
-					firstCorner = true;
-					return;
-				}
-
-				// difference becomes small may mean changing trend
-				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2) {
-					Global.addLog(className + ": trend change");
-					return;
-				}
-			}
-
-			Global.addLog(className + ": waiting for a second corner");
-
-			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh())
-				wanPrevious.middleWaiter(wanNext);
-
-			longContract();
-		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
-				&& Global.getCurrentPoint() < getTimeBase().getEMA(5)
-		// && Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10
-		// && getTimeBase().isEMADropping(5, 1)
-		// &&StockDataController.getShortTB().getEMA(5) <
-		// StockDataController.getShortTB().getEMA(6)
-		) {
-
-			// wait for a better position
-			Global.addLog(className + ": waiting for a better position");
-			refPt = Global.getCurrentPoint();
-
-			while (Global.getCurrentPoint() < getTimeBase().getEMA(5)) {
-				wanPrevious.middleWaiter(wanNext);
-				//
-
-				// if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 5
-				// && Global.getCurrentPoint() >
-				// StockDataController.getShortTB().getEMA(5))
-				// break;
-
-				// if(!getTimeBase().isEMADropping(5, 1)){
-				// Global.addLog(className + ": wrong trend");
-				// return;
-				// }
-				//
-				if (Global.getCurrentPoint() < refPt - 50) {
-					Global.addLog(className + ": too far away");
-					firstCorner = true;
-					return;
-				}
-
-				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2) {
-					Global.addLog(className + ": trend change");
-					return;
-				}
-
-			}
-
-			Global.addLog(className + ": waiting for a second corner");
-
-			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow())
-				wanPrevious.middleWaiter(wanNext);
-
-			shortContract();
-		}
-
-	}
-
-	private void firstCorner() {
-
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
-			// wait for a better position
-			Global.addLog(className + ": waiting for the first corner");
-
-			while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
-
-			Global.addLog(className + ": waiting for a pull back");
-
-			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow())
-				wanPrevious.middleWaiter(wanNext);
-	
-			firstCorner = false;
-
-			shortContract();
-		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
-
-			Global.addLog(className + ": waiting for the first corner");
-
-			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
-
-			firstCorner = false;
-
-			Global.addLog(className + ": waiting for a pull back");
-
-			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh())
-				wanPrevious.middleWaiter(wanNext);
+		
+		if (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 30){
 			
-			longContract();
+			Global.addLog("Waiting for a pull back");
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 10){
+				
+//				Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+				
+				wanPrevious.middleWaiter(wanNext);
+				
+				}
+			
+			Global.addLog("Waiting for first corner");
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(240) - 10){
+				
+				wanPrevious.middleWaiter(wanNext);
+				
+				if (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 10){
+					Global.addLog("Trend Changed");
+					return;
+				
+			}
+			}
+			
+			shortContract();
+			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+		}	
+			else if (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 30){
+				
+				
+				Global.addLog("Waiting for a pull back");
+				while (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 10){
+					
+//					Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+					
+					wanPrevious.middleWaiter(wanNext);
+					
+					}
+				
+				Global.addLog("Waiting for the first corner");
+				
+				while (Global.getCurrentPoint() < getTimeBase().getEMA(240) + 10){
+					
+					
+					wanPrevious.middleWaiter(wanNext);
+					
+					if (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 10){
+						Global.addLog("Trend Changed");
+						return;
+					}
+					
+				}
+				
+				longContract();
+				Global.addLog("EMA240: " + getTimeBase().getEMA(240));
 		}
-
+		
+		
 	}
+
+	
 
 	// use 1min instead of 5min
 	void updateStopEarn() {
@@ -191,12 +110,12 @@ public class RuleTest2 extends Rules {
 		// times when ranging.
 
 		if (Global.getNoOfContracts() > 0) {
-			if (ema5 < ema6 - lossTimes) {
+			if (getProfit() > 20) {
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0) {
-			if (ema5 > ema6 + lossTimes) {
+			if (getProfit() > 20) {
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
 
