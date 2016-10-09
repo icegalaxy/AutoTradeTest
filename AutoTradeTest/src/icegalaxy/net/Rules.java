@@ -544,22 +544,22 @@ public abstract class Rules implements Runnable {
 	// Danny �l�ȥ�e�w��V
 	public boolean isUpTrend() {
 		return StockDataController.getM15TB().getMA(20) > StockDataController.getM15TB().getEMA(50)
-				&& StockDataController.getLongTB().getEMA(50) > StockDataController.getLongTB().getEMA(240)
-				&& StockDataController.getLongTB().getEMA(5) > StockDataController.getLongTB().getEMA(6)
+				&& StockDataController.getLongTB().getEMA(50) > StockDataController.getLongTB().getEMA(240);
+//				&& StockDataController.getLongTB().getEMA(5) > StockDataController.getLongTB().getEMA(6)
 				// && StockDataController.getM15TB().isMARising(20, 1)
 				// && StockDataController.getM15TB().isEMARising(50, 1)
 				// && StockDataController.getLongTB().isEMARising(240, 1)
-				&& StockDataController.getLongTB().isEMARising(50, 1);
+//				&& StockDataController.getLongTB().isEMARising(50, 1);
 	}
 
 	public boolean isDownTrend() {
 		return StockDataController.getM15TB().getMA(20) < StockDataController.getM15TB().getEMA(50)
-				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240)
-				&& StockDataController.getLongTB().getEMA(5) < StockDataController.getLongTB().getEMA(6)
+				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240);
+//				&& StockDataController.getLongTB().getEMA(5) < StockDataController.getLongTB().getEMA(6)
 				// && StockDataController.getM15TB().isMADropping(20, 1)
 				// && StockDataController.getM15TB().isEMADropping(50, 1)
 				// && StockDataController.getLongTB().isEMADropping(240, 1)
-				&& StockDataController.getLongTB().isEMADropping(50, 1);
+//				&& StockDataController.getLongTB().isEMADropping(50, 1);
 
 	}
 

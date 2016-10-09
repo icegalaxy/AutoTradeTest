@@ -24,28 +24,29 @@ public class RuleTest2 extends Rules {
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 
-		
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2){
+		if (isUpTrend()){
 			
-			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 10 - lossTimes * 10){
-				
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 5 + lossTimes)
 				wanPrevious.middleWaiter(wanNext);
-				
-			}
+			
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(240) + 5 + lossTimes)
+				wanPrevious.middleWaiter(wanNext);
 			
 			longContract();
 			
-		}else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2){
-				
-				while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 10 + lossTimes * 10){
-					
-					wanPrevious.middleWaiter(wanNext);
-					
-				}
-				
-				shortContract();
-				
-			}
+		}else if (isDownTrend()){
+			
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 5 - lossTimes)
+				wanPrevious.middleWaiter(wanNext);
+			
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(240) - 5 - lossTimes)
+				wanPrevious.middleWaiter(wanNext);
+			
+			shortContract();
+			
+		}
+		
+		
 		
 		
 	}
@@ -76,12 +77,12 @@ public class RuleTest2 extends Rules {
 		// times when ranging.
 
 		if (Global.getNoOfContracts() > 0) {
-			if (getProfit() > getCutLossPt() * 1.5) {
+			if (ema5 < ema6) {
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0) {
-			if (getProfit() > getCutLossPt() * 1.5) {
+			if (ema5 > ema6) {
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
 
@@ -106,7 +107,7 @@ public class RuleTest2 extends Rules {
 		// return 30;
 		// }
 
-		return 10 + lossTimes * 5;
+		return 15;
 
 	}
 
@@ -158,7 +159,15 @@ public class RuleTest2 extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return -100;
+		if (Global.getNoOfContracts() > 0){
+			if (getTimeBase().getEMA(5) >  getTimeBase().getEMA(6))
+				return -100;
+		}else if (Global.getNoOfContracts() < 0){
+			if (getTimeBase().getEMA(5) <  getTimeBase().getEMA(6))
+				return -100;
+		}
+		
+		return 100;
 	}
 
 	@Override
