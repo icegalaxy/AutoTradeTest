@@ -21,65 +21,31 @@ public class RuleTest2 extends Rules {
 			shutdown = false;
 		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 
 		
-		if (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 30){
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2){
 			
-			Global.addLog("Waiting for a pull back");
-			while (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 10){
-				
-//				Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 10 - lossTimes * 10){
 				
 				wanPrevious.middleWaiter(wanNext);
 				
-				}
-			
-			Global.addLog("Waiting for first corner");
-			while (Global.getCurrentPoint() > getTimeBase().getEMA(240) - 10){
-				
-				wanPrevious.middleWaiter(wanNext);
-				
-				if (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 10){
-					Global.addLog("Trend Changed");
-					return;
-				
-			}
 			}
 			
-			shortContract();
-			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
-		}	
-			else if (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 30){
+			longContract();
+			
+		}else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2){
 				
-				
-				Global.addLog("Waiting for a pull back");
-				while (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 10){
-					
-//					Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+				while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 10 + lossTimes * 10){
 					
 					wanPrevious.middleWaiter(wanNext);
 					
-					}
-				
-				Global.addLog("Waiting for the first corner");
-				
-				while (Global.getCurrentPoint() < getTimeBase().getEMA(240) + 10){
-					
-					
-					wanPrevious.middleWaiter(wanNext);
-					
-					if (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 10){
-						Global.addLog("Trend Changed");
-						return;
-					}
-					
 				}
 				
-				longContract();
-				Global.addLog("EMA240: " + getTimeBase().getEMA(240));
-		}
+				shortContract();
+				
+			}
 		
 		
 	}
@@ -110,12 +76,12 @@ public class RuleTest2 extends Rules {
 		// times when ranging.
 
 		if (Global.getNoOfContracts() > 0) {
-			if (getProfit() > 20) {
+			if (getProfit() > getCutLossPt() * 1.5) {
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0) {
-			if (getProfit() > 20) {
+			if (getProfit() > getCutLossPt() * 1.5) {
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
 
@@ -140,7 +106,7 @@ public class RuleTest2 extends Rules {
 		// return 30;
 		// }
 
-		return 15;
+		return 10 + lossTimes * 5;
 
 	}
 

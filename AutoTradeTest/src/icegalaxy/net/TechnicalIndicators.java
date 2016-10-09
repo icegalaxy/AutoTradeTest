@@ -160,26 +160,27 @@ public class TechnicalIndicators {
 	
 	public float getCurrentEMA(int noOfPeriods) {
 
+		float ema = 0;
 
-
-		if (ema[noOfPeriods] <= 0)
+		if (close.size() < noOfPeriods)
 			return -1;
 
 		float smoothingConstant = (float) 2 / (noOfPeriods + 1);
 
-//		if (noOfPeriods == close.size()) {
-//			return getfirstMA(noOfPeriods);
-//		} else {
+		if (noOfPeriods == close.size()) {
+			return getfirstMA(noOfPeriods);
+		} else {
 
-//			ema = getfirstMA(noOfPeriods);
+			ema = getfirstMA(noOfPeriods);
 
-			//close.get(i) starts from 0, so i=noOfPeriods means added 1
-		
+			for (int i = noOfPeriods; i < close.size(); i++) {
 
-				return  (Global.getCurrentPoint() - ema[5]) * smoothingConstant + ema[5];
+				ema = (close.get(i) - ema) * smoothingConstant + ema;
 
-	
-//		}
+			}
+			return (Global.getCurrentPoint() - ema) * smoothingConstant + ema;
+		}
+
 	}
 		
 //		public float getEMA(int noOfPeriods) {

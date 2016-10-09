@@ -37,7 +37,8 @@ public class RuleEMA56 extends Rules {
 		if (hasContract)
 			return;
 
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2 && Global.getCurrentPoint() > getTimeBase().getEMA(5)
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
+				&& Global.getCurrentPoint() > getTimeBase().getEMA(5)
 		// && Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10
 		// && getTimeBase().isEMARising(5, 1)
 		// && StockDataController.getShortTB().getEMA(5) >
@@ -52,7 +53,7 @@ public class RuleEMA56 extends Rules {
 				wanPrevious.middleWaiter(wanNext);
 
 				// Global.addLog("Current Pt: " + Global.getCurrentPoint() + " /
-				// EMA: " + getTimeBase().getCurrentEMA(5) );
+				// EMA: " + getTimeBase().getEMA(5) );
 				//
 				// if(!getTimeBase().isEMARising(5, 1)){
 				// Global.addLog(className + ": wrong trend");
@@ -70,11 +71,11 @@ public class RuleEMA56 extends Rules {
 					return;
 				}
 
-				// difference becomes small may mean changing trend
-				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2) {
-					Global.addLog(className + ": trend change");
-					return;
-				}
+//				// difference becomes small may mean changing trend
+//				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2) {
+//					Global.addLog(className + ": trend change");
+//					return;
+//				}
 			}
 
 			Global.addLog(className + ": waiting for a second corner");
@@ -123,10 +124,10 @@ public class RuleEMA56 extends Rules {
 					return;
 				}
 
-				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2) {
-					Global.addLog(className + ": trend change");
-					return;
-				}
+//				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2) {
+//					Global.addLog(className + ": trend change");
+//					return;
+//				}
 
 			}
 
@@ -224,11 +225,27 @@ public class RuleEMA56 extends Rules {
 		// times when ranging.
 
 		if (Global.getNoOfContracts() > 0) {
+			
+//			if (buyingPoint > tempCutLoss){
+//				
+//				if (getProfit() > 30)
+//					tempCutLoss = buyingPoint;
+//			}
+//			
+			
 			if (ema5 < ema6 - lossTimes) {
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0) {
+			
+//			if (buyingPoint < tempCutLoss){
+//				
+//				if (getProfit() > 30)
+//					tempCutLoss = buyingPoint;
+//			}
+			
+			
 			if (ema5 > ema6 + lossTimes) {
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
