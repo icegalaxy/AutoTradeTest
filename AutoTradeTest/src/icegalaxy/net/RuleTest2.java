@@ -79,11 +79,25 @@ public class RuleTest2 extends Rules {
 		// times when ranging.
 
 		if (Global.getNoOfContracts() > 0) {
+			
+			if (buyingPoint > tempCutLoss && getProfit() > 30){
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint;
+			}
+			
+			
 			if (ema5 < ema6) {
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0) {
+			
+			if (buyingPoint < tempCutLoss && getProfit() > 30){
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint;
+			}
+			
+			
 			if (ema5 > ema6) {
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
