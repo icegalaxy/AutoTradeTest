@@ -2,14 +2,14 @@ package icegalaxy.net;
 
 //Use the OPEN Line
 
-public class RuleTest2 extends Rules {
+public class rulePHigh extends Rules {
 
 	private int lossTimes;
 	// private double refEMA;
 	private boolean firstCorner = true;
 	private double cutLoss;
 
-	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
+	public rulePHigh(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(93000, 113000, 130500, 160000, 172000, 231500);
 		// wait for EMA6, that's why 0945

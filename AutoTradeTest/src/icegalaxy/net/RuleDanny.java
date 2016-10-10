@@ -2,14 +2,13 @@ package icegalaxy.net;
 
 //Use the OPEN Line
 
-public class RuleTest2 extends Rules {
+public class RuleDanny extends Rules {
 
 	private int lossTimes;
 	// private double refEMA;
 	private boolean firstCorner = true;
-	private double cutLoss;
 
-	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
+	public RuleDanny(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(93000, 113000, 130500, 160000, 172000, 231500);
 		// wait for EMA6, that's why 0945
@@ -26,47 +25,27 @@ public class RuleTest2 extends Rules {
 			return;
 
 		if (isUpTrend()
-				&& Global.getCurrentPoint() > Global.getpHigh() + 5
-				&& getTimeBase().getRSI() > 30){
+				&& Global.getCurrentPoint() > getTimeBase().getEMA(240) + 5 + lossTimes * 5){
 			
-			
-			// pull back
-			while (Global.getCurrentPoint() > Global.getpHigh() + 5){
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 5 + lossTimes)
 				wanPrevious.middleWaiter(wanNext);
-			}
 			
-			//second corner
-			refPt = Global.getCurrentPoint();
-			while (Global.getCurrentPoint() < Global.getpHigh() + 5
-					|| Global.getCurrentPoint() < refPt + 10){
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(240) + 5 + lossTimes)
 				wanPrevious.middleWaiter(wanNext);
-				
-				if (Global.getCurrentPoint() < refPt)
-					refPt = Global.getCurrentPoint();
-			}
 			
 			longContract();
-			cutLoss = Math.abs(buyingPoint - refPt);
 			
 		}else if (isDownTrend()
-				&& Global.getCurrentPoint() < Global.getpHigh() - 5
-				&& getTimeBase().getRSI() < 70){
+				&& Global.getCurrentPoint() < getTimeBase().getEMA(240) - 5 - lossTimes * 5){
 			
-			while (Global.getCurrentPoint() < Global.getpHigh() - 5)
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 5 - lossTimes)
 				wanPrevious.middleWaiter(wanNext);
 			
-			//second corner
-			refPt = Global.getCurrentPoint();
-			while (Global.getCurrentPoint() > Global.getpHigh() - 5
-					|| Global.getCurrentPoint() > refPt - 10){
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(240) - 5 - lossTimes)
 				wanPrevious.middleWaiter(wanNext);
-
-				if (Global.getCurrentPoint() > refPt)
-					refPt = Global.getCurrentPoint();
-			}
 			
 			shortContract();
-			cutLoss = Math.abs(buyingPoint - refPt);
+			
 		}
 		
 		
@@ -144,7 +123,7 @@ public class RuleTest2 extends Rules {
 		// return 30;
 		// }
 
-		return cutLoss;
+		return 15;
 
 	}
 
