@@ -375,7 +375,7 @@ public class Setting extends JFrame {
 //				false); // bad
 
 		
-		RuleEMA56 ema56 = new RuleEMA56(wan[3], wan[4], true); 
+		RuleEMA56 ema56 = new RuleEMA56(wan[3], wan[4], false); 
 		RuleTest2 test2 = new RuleTest2(wan[2], wan[3], true); 
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M

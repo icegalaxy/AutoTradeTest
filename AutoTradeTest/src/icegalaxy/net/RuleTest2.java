@@ -24,7 +24,8 @@ public class RuleTest2 extends Rules {
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 
-		if (isUpTrend()){
+		if (isUpTrend()
+				&& Global.getCurrentPoint() > getTimeBase().getEMA(240) + 5 + lossTimes * 5){
 			
 			while (Global.getCurrentPoint() > getTimeBase().getEMA(240) + 5 + lossTimes)
 				wanPrevious.middleWaiter(wanNext);
@@ -34,7 +35,8 @@ public class RuleTest2 extends Rules {
 			
 			longContract();
 			
-		}else if (isDownTrend()){
+		}else if (isDownTrend()
+				&& Global.getCurrentPoint() < getTimeBase().getEMA(240) - 5 - lossTimes * 5){
 			
 			while (Global.getCurrentPoint() < getTimeBase().getEMA(240) - 5 - lossTimes)
 				wanPrevious.middleWaiter(wanNext);
