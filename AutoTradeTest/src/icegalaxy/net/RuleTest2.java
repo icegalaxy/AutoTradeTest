@@ -22,22 +22,23 @@ public class RuleTest2 extends Rules {
 			shutdown = false;
 		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0
+				|| lossTimes >= 2)
 			return;
 
 		if (isUpTrend()
-				&& Global.getCurrentPoint() > Global.getpHigh() + 5
-				&& getTimeBase().getRSI() > 30){
+				&& Global.getCurrentPoint() > Global.getpLow()
+				&& Global.getCurrentPoint() > getTimeBase().getEMA(240)){
 			
 			
 			// pull back
-			while (Global.getCurrentPoint() > Global.getpHigh() + 5){
+			while (Global.getCurrentPoint() > Global.getpLow() + 5){
 				wanPrevious.middleWaiter(wanNext);
 			}
 			
 			//second corner
 			refPt = Global.getCurrentPoint();
-			while (Global.getCurrentPoint() < Global.getpHigh() + 5
+			while (Global.getCurrentPoint() < Global.getpLow() + 5
 					|| Global.getCurrentPoint() < refPt + 10){
 				wanPrevious.middleWaiter(wanNext);
 				
@@ -49,15 +50,15 @@ public class RuleTest2 extends Rules {
 			cutLoss = Math.abs(buyingPoint - refPt);
 			
 		}else if (isDownTrend()
-				&& Global.getCurrentPoint() < Global.getpHigh() - 5
-				&& getTimeBase().getRSI() < 70){
+				&& Global.getCurrentPoint() < Global.getpLow() - 5
+				&& Global.getCurrentPoint() < getTimeBase().getEMA(240)){
 			
-			while (Global.getCurrentPoint() < Global.getpHigh() - 5)
+			while (Global.getCurrentPoint() < Global.getpLow() - 5)
 				wanPrevious.middleWaiter(wanNext);
 			
 			//second corner
 			refPt = Global.getCurrentPoint();
-			while (Global.getCurrentPoint() > Global.getpHigh() - 5
+			while (Global.getCurrentPoint() > Global.getpLow() - 5
 					|| Global.getCurrentPoint() > refPt - 10){
 				wanPrevious.middleWaiter(wanNext);
 
