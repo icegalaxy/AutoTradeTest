@@ -49,7 +49,7 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a better position");
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() > getTimeBase().getEMA(5)) {
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 5 + lossTimes) {
 				wanPrevious.middleWaiter(wanNext);
 
 				// Global.addLog("Current Pt: " + Global.getCurrentPoint() + " /
@@ -104,7 +104,7 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a better position");
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() < getTimeBase().getEMA(5)) {
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 5 -lossTimes) {
 				wanPrevious.middleWaiter(wanNext);
 				//
 
