@@ -26,9 +26,8 @@ public class RulePHigh extends Rules {
 				)
 			return;
 
-		if (isUpTrend()
-				&& Global.getCurrentPoint() > Global.getpHigh() + 5
-				&& getTimeBase().getRSI() > 30){
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
+				&& Global.getCurrentPoint() > Global.getpHigh() + 5){
 			
 			
 			// pull back
@@ -36,14 +35,20 @@ public class RulePHigh extends Rules {
 				wanPrevious.middleWaiter(wanNext);
 			}
 			
-			//second corner
+			Global.addLog(className + ": waiting for a pull back");
+
+			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()){
+				wanPrevious.middleWaiter(wanNext);			
+			}
+			
 			refPt = Global.getCurrentPoint();
-			while (Global.getCurrentPoint() < Global.getpHigh() + 5
-					|| Global.getCurrentPoint() < refPt + 10){
+			Global.addLog(className + ": waiting for a second corner");
+			
+			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()){
 				wanPrevious.middleWaiter(wanNext);
-				
 				if (Global.getCurrentPoint() < refPt)
-					refPt = Global.getCurrentPoint();
+					refPt = Global.getCurrentPoint();		
+				
 			}
 			
 			longContract();
@@ -56,14 +61,20 @@ public class RulePHigh extends Rules {
 			while (Global.getCurrentPoint() < Global.getpHigh() - 5)
 				wanPrevious.middleWaiter(wanNext);
 			
-			//second corner
-			refPt = Global.getCurrentPoint();
-			while (Global.getCurrentPoint() > Global.getpHigh() - 5
-					|| Global.getCurrentPoint() > refPt - 10){
-				wanPrevious.middleWaiter(wanNext);
+			Global.addLog(className + ": waiting for a pull back");
 
+			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()){
+				wanPrevious.middleWaiter(wanNext);
+			}
+				refPt = Global.getCurrentPoint();	
+				
+			Global.addLog(className + ": waiting for a second corner");
+			
+			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()){
+				wanPrevious.middleWaiter(wanNext);
+				
 				if (Global.getCurrentPoint() > refPt)
-					refPt = Global.getCurrentPoint();
+					refPt = Global.getCurrentPoint();		
 			}
 			
 			shortContract();
