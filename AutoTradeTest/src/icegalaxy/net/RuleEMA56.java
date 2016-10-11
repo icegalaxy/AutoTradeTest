@@ -159,7 +159,12 @@ public class RuleEMA56 extends Rules {
 
 			Global.addLog(className + ": waiting for a pull back");
 
-			refPt = Global.getCurrentPoint();
+			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()){
+				wanPrevious.middleWaiter(wanNext);
+			}
+				refPt = Global.getCurrentPoint();	
+				
+			Global.addLog(className + ": waiting for a second corner");
 			
 			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()){
 				wanPrevious.middleWaiter(wanNext);
@@ -186,9 +191,15 @@ public class RuleEMA56 extends Rules {
 			
 			refPt = Global.getCurrentPoint();
 
+			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()){
+				wanPrevious.middleWaiter(wanNext);			
+			}
+			
+			refPt = Global.getCurrentPoint();
+			Global.addLog(className + ": waiting for a second corner");
+			
 			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()){
 				wanPrevious.middleWaiter(wanNext);
-				
 				if (Global.getCurrentPoint() < refPt)
 					refPt = Global.getCurrentPoint();		
 				

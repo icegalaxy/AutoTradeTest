@@ -368,4 +368,18 @@
 		<stop>  </stop>
 	</OHLC>
 	
+	<OHLC>
+		<date> 161011 </date>
+		<pOpen> 23900 </pOpen>
+		<pHigh> 23920 </pHigh>
+		<pLow> 23751 </pLow>
+		<pClose> 23830 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
 </FHIdata>

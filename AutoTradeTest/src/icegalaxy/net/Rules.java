@@ -354,8 +354,15 @@ public abstract class Rules implements Runnable {
 
 	public void shortContract() {
 		
-		if (!Global.isOrderTime())
+		if (!Global.isOrderTime()){
+			Global.addLog(className + ": not order time");
 			return;
+		}
+		
+		if (Global.getNoOfContracts() != 0){
+			Global.addLog(className + ": Has order already!");
+			return;
+		}
 		
 		
 		boolean b = Sikuli.shortContract(1);
@@ -369,9 +376,15 @@ public abstract class Rules implements Runnable {
 
 	public void longContract() {
 		
-		
-		if (!Global.isOrderTime())
+		if (!Global.isOrderTime()){
+			Global.addLog(className + ": not order time");
 			return;
+		}
+		
+		if (Global.getNoOfContracts() != 0){
+			Global.addLog(className + ": Has order already!");
+			return;
+		}
 		
 		
 		boolean b = Sikuli.longContract(1);
