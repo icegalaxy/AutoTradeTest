@@ -334,7 +334,7 @@ public class RuleEMA56 extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return -100;
+		return 30;
 	}
 
 	@Override
