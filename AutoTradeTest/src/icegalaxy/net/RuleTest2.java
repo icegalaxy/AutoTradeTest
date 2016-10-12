@@ -6,7 +6,7 @@ public class RuleTest2 extends Rules {
 
 	private int lossTimes;
 	// private double refEMA;
-	private boolean firstCorner = true;
+	private boolean firstCorner = false;
 	private double cutLoss;
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
@@ -19,63 +19,40 @@ public class RuleTest2 extends Rules {
 
 		if (shutdown) {
 			lossTimes++;
+			firstCorner = true;
 			shutdown = false;
 		}
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0
 				|| lossTimes >= 2)
 			return;
+		
+//		if (firstCorner)
+//			firstCorner();
+//		
+//		if (hasContract)
+//			return;
 
-		if (isUpTrend()
-				&& Global.getCurrentPoint() > Global.getpLow()
-				&& Global.getCurrentPoint() > getTimeBase().getEMA(240)){
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 5 + lossTimes
+				&& Global.getCurrentPoint() > getTimeBase().getEMA(5)  + 10 ) {
 			
-			
-			// pull back
-			while (Global.getCurrentPoint() > Global.getpLow() + 5){
-				wanPrevious.middleWaiter(wanNext);
-			}
-			
-			//second corner
-			refPt = Global.getCurrentPoint();
-			while (Global.getCurrentPoint() < Global.getpLow() + 5
-					|| Global.getCurrentPoint() < refPt + 10){
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 10)
 				wanPrevious.middleWaiter(wanNext);
 				
-				if (Global.getCurrentPoint() < refPt)
-					refPt = Global.getCurrentPoint();
-			}
+				longContract();
 			
-			longContract();
-			cutLoss = Math.abs(buyingPoint - refPt);
-			
-		}else if (isDownTrend()
-				&& Global.getCurrentPoint() < Global.getpLow() - 5
-				&& Global.getCurrentPoint() < getTimeBase().getEMA(240)){
-			
-			while (Global.getCurrentPoint() < Global.getpLow() - 5)
-				wanPrevious.middleWaiter(wanNext);
-			
-			//second corner
-			refPt = Global.getCurrentPoint();
-			while (Global.getCurrentPoint() > Global.getpLow() - 5
-					|| Global.getCurrentPoint() > refPt - 10){
-				wanPrevious.middleWaiter(wanNext);
-
-				if (Global.getCurrentPoint() > refPt)
-					refPt = Global.getCurrentPoint();
-			}
-			
-			shortContract();
-			cutLoss = Math.abs(buyingPoint - refPt);
 		}
-		
-		
-		
-		
-	}
-
+			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 5 - lossTimes
+					&& Global.getCurrentPoint() < getTimeBase().getEMA(5)  - 10){
+						
+				while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 10)
+					wanPrevious.middleWaiter(wanNext);
+				
+							shortContract();
+					}
 	
+
+	}
 
 	// use 1min instead of 5min
 	void updateStopEarn() {
@@ -101,26 +78,31 @@ public class RuleTest2 extends Rules {
 		// times when ranging.
 
 		if (Global.getNoOfContracts() > 0) {
+
+//			if (buyingPoint > tempCutLoss && getProfit() > 50) {
+//				Global.addLog("Free trade");
+//				tempCutLoss = buyingPoint;
+//			}
+			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 5
+					&& getProfit() > 10)
+				tempCutLoss = 99999;
 			
-			if (buyingPoint > tempCutLoss && getProfit() > 30){
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint;
-			}
 			
-			
-			if (ema5 < ema6) {
+			if (getProfit() > 50 - lossTimes * 10) {
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0) {
-			
-			if (buyingPoint < tempCutLoss && getProfit() > 30){
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint;
-			}
-			
-			
-			if (ema5 > ema6) {
+
+//			if (buyingPoint < tempCutLoss && getProfit() > 50) {
+//				Global.addLog("Free trade");
+//				tempCutLoss = buyingPoint;
+//			}
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 5
+					&& getProfit() > 10)
+				tempCutLoss = 0;
+
+			if (getProfit() > 50 -  lossTimes * 10) {
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
 
@@ -145,7 +127,7 @@ public class RuleTest2 extends Rules {
 		// return 30;
 		// }
 
-		return cutLoss;
+		return 15;
 
 	}
 
@@ -196,16 +178,38 @@ public class RuleTest2 extends Rules {
 		}
 	}
 
+	private void firstCorner() {
+
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+			// wait for a better position
+			Global.addLog(className + ": waiting for the first corner");
+
+			while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+				wanPrevious.middleWaiter(wanNext);
+
+			firstCorner = false;
+
+		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+
+			Global.addLog(className + ": waiting for the first corner");
+
+			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+				wanPrevious.middleWaiter(wanNext);
+
+			firstCorner = false;
+		}
+	}
+
 	double getStopEarnPt() {
-		if (Global.getNoOfContracts() > 0){
-			if (getTimeBase().getEMA(5) >  getTimeBase().getEMA(6))
+		if (Global.getNoOfContracts() > 0) {
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
 				return -100;
-		}else if (Global.getNoOfContracts() < 0){
-			if (getTimeBase().getEMA(5) <  getTimeBase().getEMA(6))
+		} else if (Global.getNoOfContracts() < 0) {
+			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
 				return -100;
 		}
-		
-		return 100;
+
+		return -100;
 	}
 
 	@Override

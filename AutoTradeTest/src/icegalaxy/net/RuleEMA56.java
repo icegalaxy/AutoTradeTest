@@ -28,7 +28,8 @@ public class RuleEMA56 extends Rules {
 		// tradeTimesReseted = true;
 		// }
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0
+				|| lossTimes >= 3)
 			return;
 
 		if (firstCorner)
@@ -65,11 +66,11 @@ public class RuleEMA56 extends Rules {
 				// StockDataController.getShortTB().getEMA(5))
 				// break;
 
-				if (Global.getCurrentPoint() > refPt + 50) {
-					Global.addLog(className + ": too far away");
-					firstCorner = true;
-					return;
-				}
+//				if (Global.getCurrentPoint() > refPt + 50) {
+//					Global.addLog(className + ": too far away");
+//					firstCorner = true;
+//					return;
+//				}
 
 //				// difference becomes small may mean changing trend
 //				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2) {
@@ -118,11 +119,11 @@ public class RuleEMA56 extends Rules {
 				// return;
 				// }
 				//
-				if (Global.getCurrentPoint() < refPt - 50) {
-					Global.addLog(className + ": too far away");
-					firstCorner = true;
-					return;
-				}
+//				if (Global.getCurrentPoint() < refPt - 50) {
+//					Global.addLog(className + ": too far away");
+//					firstCorner = true;
+//					return;
+//				}
 
 //				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2) {
 //					Global.addLog(className + ": trend change");
@@ -225,9 +226,17 @@ public class RuleEMA56 extends Rules {
 			difference = 2;
 
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
+	
+		if (lossTimes > 2){
+			
+			 ema5 = StockDataController.getShortTB().getEMA(5);
+			 ema6 = StockDataController.getShortTB().getEMA(6);
+			
+		}else {
 		// 10){
 		ema5 = getTimeBase().getEMA(5);
 		ema6 = getTimeBase().getEMA(6);
+		}
 		// }else{
 		// ema5 = StockDataController.getShortTB().getEMA(5);
 		// ema6 = StockDataController.getShortTB().getEMA(6);
@@ -239,7 +248,7 @@ public class RuleEMA56 extends Rules {
 			
 //			if (buyingPoint > tempCutLoss){
 //				
-//				if (getProfit() > 30)
+//				if (getProfit() > 50)
 //					tempCutLoss = buyingPoint;
 //			}
 //			
@@ -252,7 +261,7 @@ public class RuleEMA56 extends Rules {
 			
 //			if (buyingPoint < tempCutLoss){
 //				
-//				if (getProfit() > 30)
+//				if (getProfit() > 50)
 //					tempCutLoss = buyingPoint;
 //			}
 			
