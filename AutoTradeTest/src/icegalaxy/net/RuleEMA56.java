@@ -44,8 +44,9 @@ public class RuleEMA56 extends Rules {
 		if (hasContract)
 			return;
 
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 2
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
 				&& Global.getCurrentPoint() > getTimeBase().getEMA(5)
+				&& StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)
 		// && Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10
 		// && getTimeBase().isEMARising(5, 1)
 		// && StockDataController.getShortTB().getEMA(5) >
@@ -56,30 +57,13 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a better position");
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 5) {
+			while (getTimeBase().getLatestCandle().getClose() > getTimeBase().getPreviousCandle(1).getLow()) {
 				wanPrevious.middleWaiter(wanNext);
 
-				// Global.addLog("Current Pt: " + Global.getCurrentPoint() + " /
-				// EMA: " + getTimeBase().getEMA(5) );
-				//
-				// if(!getTimeBase().isEMARising(5, 1)){
-				// Global.addLog(className + ": wrong trend");
-				// return;
-				// }
-
-				// if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 5
-				// && Global.getCurrentPoint() <
-				// StockDataController.getShortTB().getEMA(5))
-				// break;
-
-//				if (Global.getCurrentPoint() > refPt + 50) {
-//					Global.addLog(className + ": too far away");
-//					firstCorner = true;
-//					return;
-//				}
+			
 
 				// difference becomes small may mean changing trend
-				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+				if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)) {
 					Global.addLog(className + ": trend change");
 					return;
 				}
@@ -99,19 +83,16 @@ public class RuleEMA56 extends Rules {
 			longContract();
 			cutLoss = Math.abs(Global.getCurrentPoint() - refPt);
 			Global.addLog("CutLossPt: " + cutLoss);
-		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 2
+		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
 				&& Global.getCurrentPoint() < getTimeBase().getEMA(5)
-		// && Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10
-		// && getTimeBase().isEMADropping(5, 1)
-		// &&StockDataController.getShortTB().getEMA(5) <
-		// StockDataController.getShortTB().getEMA(6)
+				&& StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)
 		) {
 
 			// wait for a better position
 			Global.addLog(className + ": waiting for a better position");
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 5) {
+			while (getTimeBase().getLatestCandle().getClose() < getTimeBase().getPreviousCandle(1).getHigh()) {
 				wanPrevious.middleWaiter(wanNext);
 				//
 
@@ -131,7 +112,7 @@ public class RuleEMA56 extends Rules {
 //					return;
 //				}
 
-				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+				if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)) {
 					Global.addLog(className + ": trend change");
 					return;
 				}
@@ -296,7 +277,18 @@ public class RuleEMA56 extends Rules {
 		// else
 		// return 30;
 		// }
-
+		
+//		if (Global.getNoOfContracts() > 0){
+//			if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6))
+//				return 30;
+//			else
+//				return 15;
+//		}else if (Global.getNoOfContracts() < 0){
+//			if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6))
+//				return 30;
+//			else
+//				return 15;
+//		}
 		return 15;
 
 	}
