@@ -11,7 +11,7 @@ public class RuleTest2 extends Rules {
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(100000, 113000, 130500, 160000, 172000, 231500);
+		setOrderTime(93000, 100000, 160000, 160000, 231500, 231500);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -32,33 +32,48 @@ public class RuleTest2 extends Rules {
 //		
 //		if (hasContract)
 //			return;
+			
 
+		while (Global.getCurrentPoint() < Global.getAOL() -5 && Global.getCurrentPoint() > Global.getAOH() + 5)
+			wanPrevious.middleWaiter(wanNext);
+		
+		while (Global.getCurrentPoint() > Global.getAOL() -10 && Global.getCurrentPoint() < Global.getAOH() + 10)
+			wanPrevious.middleWaiter(wanNext);
+		
 		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
-				&& isUpTrend()) {
+				&& Global.getCurrentPoint() > Global.getAOH() + 10) 
+			longContract();
+		
+		else 	if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
+				&& Global.getCurrentPoint() < Global.getAOL() - 10) 
+			shortContract();
 			
-			while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
-				
-			while (Global.getCurrentPoint() < getTimeBase().getLatestCandle().getHigh())
-				wanPrevious.middleWaiter(wanNext);
-			
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-				return;
-				
-				longContract();
-			
-		}
-			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
-					&& isDownTrend()){
-						
-				while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6))
-					wanPrevious.middleWaiter(wanNext);
-					
-				while (Global.getCurrentPoint() > getTimeBase().getLatestCandle().getLow())
-					wanPrevious.middleWaiter(wanNext);
-				
-							shortContract();
-					}
+
+		
+		
+//			while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6))
+//				wanPrevious.middleWaiter(wanNext);
+//				
+//			while (Global.getCurrentPoint() < getTimeBase().getLatestCandle().getHigh())
+//				wanPrevious.middleWaiter(wanNext);
+//			
+//			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+//				return;
+//				
+//				longContract();
+//			
+//		}
+//			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
+//					&& isDownTrend()){
+//						
+//				while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6))
+//					wanPrevious.middleWaiter(wanNext);
+//					
+//				while (Global.getCurrentPoint() > getTimeBase().getLatestCandle().getLow())
+//					wanPrevious.middleWaiter(wanNext);
+//				
+//							shortContract();
+//					}
 	
 
 	}

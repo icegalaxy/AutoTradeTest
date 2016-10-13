@@ -242,6 +242,21 @@ public class StockDataController implements Runnable {
 					getM15TB().getMACD();
 					m15Minutes = 0;
 					m15Data.reset();
+					
+					if (Global.getAOH() == 0){
+						if (TimePeriodDecider.getTime() >= 91510){
+							Global.setAOH(getM15TB().getLatestCandle().getHigh());
+							Global.setAOL(getM15TB().getLatestCandle().getLow());
+							
+							
+							Global.addLog("--------------------");
+							Global.addLog("AOH: " + Global.getAOH());
+							Global.addLog("AOL: " + Global.getAOL());
+							Global.addLog("--------------------");
+							
+						}
+						
+					}
 
 				}
 
