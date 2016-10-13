@@ -11,7 +11,7 @@ public class RuleTest2 extends Rules {
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(93000, 113000, 130500, 160000, 172000, 231500);
+		setOrderTime(100000, 113000, 130500, 160000, 172000, 231500);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -33,19 +33,28 @@ public class RuleTest2 extends Rules {
 //		if (hasContract)
 //			return;
 
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + 5 + lossTimes
-				&& Global.getCurrentPoint() > getTimeBase().getEMA(5)  + 10 ) {
+		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
+				&& isUpTrend()) {
 			
-			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 10)
+			while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6))
 				wanPrevious.middleWaiter(wanNext);
+				
+			while (Global.getCurrentPoint() < getTimeBase().getLatestCandle().getHigh())
+				wanPrevious.middleWaiter(wanNext);
+			
+			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+				return;
 				
 				longContract();
 			
 		}
-			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 5 - lossTimes
-					&& Global.getCurrentPoint() < getTimeBase().getEMA(5)  - 10){
+			else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
+					&& isDownTrend()){
 						
-				while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 10)
+				while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6))
+					wanPrevious.middleWaiter(wanNext);
+					
+				while (Global.getCurrentPoint() > getTimeBase().getLatestCandle().getLow())
 					wanPrevious.middleWaiter(wanNext);
 				
 							shortContract();
@@ -68,11 +77,11 @@ public class RuleTest2 extends Rules {
 
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
 		// 10){
-		ema5 = getTimeBase().getEMA(5);
-		ema6 = getTimeBase().getEMA(6);
+//		ema5 = getTimeBase().getEMA(5);
+//		ema6 = getTimeBase().getEMA(6);
 		// }else{
-		// ema5 = StockDataController.getShortTB().getEMA(5);
-		// ema6 = StockDataController.getShortTB().getEMA(6);
+		 ema5 = StockDataController.getShortTB().getEMA(5);
+		 ema6 = StockDataController.getShortTB().getEMA(6);
 		// }
 		// use 1min TB will have more profit sometime, but will lose so many
 		// times when ranging.
@@ -83,30 +92,28 @@ public class RuleTest2 extends Rules {
 //				Global.addLog("Free trade");
 //				tempCutLoss = buyingPoint;
 //			}
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 5
-					&& getProfit() > 10)
+			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
 				tempCutLoss = 99999;
 			
 			
-			if (getProfit() > 50 - lossTimes * 10) {
-				tempCutLoss = 99999;
-				Global.addLog(className + " StopEarn: EMA5 < EMA6");
-			}
+//			if (getProfit() > 50 - lossTimes * 10) {
+//				tempCutLoss = 99999;
+//				Global.addLog(className + " StopEarn: EMA5 < EMA6");
+//			}
 		} else if (Global.getNoOfContracts() < 0) {
 
 //			if (buyingPoint < tempCutLoss && getProfit() > 50) {
 //				Global.addLog("Free trade");
 //				tempCutLoss = buyingPoint;
 //			}
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 5
-					&& getProfit() > 10)
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
 				tempCutLoss = 0;
 
-			if (getProfit() > 50 -  lossTimes * 10) {
-				tempCutLoss = 0;
-				Global.addLog(className + " StopEarn: EMA5 > EMA6");
-
-			}
+//			if (getProfit() > 50 -  lossTimes * 10) {
+//				tempCutLoss = 0;
+//				Global.addLog(className + " StopEarn: EMA5 > EMA6");
+//
+//			}
 		}
 
 	}
@@ -202,11 +209,13 @@ public class RuleTest2 extends Rules {
 
 	double getStopEarnPt() {
 		if (Global.getNoOfContracts() > 0) {
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+			if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6))
 				return -100;
+			return 30;
 		} else if (Global.getNoOfContracts() < 0) {
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+			if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6))
 				return -100;
+			return 30;
 		}
 
 		return -100;

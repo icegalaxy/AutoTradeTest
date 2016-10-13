@@ -1,5 +1,7 @@
 package icegalaxy.net;
 
+import org.jfree.data.time.TimePeriod;
+
 //Use the OPEN Line
 
 public class RuleEMA56 extends Rules {
@@ -19,8 +21,12 @@ public class RuleEMA56 extends Rules {
 
 		if (shutdown) {
 			lossTimes++;
+//			firstCorner = true;
 			shutdown = false;
 		}
+		
+		while (lossTimes > 0 && TimePeriodDecider.getTime() < 100000)
+			wanPrevious.middleWaiter(wanNext);
 
 		// Reset the lossCount at afternoon because P.High P.Low is so important
 		// if (isAfternoonTime() && !tradeTimesReseted) {
@@ -50,7 +56,7 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a better position");
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 5 + lossTimes) {
+			while (Global.getCurrentPoint() > getTimeBase().getEMA(5) + 5) {
 				wanPrevious.middleWaiter(wanNext);
 
 				// Global.addLog("Current Pt: " + Global.getCurrentPoint() + " /
@@ -72,11 +78,11 @@ public class RuleEMA56 extends Rules {
 //					return;
 //				}
 
-//				// difference becomes small may mean changing trend
-//				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) + 2) {
-//					Global.addLog(className + ": trend change");
-//					return;
-//				}
+				// difference becomes small may mean changing trend
+				if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
+					Global.addLog(className + ": trend change");
+					return;
+				}
 			}
 
 			Global.addLog(className + ": waiting for a second corner");
@@ -105,7 +111,7 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a better position");
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 5 -lossTimes) {
+			while (Global.getCurrentPoint() < getTimeBase().getEMA(5) - 5) {
 				wanPrevious.middleWaiter(wanNext);
 				//
 
@@ -125,10 +131,10 @@ public class RuleEMA56 extends Rules {
 //					return;
 //				}
 
-//				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) - 2) {
-//					Global.addLog(className + ": trend change");
-//					return;
-//				}
+				if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
+					Global.addLog(className + ": trend change");
+					return;
+				}
 
 			}
 
