@@ -28,11 +28,6 @@ public class RuleEMA56 extends Rules {
 		while (lossTimes > 0 && TimePeriodDecider.getTime() < 100000)
 			wanPrevious.middleWaiter(wanNext);
 
-		// Reset the lossCount at afternoon because P.High P.Low is so important
-		// if (isAfternoonTime() && !tradeTimesReseted) {
-		// lossTimes = 0;
-		// tradeTimesReseted = true;
-		// }
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0
 				|| lossTimes >= 3)
@@ -45,24 +40,18 @@ public class RuleEMA56 extends Rules {
 			return;
 
 		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
-				&& Global.getCurrentPoint() > getTimeBase().getEMA(5)
 				&& StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)
-		// && Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) < 10
-		// && getTimeBase().isEMARising(5, 1)
-		// && StockDataController.getShortTB().getEMA(5) >
-		// StockDataController.getShortTB().getEMA(6)
+
 		) {
 
 			// wait for a better position
-			Global.addLog(className + ": waiting for a better position");
+			Global.addLog(className + ": waiting for a pull back");
 			refPt = Global.getCurrentPoint();
 
 			while (getTimeBase().getLatestCandle().getClose() > getTimeBase().getPreviousCandle(1).getLow()) {
 				wanPrevious.middleWaiter(wanNext);
 
-			
 
-				// difference becomes small may mean changing trend
 				if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)) {
 					Global.addLog(className + ": trend change");
 					return;
@@ -89,29 +78,12 @@ public class RuleEMA56 extends Rules {
 		) {
 
 			// wait for a better position
-			Global.addLog(className + ": waiting for a better position");
+			Global.addLog(className + ": waiting for a pull back");
 			refPt = Global.getCurrentPoint();
 
 			while (getTimeBase().getLatestCandle().getClose() < getTimeBase().getPreviousCandle(1).getHigh()) {
 				wanPrevious.middleWaiter(wanNext);
-				//
-
-				// if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - 5
-				// && Global.getCurrentPoint() >
-				// StockDataController.getShortTB().getEMA(5))
-				// break;
-
-				// if(!getTimeBase().isEMADropping(5, 1)){
-				// Global.addLog(className + ": wrong trend");
-				// return;
-				// }
-				//
-//				if (Global.getCurrentPoint() < refPt - 50) {
-//					Global.addLog(className + ": too far away");
-//					firstCorner = true;
-//					return;
-//				}
-
+			
 				if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)) {
 					Global.addLog(className + ": trend change");
 					return;
@@ -264,79 +236,22 @@ public class RuleEMA56 extends Rules {
 
 	// use 1min instead of 5min
 	double getCutLossPt() {
-
-		// One time lost 100 at first trade >_< 20160929
-		// if (Global.getNoOfContracts() > 0){
-		// if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-		// return 1;
-		// else
-		// return 30;
-		// }else{
-		// if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-		// return 1;
-		// else
-		// return 30;
-		// }
-		
-//		if (Global.getNoOfContracts() > 0){
-//			if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6))
-//				return 30;
-//			else
-//				return 15;
-//		}else if (Global.getNoOfContracts() < 0){
-//			if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6))
-//				return 30;
-//			else
-//				return 15;
-//		}
 		return 15;
-
 	}
 
 	@Override
 	protected void cutLoss() {
 
 		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss) {
-			//
-			// while (Global.getCurrentPoint() <
-			// StockDataController.getShortTB().getEMA(5)){
-			// wanPrevious.middleWaiter(wanNext);
-			// if (getProfit() < -30)
-			// break;
-			// }
-			//
-
+		
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
 
-			// wait for it to clam down
-
-			// if (Global.getCurrentPoint() < getTimeBase().getEMA(6)){
-			// Global.addLog(className + ": waiting for it to calm down");
-			// }
-
-			// while (Global.getCurrentPoint() < getTimeBase().getEMA(6))
-			// wanPrevious.middleWaiter(wanNext);
-
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss) {
-			//
-			//
-			// while (Global.getCurrentPoint() >
-			// StockDataController.getShortTB().getEMA(5)){
-			// wanPrevious.middleWaiter(wanNext);
-			// if (getProfit() < -30)
-			// break;
-			// }
-
+			
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 
-			// if (Global.getCurrentPoint() > getTimeBase().getEMA(6)){
-			// Global.addLog(className + ": waiting for it to calm down");
-			// }
-			//
-			// while (Global.getCurrentPoint() > getTimeBase().getEMA(6))
-			// wanPrevious.middleWaiter(wanNext);
 		}
 	}
 
