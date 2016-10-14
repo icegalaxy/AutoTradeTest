@@ -96,7 +96,7 @@ public class TimePeriodDecider implements Runnable {
 				Global.setOrderTime(false);
 			else if (getTime() >= afternoonOrderStart && getTime() < afternoonOrderStop)
 				Global.setOrderTime(true);
-			else if (getTime() > afternoonOrderStop)
+			else if (getTime() > afternoonOrderStop && getTime() < nightOrderStart)
 				Global.setOrderTime(false);
 			else if (getTime() >= nightOrderStart && getTime() < nightOrderStop)
 				Global.setOrderTime(true);

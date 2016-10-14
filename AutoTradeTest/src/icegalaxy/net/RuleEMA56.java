@@ -13,7 +13,7 @@ public class RuleEMA56 extends Rules {
 
 	public RuleEMA56(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(93000, 113000, 130500, 160000, 230000, 230000);
+		setOrderTime(93000, 113000, 130500, 160000, 213000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
