@@ -11,7 +11,7 @@ public class RuleTest2 extends Rules {
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(100000, 113000, 130500, 160000, 231500, 231500);
+		setOrderTime(93000, 113000, 130500, 160000, 231500, 231500);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -24,104 +24,71 @@ public class RuleTest2 extends Rules {
 		}
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0
-				|| lossTimes >=3
+				|| lossTimes >=2
 		)
 			return;
 		
-//		if (firstCorner)
-//			firstCorner();
-//		
-//		if (hasContract)
-//			return;
-		
-//		while(Global.getCurrentPoint() > Global.getpHigh() + 5
-//				|| Global.getCurrentPoint() < Global.getpHigh() - 5)
-//			wanPrevious.middleWaiter(wanNext);
-//
-//		while(Global.getCurrentPoint() < Global.getpHigh() + 10
-//				&& Global.getCurrentPoint() > Global.getpHigh() - 10)
-//			wanPrevious.middleWaiter(wanNext);
+		if (isUpTrend() && StockDataController.getShortTB().getRSI() < 30 - lossTimes * 10)
+		{
 			
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + lossTimes){
-					
-//			
-				while (Global.getCurrentPoint() < StockDataController.getShortTB().getEMA(5))
+			refPt = Global.getCurrentPoint();
+			while (StockDataController.getShortTB().getLatestCandle().getClose() < StockDataController.getShortTB().getPreviousCandle(1).getClose())
+				{
 					wanPrevious.middleWaiter(wanNext);
-				
-				if (getTimeBase().getEMA(5) <  getTimeBase().getEMA(6) + lossTimes)
-					return;
-					
-				
-				longContract();
-				
-//				Global.addLog("EMA5: " + getTimeBase().getEMA(5));
-//				Global.addLog("EMA6: " + getTimeBase().getEMA(6));
-				
-			}else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - lossTimes){
-					
-//			
-				while (Global.getCurrentPoint() > StockDataController.getShortTB().getEMA(5))
+					if (Global.getCurrentPoint() < refPt)
+						refPt = Global.getCurrentPoint();
+				}
+			
+			
+			longContract();
+			
+			cutLoss = buyingPoint - refPt;
+		}
+		else if  (isDownTrend() && StockDataController.getShortTB().getRSI() > 70 + lossTimes * 10)
+		{
+			
+			while (StockDataController.getShortTB().getLatestCandle().getClose() > StockDataController.getShortTB().getPreviousCandle(1).getClose())
+				{
 					wanPrevious.middleWaiter(wanNext);
-				
-				if (getTimeBase().getEMA(5) >  getTimeBase().getEMA(6) - lossTimes)
-					return;
 					
-				
-				shortContract();
-			}
+					if (Global.getCurrentPoint() > refPt)
+						refPt = Global.getCurrentPoint();
+				}
+			
+			shortContract();
+			cutLoss = refPt - buyingPoint;
+		}
+	
 	}
+		
+//		openOHLC(Global.getpHigh());
+
 
 	// use 1min instead of 5min
 	void updateStopEarn() {
 
-		double ema5;
-		double ema6;
-		int difference;
 
-		if (getProfit() > 100)
-			difference = 0;
-		else
-			difference = 2;
-
-		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
-		// 10){
-//		ema5 = getTimeBase().getEMA(5);
-//		ema6 = getTimeBase().getEMA(6);
-		// }else{
-		 ema5 = StockDataController.getShortTB().getEMA(5);
-		 ema6 = StockDataController.getShortTB().getEMA(6);
-		// }
-		// use 1min TB will have more profit sometime, but will lose so many
-		// times when ranging.
 
 		if (Global.getNoOfContracts() > 0) {
 
-//			if (buyingPoint > tempCutLoss && getProfit() > 50) {
-//				Global.addLog("Free trade");
-//				tempCutLoss = buyingPoint;
-//			}
-			if (getProfit() > 20 + lossTimes * 5)
+			if (buyingPoint > tempCutLoss && getProfit() > 30){
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint;
+			}
+			
+			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
 				tempCutLoss = 99999;
 			
-			
-//			if (getProfit() > 50 - lossTimes * 10) {
-//				tempCutLoss = 99999;
-//				Global.addLog(className + " StopEarn: EMA5 < EMA6");
-//			}
 		} else if (Global.getNoOfContracts() < 0) {
 
-//			if (buyingPoint < tempCutLoss && getProfit() > 50) {
-//				Global.addLog("Free trade");
-//				tempCutLoss = buyingPoint;
-//			}
-			if (getProfit() > 20 + lossTimes * 5)
+			if (buyingPoint < tempCutLoss && getProfit() > 30){
+				Global.addLog("Free trade");
+				tempCutLoss = buyingPoint;
+			}
+			
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
 				tempCutLoss = 0;
 
-//			if (getProfit() > 50 -  lossTimes * 10) {
-//				tempCutLoss = 0;
-//				Global.addLog(className + " StopEarn: EMA5 > EMA6");
-//
-//			}
 		}
 
 	}
@@ -129,20 +96,7 @@ public class RuleTest2 extends Rules {
 	// use 1min instead of 5min
 	double getCutLossPt() {
 
-		// One time lost 100 at first trade >_< 20160929
-		// if (Global.getNoOfContracts() > 0){
-		// if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-		// return 1;
-		// else
-		// return 30;
-		// }else{
-		// if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-		// return 1;
-		// else
-		// return 30;
-		// }
-
-		return 10 + lossTimes * 5;
+		return cutLoss;
 
 	}
 
@@ -150,46 +104,12 @@ public class RuleTest2 extends Rules {
 	protected void cutLoss() {
 
 		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss) {
-			//
-			// while (Global.getCurrentPoint() <
-			// StockDataController.getShortTB().getEMA(5)){
-			// wanPrevious.middleWaiter(wanNext);
-			// if (getProfit() < -30)
-			// break;
-			// }
-			//
-
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-
-			// wait for it to clam down
-
-			// if (Global.getCurrentPoint() < getTimeBase().getEMA(6)){
-			// Global.addLog(className + ": waiting for it to calm down");
-			// }
-
-			// while (Global.getCurrentPoint() < getTimeBase().getEMA(6))
-			// wanPrevious.middleWaiter(wanNext);
-
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss) {
-			//
-			//
-			// while (Global.getCurrentPoint() >
-			// StockDataController.getShortTB().getEMA(5)){
-			// wanPrevious.middleWaiter(wanNext);
-			// if (getProfit() < -30)
-			// break;
-			// }
-
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 
-			// if (Global.getCurrentPoint() > getTimeBase().getEMA(6)){
-			// Global.addLog(className + ": waiting for it to calm down");
-			// }
-			//
-			// while (Global.getCurrentPoint() > getTimeBase().getEMA(6))
-			// wanPrevious.middleWaiter(wanNext);
 		}
 	}
 
@@ -216,22 +136,19 @@ public class RuleTest2 extends Rules {
 	}
 
 	double getStopEarnPt() {
-		if (Global.getNoOfContracts() > 0) {
-			if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6))
-				return -100;
+		
+		if (Global.getNoOfContracts() > 0 && getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
 			return -100;
-		} else if (Global.getNoOfContracts() < 0) {
-			if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6))
-				return -100;
+		else 	if (Global.getNoOfContracts() < 0 && getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
 			return -100;
-		}
-
-		return -100;
+		
+		//有可能行夠50點都未 5 > 6，咁會即刻食左
+		return  50;
 	}
 
 	@Override
 	public TimeBase getTimeBase() {
-		return StockDataController.getShortTB();
+		return StockDataController.getLongTB();
 	}
 
 }

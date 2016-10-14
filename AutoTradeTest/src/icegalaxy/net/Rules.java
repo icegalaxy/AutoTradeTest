@@ -603,26 +603,24 @@ public abstract class Rules implements Runnable {
 	}
 
 	void openOHLC(double ohlc) {
-		if (Math.abs(Global.getCurrentPoint() - ohlc) <= 5) {
+		if (Math.abs(Global.getCurrentPoint() - ohlc) < 5) {
 
-			Global.addLog(className + ": Entered waiting zone");
-			
+			Global.addLog(className + ": Entered waiting zone");		
 			waitForANewCandle();
-
 			//wait until it standing firmly
-			while (Math.abs(StockDataController.getLongTB().getLatestCandle().getClose() - ohlc) <= 5)
+			while (Math.abs(Global.getCurrentPoint() - ohlc) < 30)
 				wanPrevious.middleWaiter(wanNext);;
-
-			Global.addLog(className + ": Waiting for a pull back");
-			//in case it get too fast, wait until it come back, just like second corner but a little bit earlier
-			while (Math.abs(Global.getCurrentPoint() - ohlc) > 5) {
-				if (Math.abs(Global.getCurrentPoint() - ohlc) > 50) {
-					Global.addLog(className + ": Risk is too big");
-					return;
-				}
+			
+//			Global.addLog(className + ": Waiting for a pull back");
+//			//in case it get too fast, wait until it come back, just like second corner but a little bit earlier
+//			while (Math.abs(Global.getCurrentPoint() - ohlc) > 10) {
+//				if (Math.abs(Global.getCurrentPoint() - ohlc) > 50) {
+//					Global.addLog(className + ": Risk is too big");
+//					return;
+//				}
 				
-				wanPrevious.middleWaiter(wanNext);;
-			}
+//				wanPrevious.middleWaiter(wanNext);;
+//			}
 
 			// for outside
 //			if (Global.getCurrentPoint() > Global.getDayHigh()) {
@@ -634,18 +632,18 @@ public abstract class Rules implements Runnable {
 //
 //				// for inside
 //			} else {
-				if (StockDataController.getLongTB().getLatestCandle().getClose() > ohlc){
-					if (StockDataController.getLongTB().getEMA(5) < StockDataController.getLongTB().getEMA(6) + 2){
-						Global.addLog("Not Trending Up: EMA5 < EMA6");
-						return;
-					}
+				if (StockDataController.getShortTB().getLatestCandle().getClose() > ohlc && isUpTrend()){
+//					if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)){
+//						Global.addLog("Not Trending Up: EMA5 < EMA6");
+//						return;
+//					}
 					longContract();
 				}
-				else if (StockDataController.getLongTB().getLatestCandle().getClose() < ohlc){
-					if (StockDataController.getLongTB().getEMA(5) > StockDataController.getLongTB().getEMA(6) - 2){
-						Global.addLog("Not Trending Down: EMA5 > EMA6");
-						return;
-					}
+				else if (StockDataController.getShortTB().getLatestCandle().getClose()   < ohlc && isDownTrend()){
+//					if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)){
+//						Global.addLog("Not Trending Down: EMA5 > EMA6");
+//						return;
+//					}
 					shortContract();
 				}
 //			}
