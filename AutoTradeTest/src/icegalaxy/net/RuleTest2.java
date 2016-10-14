@@ -96,7 +96,10 @@ public class RuleTest2 extends Rules {
 	// use 1min instead of 5min
 	double getCutLossPt() {
 
-		return cutLoss;
+		if (cutLoss < 5)
+			return 5;
+		else
+			return cutLoss;
 
 	}
 
