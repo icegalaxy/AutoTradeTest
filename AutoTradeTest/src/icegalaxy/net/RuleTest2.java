@@ -11,7 +11,7 @@ public class RuleTest2 extends Rules {
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(93000, 100000, 160000, 160000, 231500, 231500);
+		setOrderTime(100000, 113000, 130500, 160000, 231500, 231500);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -34,29 +34,26 @@ public class RuleTest2 extends Rules {
 //			return;
 			
 			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
-					&& StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)){
-				
-				while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)){
+					&& StockDataController.getShortTB().getRSI() < 30){
+			
+				while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getClose())
 					wanPrevious.middleWaiter(wanNext);
+								
 					
-					if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)){
-						Global.addLog("Trend changed");
-						return;					
-					}
-				}	
+				
 				longContract();
 				
-			}else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
-					&& StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)){
+//				Global.addLog("EMA5: " + getTimeBase().getEMA(5));
+//				Global.addLog("EMA6: " + getTimeBase().getEMA(6));
 				
-				while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)){
+			}else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
+					&& StockDataController.getShortTB().getRSI() > 70){
+			
+				while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getClose())
 					wanPrevious.middleWaiter(wanNext);
+								
 					
-					if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)){
-						Global.addLog("Trend changed");
-						return;					
-					}
-				}	
+				
 				shortContract();
 			}
 	}
