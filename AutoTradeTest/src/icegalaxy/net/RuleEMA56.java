@@ -115,7 +115,15 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for the first corner");
 
 			while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
+				{
+					wanPrevious.middleWaiter(wanNext);
+//					if (TimePeriodDecider.getTime() > 100000)
+//					{
+//						Global.addLog("First corner did not appear after 10:00");
+//						firstCorner = false;
+//						return;
+//					}
+				}
 
 			Global.addLog(className + ": waiting for a pull back");
 
@@ -143,9 +151,17 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for the first corner");
 
 			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
+				{
+					wanPrevious.middleWaiter(wanNext);
+//					if (TimePeriodDecider.getTime() > 100000)
+//					{
+//						Global.addLog("First corner did not appear after 10:00");
+//						firstCorner = false;
+//						return;
+//					}
+				}
 
-			firstCorner = false;
+
 
 			Global.addLog(className + ": waiting for a pull back");
 			
@@ -165,6 +181,7 @@ public class RuleEMA56 extends Rules {
 				
 			}
 			
+			firstCorner = false;
 			longContract();
 			cutLoss = Math.abs(Global.getCurrentPoint() - refPt);
 			Global.addLog("CutLossPt: " + cutLoss);
