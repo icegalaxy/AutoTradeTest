@@ -24,6 +24,7 @@ public class RuleTest2 extends Rules {
 		}
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0
+				|| lossTimes >=3
 		)
 			return;
 		
@@ -32,13 +33,23 @@ public class RuleTest2 extends Rules {
 //		
 //		if (hasContract)
 //			return;
+		
+//		while(Global.getCurrentPoint() > Global.getpHigh() + 5
+//				|| Global.getCurrentPoint() < Global.getpHigh() - 5)
+//			wanPrevious.middleWaiter(wanNext);
+//
+//		while(Global.getCurrentPoint() < Global.getpHigh() + 10
+//				&& Global.getCurrentPoint() > Global.getpHigh() - 10)
+//			wanPrevious.middleWaiter(wanNext);
 			
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
-					&& StockDataController.getShortTB().getRSI() < 30){
-			
-				while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getClose())
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) + lossTimes){
+					
+//			
+				while (Global.getCurrentPoint() < StockDataController.getShortTB().getEMA(5))
 					wanPrevious.middleWaiter(wanNext);
-								
+				
+				if (getTimeBase().getEMA(5) <  getTimeBase().getEMA(6) + lossTimes)
+					return;
 					
 				
 				longContract();
@@ -46,12 +57,14 @@ public class RuleTest2 extends Rules {
 //				Global.addLog("EMA5: " + getTimeBase().getEMA(5));
 //				Global.addLog("EMA6: " + getTimeBase().getEMA(6));
 				
-			}else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
-					&& StockDataController.getShortTB().getRSI() > 70){
-			
-				while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getClose())
+			}else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) - lossTimes){
+					
+//			
+				while (Global.getCurrentPoint() > StockDataController.getShortTB().getEMA(5))
 					wanPrevious.middleWaiter(wanNext);
-								
+				
+				if (getTimeBase().getEMA(5) >  getTimeBase().getEMA(6) - lossTimes)
+					return;
 					
 				
 				shortContract();
@@ -87,7 +100,7 @@ public class RuleTest2 extends Rules {
 //				Global.addLog("Free trade");
 //				tempCutLoss = buyingPoint;
 //			}
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+			if (getProfit() > 20 + lossTimes * 5)
 				tempCutLoss = 99999;
 			
 			
@@ -101,7 +114,7 @@ public class RuleTest2 extends Rules {
 //				Global.addLog("Free trade");
 //				tempCutLoss = buyingPoint;
 //			}
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+			if (getProfit() > 20 + lossTimes * 5)
 				tempCutLoss = 0;
 
 //			if (getProfit() > 50 -  lossTimes * 10) {
@@ -129,7 +142,7 @@ public class RuleTest2 extends Rules {
 		// return 30;
 		// }
 
-		return 15;
+		return 10 + lossTimes * 5;
 
 	}
 
@@ -206,11 +219,11 @@ public class RuleTest2 extends Rules {
 		if (Global.getNoOfContracts() > 0) {
 			if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6))
 				return -100;
-			return 30;
+			return -100;
 		} else if (Global.getNoOfContracts() < 0) {
 			if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6))
 				return -100;
-			return 30;
+			return -100;
 		}
 
 		return -100;
@@ -218,7 +231,7 @@ public class RuleTest2 extends Rules {
 
 	@Override
 	public TimeBase getTimeBase() {
-		return StockDataController.getLongTB();
+		return StockDataController.getShortTB();
 	}
 
 }
