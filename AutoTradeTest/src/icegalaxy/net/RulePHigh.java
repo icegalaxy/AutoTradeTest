@@ -18,7 +18,7 @@ public class RulePHigh extends Rules
 	public RulePHigh(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(94500, 113000, 130500, 160000, 172000, 231500);
+		setOrderTime(94500, 113000, 130500, 160000, 213000, 231500);
 		// wait for EMA6, that's why 0945
 	}
 
