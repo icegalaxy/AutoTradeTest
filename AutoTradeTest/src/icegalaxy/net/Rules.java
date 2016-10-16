@@ -7,7 +7,7 @@ public abstract class Rules implements Runnable {
 	protected WaitAndNotify wanNext;
 	protected double tempCutLoss;
 	protected double tempStopEarn;
-	protected float refPt;
+	protected double refPt;
 	protected float buyingPoint;
 	private boolean globalRunRule;
 	protected String className;
