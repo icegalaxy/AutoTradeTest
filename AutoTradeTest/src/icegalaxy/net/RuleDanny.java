@@ -21,7 +21,8 @@ public class RuleDanny extends Rules {
 			shutdown = false;
 		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0
+				|| lossTimes >= 2)
 			return;
 
 		if (isUpTrend()
@@ -82,7 +83,7 @@ public class RuleDanny extends Rules {
 			
 			if (buyingPoint > tempCutLoss && getProfit() > 30){
 				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint;
+				tempCutLoss = buyingPoint + 5;
 			}
 			
 			
@@ -94,7 +95,7 @@ public class RuleDanny extends Rules {
 			
 			if (buyingPoint < tempCutLoss && getProfit() > 30){
 				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint;
+				tempCutLoss = buyingPoint - 5;
 			}
 			
 			
@@ -176,14 +177,16 @@ public class RuleDanny extends Rules {
 
 	double getStopEarnPt() {
 		if (Global.getNoOfContracts() > 0){
-			if (getTimeBase().getEMA(5) >  getTimeBase().getEMA(6))
+			if (getTimeBase().getEMA(5) >  getTimeBase().getEMA(6)
+					&& getProfit() > 30)
 				return -100;
 		}else if (Global.getNoOfContracts() < 0){
-			if (getTimeBase().getEMA(5) <  getTimeBase().getEMA(6))
+			if (getTimeBase().getEMA(5) <  getTimeBase().getEMA(6)
+					&& getProfit() > 30)
 				return -100;
 		}
 		
-		return 100;
+		return 30;
 	}
 
 	@Override
