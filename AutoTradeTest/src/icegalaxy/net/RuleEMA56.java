@@ -2,6 +2,8 @@ package icegalaxy.net;
 
 import org.jfree.data.time.TimePeriod;
 
+
+
 //Use the OPEN Line
 
 public class RuleEMA56 extends Rules {
@@ -47,6 +49,9 @@ public class RuleEMA56 extends Rules {
 			// wait for a better position
 			Global.addLog(className + ": waiting for a pull back");
 			refPt = Global.getCurrentPoint();
+			
+			Global.addLog("Latest Close; " + getTimeBase().getLatestCandle().getClose());
+			Global.addLog("Previous Low; " + getTimeBase().getPreviousCandle(1).getLow());
 
 			while (getTimeBase().getLatestCandle().getClose() > getTimeBase().getPreviousCandle(1).getLow()) {
 				wanPrevious.middleWaiter(wanNext);
@@ -73,7 +78,7 @@ public class RuleEMA56 extends Rules {
 			cutLoss = Math.abs(Global.getCurrentPoint() - refPt);
 			Global.addLog("CutLossPt: " + cutLoss);
 		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
-				&& Global.getCurrentPoint() < getTimeBase().getEMA(5)
+//				&& Global.getCurrentPoint() < getTimeBase().getEMA(5)
 				&& StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)
 		) {
 
@@ -81,8 +86,13 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a pull back");
 			refPt = Global.getCurrentPoint();
 
+			Global.addLog("Latest Close; " + getTimeBase().getLatestCandle().getClose());
+			Global.addLog("Previous High; " + getTimeBase().getPreviousCandle(1).getHigh());
+			
 			while (getTimeBase().getLatestCandle().getClose() < getTimeBase().getPreviousCandle(1).getHigh()) {
 				wanPrevious.middleWaiter(wanNext);
+				
+				
 			
 				if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)) {
 					Global.addLog(className + ": trend change");
