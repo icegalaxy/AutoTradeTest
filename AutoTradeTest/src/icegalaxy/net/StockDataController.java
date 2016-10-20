@@ -12,6 +12,8 @@ public class StockDataController implements Runnable {
 	private static TimeBase shortTB;
 	private static TimeBase m15TB;
 	private static TimeBase longTB;
+	
+	private boolean isOpenAdded = false;
 
 	private int quantityCounter = 0;
 
@@ -176,6 +178,9 @@ public class StockDataController implements Runnable {
 				if (calDeal < Global.getDayLow()) {
 					Global.setDayLow(calDeal);
 				}
+				
+				if (!isOpenAdded)
+					Global.setOpen(calDeal);
 
 				shortData.getHighLow();
 				shortData.getOpen();
