@@ -10,24 +10,26 @@ public class RuleIBT extends Rules
 	public RuleIBT(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(91500, 100000, 16000, 160000, 230000, 230000);
+		setOrderTime(91600, 100000, 16000, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
 	public void openContract()
 	{
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown
+				|| TimePeriodDecider.getTime() > 91800 || Global.getOpen() == 0)
 			return;
 
 //		Global.addLog("Open: " + Global.getOpen());
 //		Global.addLog("EMA50: " + getTimeBase().getEMA(50));
 //		Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+//		Global.addLog("0");
 		
-		if (Global.getCurrentPoint() > Global.getOpen())
+		if (Global.getCurrentPoint() > Global.getOpen() && Global.getCurrentPoint() > getTimeBase().getMA(240))
 		{
 			
-			Global.addLog("1");
+//			Global.addLog("1");
 
 			while (TimePeriodDecider.getTime() < 91600)
 			{
@@ -76,15 +78,22 @@ public class RuleIBT extends Rules
 					Global.addLog(className + ": not standing up");
 					return;
 				}
+				
+				if (TimePeriodDecider.getTime() > 91800)
+				{
+					shutdown = true;
+					Global.addLog(className + ": waited for too long");
+					return;
+				}
 
 				wanPrevious.middleWaiter(wanNext);
 			}
 
 			longContract();
 
-		} else if (Global.getCurrentPoint() < Global.getOpen())
+		} else if (Global.getCurrentPoint() < Global.getOpen() && Global.getCurrentPoint() < getTimeBase().getMA(240))
 		{
-			Global.addLog("2");
+//			Global.addLog("2");
 			
 			while (TimePeriodDecider.getTime() < 91600)
 			{
@@ -131,6 +140,13 @@ public class RuleIBT extends Rules
 				{
 					shutdown = true;
 					Global.addLog(className + ": not standing down");
+					return;
+				}
+				
+				if (TimePeriodDecider.getTime() > 91800)
+				{
+					shutdown = true;
+					Global.addLog(className + ": waited for too long");
 					return;
 				}
 
@@ -201,28 +217,7 @@ public class RuleIBT extends Rules
 		}
 	}
 
-	private void firstCorner()
-	{
-
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-		{
-			// wait for a better position
-			Global.addLog(className + ": waiting for the first corner");
-
-			while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
-
-
-		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-		{
-
-			Global.addLog(className + ": waiting for the first corner");
-
-			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
-
-		}
-	}
+	
 
 	double getStopEarnPt()
 	{

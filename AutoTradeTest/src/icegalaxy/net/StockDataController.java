@@ -179,8 +179,10 @@ public class StockDataController implements Runnable {
 					Global.setDayLow(calDeal);
 				}
 				
-				if (!isOpenAdded)
+				if (!isOpenAdded){
 					Global.setOpen(calDeal);
+					isOpenAdded = true;
+				}
 
 				shortData.getHighLow();
 				shortData.getOpen();
@@ -325,6 +327,7 @@ public class StockDataController implements Runnable {
 		shortMinutes = 0;
 		longMinutes = 0;
 		m15Minutes = 0;
+		isOpenAdded = false;
 
 		// should be put to the end
 		Global.setRunning(false);
