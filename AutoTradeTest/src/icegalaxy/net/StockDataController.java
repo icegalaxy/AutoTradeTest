@@ -327,7 +327,6 @@ public class StockDataController implements Runnable {
 		shortMinutes = 0;
 		longMinutes = 0;
 		m15Minutes = 0;
-		isOpenAdded = false;
 
 		// should be put to the end
 		Global.setRunning(false);

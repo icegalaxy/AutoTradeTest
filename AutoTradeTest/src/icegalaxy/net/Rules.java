@@ -117,16 +117,27 @@ public abstract class Rules implements Runnable {
 		int time = TimePeriodDecider.getTime();
 
 		// System.out.println("Check: " + time + morningOpen + morningClose +
-		// noonOpen + noonClose);
 
-		if (time > morningOpen && time < morningClose)
+
+
+
+		if (time > morningOpen && time < morningClose){
+//			Global.addLog("Time 1 = " + time + true);
 			return true;
-		else if (time > noonOpen && time < noonClose)
+		}
+		else if (time > noonOpen && time < noonClose){
+//			Global.addLog("Time 2 = " + time + true);
 			return true;
-		else if (time > nightOpen && time < nightClose)
+		}
+		else if (time > nightOpen && time < nightClose){
+//			Global.addLog("Time 3 = " + time + true);
 			return true;
-		else
+		}else
+			{
+//			Global.addLog("Time 4 = " + time + false);
 			return false;
+			}
+			
 	}
 
 	protected void updateCutLoss() {
