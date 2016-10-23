@@ -176,36 +176,27 @@ public class RuleIBT extends Rules
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
+		float ema5;
+		float ema6;
+		
+		if (getProfit() > 50 && getProfit() < 100){
+			ema5 = StockDataController.getShortTB().getEMA(5);
+			ema6 = StockDataController.getShortTB().getEMA(6);
+		}else
+		{
+			ema5 = getTimeBase().getEMA(5);
+			ema6 = getTimeBase().getEMA(6);
+		}
 
 		if (Global.getNoOfContracts() > 0)
 		{
-
-//			if (buyingPoint > tempCutLoss && getProfit() > 30)
-//			{
-//				Global.addLog("Free trade");
-//				tempCutLoss = buyingPoint;
-//			}
-			
-//			Global.addLog("TempCutLoss: " + tempCutLoss);
-//			Global.addLog("EMA5: " + getTimeBase().getEMA(5));
-//			Global.addLog("EMA6: " + getTimeBase().getEMA(6));
-
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+			if (ema5 < ema6)
 				tempCutLoss = 99999;
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-//			if (buyingPoint < tempCutLoss && getProfit() > 30)
-//			{
-//				Global.addLog("Free trade");
-//				tempCutLoss = buyingPoint;
-//			}	Global.addLog("TempCutLoss: " + tempCutLoss);
-//			Global.addLog("TempCutLoss: " + tempCutLoss);
-//			Global.addLog("EMA5: " + getTimeBase().getEMA(5));
-//			Global.addLog("EMA6: " + getTimeBase().getEMA(6));
-
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+			if (ema5 > ema6)
 				tempCutLoss = 0;
 
 		}
