@@ -26,7 +26,7 @@ public class RuleIBT extends Rules
 //		Global.addLog("EMA240: " + getTimeBase().getEMA(240));
 //		Global.addLog("0");
 		
-		if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() && Global.getCurrentPoint() > getTimeBase().getMA(240))
+		if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240))
 		{
 //			while (StockDataController.getShortTB().getLatestCandle().getClose() > StockDataController.getShortTB().getPreviousCandle(1).getClose())
 //				wanPrevious.middleWaiter(wanNext);
@@ -99,7 +99,7 @@ public class RuleIBT extends Rules
 //			Global.addLog("cutLoss: " + Global.getOpen());
 			
 
-		} else if (Global.getCurrentPoint() < Global.getOpen() - 15 && Global.getOpen() < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240))
+		} else if (Global.getCurrentPoint() < Global.getOpen() - 15 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240))
 		{
 			
 //			while (StockDataController.getShortTB().getLatestCandle().getClose() < StockDataController.getShortTB().getPreviousCandle(1).getClose())
