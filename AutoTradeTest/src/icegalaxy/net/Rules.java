@@ -565,6 +565,26 @@ public abstract class Rules implements Runnable {
 			return buyingPoint - Global.getCurrentPoint();
 	}
 
+	public boolean isSylviaUpTrend(){
+		return 
+				Global.getCurrentPoint() > StockDataController.getShortTB().getEMA(5) &&
+				Global.getCurrentPoint() > StockDataController.getShortTB().getMA(20) &&
+				Global.getCurrentPoint() > StockDataController.getShortTB().getEMA(50) &&
+				Global.getCurrentPoint() > StockDataController.getShortTB().getEMA(240);
+
+	}
+
+	public boolean isSylviaDownTrend(){
+		return 
+				Global.getCurrentPoint() < StockDataController.getShortTB().getEMA(5) &&
+				Global.getCurrentPoint() < StockDataController.getShortTB().getMA(20) &&
+				Global.getCurrentPoint() < StockDataController.getShortTB().getEMA(50) &&
+				Global.getCurrentPoint() < StockDataController.getShortTB().getEMA(240);
+
+	}
+	
+	
+	
 	// Danny �l�ȥ�e�w��V
 	public boolean isUpTrend() {
 		return StockDataController.getM15TB().getMA(20) > StockDataController.getM15TB().getEMA(50)

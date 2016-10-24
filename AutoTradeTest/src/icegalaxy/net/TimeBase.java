@@ -478,10 +478,14 @@ public class TimeBase {
 		return ti.getEMA(period);
 	}
 	
+	public float getPreviousEMA(int period) {
+		return ti.getPreviousEMA(period);
+	}
+	
 	public float getCurrentEMA(int period) {
 		return ti.getCurrentEMA(period);
 	}
-
+	
 	public float getMA(int period) {
 		return ti.getMovingAverage(period);
 	}

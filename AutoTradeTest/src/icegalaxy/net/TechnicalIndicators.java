@@ -50,7 +50,7 @@ public class TechnicalIndicators {
 	public float getMovingAverage(int noOfPeriods) {
 
 		if (close.size() < noOfPeriods) // check�U�������ƭp�A�p�G�����|�X-1
-			return -1;
+			return getMovingAverage(noOfPeriods / 5);
 
 		float total = 0;
 
@@ -138,8 +138,9 @@ public class TechnicalIndicators {
 
 			float ema = 0;
 
-			if (close.size() < noOfPeriods)
-				return -1;
+			if (close.size() < noOfPeriods){
+				return getEMA(noOfPeriods / 5);
+			}
 
 			float smoothingConstant = (float) 2 / (noOfPeriods + 1);
 
@@ -150,6 +151,31 @@ public class TechnicalIndicators {
 				ema = getfirstMA(noOfPeriods);
 
 				for (int i = noOfPeriods; i < close.size(); i++) {
+
+					ema = (close.get(i) - ema) * smoothingConstant + ema;
+
+				}
+				return ema;
+			}
+		}
+		
+		public float getPreviousEMA(int noOfPeriods) {
+
+			float ema = 0;
+
+			if (close.size() < noOfPeriods + 1){
+				return getEMA(noOfPeriods / 5);
+			}
+
+			float smoothingConstant = (float) 2 / (noOfPeriods + 1);
+
+			if (noOfPeriods == close.size()) {
+				return getfirstMA(noOfPeriods);
+			} else {
+
+				ema = getfirstMA(noOfPeriods);
+
+				for (int i = noOfPeriods; i < close.size() - 1; i++) {
 
 					ema = (close.get(i) - ema) * smoothingConstant + ema;
 
