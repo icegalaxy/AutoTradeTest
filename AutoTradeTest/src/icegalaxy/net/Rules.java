@@ -588,7 +588,11 @@ public abstract class Rules implements Runnable {
 	// Danny �l�ȥ�e�w��V
 	public boolean isUpTrend() {
 		return StockDataController.getM15TB().getMA(20) > StockDataController.getM15TB().getEMA(50)
-				&& StockDataController.getLongTB().getEMA(50) > StockDataController.getLongTB().getEMA(240);
+				&& StockDataController.getLongTB().getEMA(50) > StockDataController.getLongTB().getEMA(240)
+				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getM15TB().getMA(20)
+				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getM15TB().getEMA(50)
+				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getLongTB().getEMA(50)
+				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getLongTB().getMA(240);
 //				&& StockDataController.getLongTB().getEMA(5) > StockDataController.getLongTB().getEMA(6)
 				// && StockDataController.getM15TB().isMARising(20, 1)
 				// && StockDataController.getM15TB().isEMARising(50, 1)
@@ -598,7 +602,11 @@ public abstract class Rules implements Runnable {
 
 	public boolean isDownTrend() {
 		return StockDataController.getM15TB().getMA(20) < StockDataController.getM15TB().getEMA(50)
-				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240);
+				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240)
+		&& StockDataController.getLongTB().getLatestCandle().getClose() < StockDataController.getM15TB().getMA(20)
+		&& StockDataController.getLongTB().getLatestCandle().getClose() < StockDataController.getM15TB().getEMA(50)
+		&& StockDataController.getLongTB().getLatestCandle().getClose() < StockDataController.getLongTB().getEMA(50)
+		&& StockDataController.getLongTB().getLatestCandle().getClose() < StockDataController.getLongTB().getMA(240);
 //				&& StockDataController.getLongTB().getEMA(5) < StockDataController.getLongTB().getEMA(6)
 				// && StockDataController.getM15TB().isMADropping(20, 1)
 				// && StockDataController.getM15TB().isEMADropping(50, 1)
