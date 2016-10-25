@@ -259,7 +259,7 @@ public class RuleEMA56 extends Rules {
 
 	// use 1min instead of 5min
 	double getCutLossPt() {
-		return 15;
+		return 15 + lossTimes * 5;
 	}
 
 	@Override
@@ -279,7 +279,7 @@ public class RuleEMA56 extends Rules {
 	}
 
 	double getStopEarnPt() {
-		return 30;
+		return 30 - lossTimes *5;
 	}
 
 	@Override
