@@ -2,90 +2,86 @@ package icegalaxy.net;
 
 //Use the OPEN Line
 
-public class RuleSylvia extends Rules {
+public class RuleSylvia extends Rules
+{
 
 	private int lossTimes;
 	// private double refEMA;
 	private boolean firstCorner = false;
 	private double cutLoss;
 
-	public RuleSylvia(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
+	public RuleSylvia(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
+	{
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(93000, 113000, 130500, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
-	public void openContract() {
+	public void openContract()
+	{
 
-		if (shutdown) {
+		if (shutdown)
+		{
 			lossTimes++;
 			firstCorner = true;
 			shutdown = false;
 		}
-		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0
-				|| lossTimes >=2
-		)
-			return;
-		
-		if (isUpTrend() && StockDataController.getShortTB().getRSI() < 30 - lossTimes * 10)
-		{
-			
-			refPt = Global.getCurrentPoint();
-			while (StockDataController.getShortTB().getLatestCandle().getClose() < StockDataController.getShortTB().getPreviousCandle(1).getClose())
-				{
-					wanPrevious.middleWaiter(wanNext);
-					if (Global.getCurrentPoint() < refPt)
-						refPt = Global.getCurrentPoint();
-				}
-			
-			
-			longContract();
-			
-			cutLoss = buyingPoint - refPt;
-		}
-		else if  (isDownTrend() && StockDataController.getShortTB().getRSI() > 70 + lossTimes * 10)
-		{
-			
-			while (StockDataController.getShortTB().getLatestCandle().getClose() > StockDataController.getShortTB().getPreviousCandle(1).getClose())
-				{
-					wanPrevious.middleWaiter(wanNext);
-					
-					if (Global.getCurrentPoint() > refPt)
-						refPt = Global.getCurrentPoint();
-				}
-			
-			shortContract();
-			cutLoss = refPt - buyingPoint;
-		}
-	
-	}
-		
-//		openOHLC(Global.getpHigh());
 
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 2)
+			return;
+
+		while (isSylviaUpTrend() || isSylviaDownTrend())
+		{
+			Global.addLog("Waiting to settle");
+			wanPrevious.middleWaiter(wanNext);
+		}
+		
+		while (!isSylviaUpTrend() && !isSylviaDownTrend())
+		{
+			Global.addLog("Waiting to break through");
+			wanPrevious.middleWaiter(wanNext);
+		}
+
+		if (isSylviaUpTrend())
+		{
+
+			longContract();
+		} else if (isSylviaDownTrend())
+		{
+
+			shortContract();
+
+		}
+
+	}
+
+	// openOHLC(Global.getpHigh());
 
 	// use 1min instead of 5min
-	void updateStopEarn() {
+	void updateStopEarn()
+	{
 
+		if (Global.getNoOfContracts() > 0)
+		{
 
-
-		if (Global.getNoOfContracts() > 0) {
-
-			if (buyingPoint > tempCutLoss && getProfit() > 30){
+			if (buyingPoint > tempCutLoss && getProfit() > 30)
+			{
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint;
 			}
-			
+
 			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
 				tempCutLoss = 99999;
-			
-		} else if (Global.getNoOfContracts() < 0) {
 
-			if (buyingPoint < tempCutLoss && getProfit() > 30){
+		} else if (Global.getNoOfContracts() < 0)
+		{
+
+			if (buyingPoint < tempCutLoss && getProfit() > 30)
+			{
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint;
 			}
-			
+
 			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
 				tempCutLoss = 0;
 
@@ -94,63 +90,44 @@ public class RuleSylvia extends Rules {
 	}
 
 	// use 1min instead of 5min
-	double getCutLossPt() {
+	double getCutLossPt()
+	{
 
-		if (cutLoss < 5)
-			return 5;
-		else
-			return cutLoss;
+		return 15;
 
 	}
 
 	@Override
-	protected void cutLoss() {
+	protected void cutLoss()
+	{
 
-		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss) {
+		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
+		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss) {
+		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
+		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 
 		}
 	}
 
-	private void firstCorner() {
+	double getStopEarnPt()
+	{
 
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
-			// wait for a better position
-			Global.addLog(className + ": waiting for the first corner");
-
-			while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
-
-			firstCorner = false;
-
-		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
-
-			Global.addLog(className + ": waiting for the first corner");
-
-			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
-
-			firstCorner = false;
-		}
-	}
-
-	double getStopEarnPt() {
-		
 		if (Global.getNoOfContracts() > 0 && getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
 			return -100;
-		else 	if (Global.getNoOfContracts() < 0 && getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+		else if (Global.getNoOfContracts() < 0 && getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
 			return -100;
-		
-		//有可能行夠50點都未 5 > 6，咁會即刻食左
-		return  50;
+
+		// 有可能行夠50點都未 5 > 6，咁會即刻食左
+		return 30;
 	}
 
 	@Override
-	public TimeBase getTimeBase() {
+	public TimeBase getTimeBase()
+	{
 		return StockDataController.getLongTB();
 	}
 
