@@ -15,7 +15,7 @@ public class RuleEMA56 extends Rules
 	public RuleEMA56(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(94500, 113000, 130500, 160000, 213000, 230000);
+		setOrderTime(93000, 113000, 130500, 160000, 213000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -34,7 +34,7 @@ public class RuleEMA56 extends Rules
 		// while (lossTimes > 0 && TimePeriodDecider.getTime() < 100000)
 		// wanPrevious.middleWaiter(wanNext);
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0 || lossTimes >= 1)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0 || lossTimes >= 3)
 			return;
 
 //		if (firstCorner)
