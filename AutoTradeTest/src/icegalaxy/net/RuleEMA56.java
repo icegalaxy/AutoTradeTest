@@ -32,7 +32,7 @@ public class RuleEMA56 extends Rules {
 
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0
-				|| lossTimes >= 1)
+				|| lossTimes >= 3)
 			return;
 
 		if (firstCorner)
@@ -232,11 +232,11 @@ public class RuleEMA56 extends Rules {
 
 		if (Global.getNoOfContracts() > 0) {
 			
-//			if (buyingPoint > tempCutLoss){
-//				
-//				if (getProfit() > 50)
-//					tempCutLoss = buyingPoint;
-//			}
+			if (buyingPoint > tempCutLoss){
+				
+				if (getProfit() > 30)
+					tempCutLoss = buyingPoint + 5;
+			}
 //			
 			
 			if (ema5 < ema6 - lossTimes) {
@@ -245,11 +245,11 @@ public class RuleEMA56 extends Rules {
 			}
 		} else if (Global.getNoOfContracts() < 0) {
 			
-//			if (buyingPoint < tempCutLoss){
-//				
-//				if (getProfit() > 50)
-//					tempCutLoss = buyingPoint;
-//			}
+			if (buyingPoint < tempCutLoss){
+				
+				if (getProfit() > 30)
+					tempCutLoss = buyingPoint - 5;
+			}
 			
 			
 			if (ema5 > ema6 + lossTimes) {
