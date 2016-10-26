@@ -55,7 +55,12 @@ public class RuleDanny extends Rules {
 	}
 
 	private int getLossTimesAllowed(){
-		if (Global.balance > 15)
+		
+		double balance = Global.balance + Global.getCurrentPoint() * Global.getNoOfContracts();
+		
+		
+		
+		if  (balance > 15)
 			return 2;
 		else
 			return 1;

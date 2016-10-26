@@ -32,7 +32,7 @@ public class RuleEMA56 extends Rules {
 
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpHigh() == 0
-				|| lossTimes >= 3)
+				|| lossTimes >= getLossTimesAllowed())
 			return;
 
 		if (firstCorner)
@@ -262,12 +262,18 @@ public class RuleEMA56 extends Rules {
 	}
 	
 	private int getLossTimesAllowed(){
-		if (Global.balance > 30)
+		
+		double balance = Global.balance + Global.getCurrentPoint() * Global.getNoOfContracts();
+		
+//		Global.addLog("Balance: " + balance);
+		
+		if (balance > 30)
 			return 3;
-		else if (Global.balance > 15)
+		else if (balance > 15)
 			return 2;
 		else
 			return 1;
+		
 	}
 
 	// use 1min instead of 5min
