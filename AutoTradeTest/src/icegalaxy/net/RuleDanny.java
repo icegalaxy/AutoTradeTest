@@ -186,7 +186,7 @@ public class RuleDanny extends Rules {
 				return -100;
 		}
 		
-		return 100;
+		return 30;
 	}
 
 	@Override
