@@ -67,26 +67,32 @@ public class RuleTest2 extends Rules {
 	// use 1min instead of 5min
 	void updateStopEarn() {
 
-
-
 		if (Global.getNoOfContracts() > 0) {
+			
+			if (tempCutLoss < Global.getCurrentPoint() - 30){
+				tempCutLoss = Global.getCurrentPoint() - 30;
+			}
 
 			if (buyingPoint > tempCutLoss && getProfit() > 30){
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint;
 			}
 			
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) && getProfit() > 50)
 				tempCutLoss = 99999;
 			
 		} else if (Global.getNoOfContracts() < 0) {
+			
+			if (tempCutLoss > Global.getCurrentPoint() + 30){
+				tempCutLoss = Global.getCurrentPoint() + 30;
+			}
 
 			if (buyingPoint < tempCutLoss && getProfit() > 30){
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint;
 			}
 			
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) && getProfit() > 50)
 				tempCutLoss = 0;
 
 		}
@@ -96,8 +102,8 @@ public class RuleTest2 extends Rules {
 	// use 1min instead of 5min
 	double getCutLossPt() {
 
-		if (cutLoss < 5)
-			return 5;
+		if (cutLoss < 10)
+			return 10;
 		else
 			return cutLoss;
 
@@ -116,27 +122,6 @@ public class RuleTest2 extends Rules {
 		}
 	}
 
-	private void firstCorner() {
-
-		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)) {
-			// wait for a better position
-			Global.addLog(className + ": waiting for the first corner");
-
-			while (getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
-
-			firstCorner = false;
-
-		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)) {
-
-			Global.addLog(className + ": waiting for the first corner");
-
-			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-				wanPrevious.middleWaiter(wanNext);
-
-			firstCorner = false;
-		}
-	}
 
 	double getStopEarnPt() {
 		
@@ -146,7 +131,7 @@ public class RuleTest2 extends Rules {
 			return -100;
 		
 		//有可能行夠50點都未 5 > 6，咁會即刻食左
-		return  50;
+		return  30;
 	}
 
 	@Override
