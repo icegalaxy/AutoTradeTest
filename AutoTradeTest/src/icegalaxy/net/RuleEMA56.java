@@ -260,6 +260,15 @@ public class RuleEMA56 extends Rules {
 		}
 
 	}
+	
+	private int getLossTimesAllowed(){
+		if (Global.balance > 30)
+			return 3;
+		else if (Global.balance > 15)
+			return 2;
+		else
+			return 1;
+	}
 
 	// use 1min instead of 5min
 	double getCutLossPt() {

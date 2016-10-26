@@ -22,7 +22,7 @@ public class RuleDanny extends Rules {
 		}
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0
-				|| lossTimes >= 2)
+				|| lossTimes >= getLossTimesAllowed())
 			return;
 
 		if (isUpTrend()
@@ -54,6 +54,12 @@ public class RuleDanny extends Rules {
 		
 	}
 
+	private int getLossTimesAllowed(){
+		if (Global.balance > 15)
+			return 2;
+		else
+			return 1;
+	}
 	
 
 	// use 1min instead of 5min

@@ -60,6 +60,7 @@ public class RuleTest2 extends Rules {
 		}
 	
 	}
+	
 		
 //		openOHLC(Global.getpHigh());
 
