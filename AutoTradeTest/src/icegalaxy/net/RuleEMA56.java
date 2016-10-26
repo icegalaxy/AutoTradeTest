@@ -1,6 +1,5 @@
 package icegalaxy.net;
 
-import org.jfree.data.time.TimePeriod;
 
 //Use the OPEN Line
 
@@ -9,7 +8,7 @@ public class RuleEMA56 extends Rules
 
 	private int lossTimes;
 	// private double refEMA;
-	private boolean firstCorner = true;
+
 	private double cutLoss;
 	private boolean breakEven;
 
