@@ -687,7 +687,7 @@ public abstract class Rules implements Runnable
 
 	public boolean isDownTrend()
 	{
-		return StockDataController.getM15TB().getMA(20) < StockDataController.getM15TB().getEMA(50)
+		return StockDataController.getM15TB().getMA(20) < StockDataController.getM15TB().getEMA(50) 
 				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240);
 //				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getM15TB()
 //						.getMA(20)

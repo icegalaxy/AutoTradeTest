@@ -284,7 +284,7 @@ public class Setting extends JFrame {
 		Global.isTrendingMrt = trendingBtn.isSelected();
 		Global.isSidewayMrt = sidewayBtn.isSelected();
 
-		int noOfThreads = 11;
+		int noOfThreads = 12;
 
 		WaitAndNotify[] wan = new WaitAndNotify[noOfThreads];
 
@@ -378,10 +378,12 @@ public class Setting extends JFrame {
 		RuleEMA56 ema56 = new RuleEMA56(wan[3], wan[4], true); 
 		RuleTest2 test2 = new RuleTest2(wan[2], wan[3], true); 
 		RulePHigh pH = new RulePHigh(wan[4], wan[5], false); 
-		RuleDanny danny = new RuleDanny(wan[5], wan[6], true);
+		RuleDanny240 danny240 = new RuleDanny240(wan[5], wan[6], true);
+
 		RulePLow pL = new RulePLow(wan[6], wan[7], false);
 		RuleIBT ibt = new RuleIBT(wan[7], wan[8], true);
 		RuleSylvia sylvia = new RuleSylvia(wan[8], wan[9], false);
+		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], true);
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M
 //		RuleBouncing3 bouncing3 = new RuleBouncing3(wan[19], wan[20], false);
@@ -390,7 +392,7 @@ public class Setting extends JFrame {
 
 //		RuleSeconds sec = new RuleSeconds(wan[23], wan[24], false);
 		
-		Runnable[] r = {sdc, tpd,  login, ruleRSI, ema56, test2, pH, danny, pL, ibt, sylvia};
+		Runnable[] r = {sdc, tpd,  login, ruleRSI, ema56, test2, pH, danny240, pL, ibt, sylvia, danny50};
 		
 		Thread[] t = new Thread[noOfThreads];
 
