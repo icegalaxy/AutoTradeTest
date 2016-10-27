@@ -10,7 +10,7 @@ public class RuleIBT extends Rules
 	public RuleIBT(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(91800, 92000, 160000, 160000, 230000, 230000);
+		setOrderTime(91600, 92000, 160000, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -26,7 +26,13 @@ public class RuleIBT extends Rules
 //		Global.addLog("EMA240: " + getTimeBase().getEMA(240));
 //		Global.addLog("0");
 		
-		if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240))
+		if (Global.getCurrentPoint() > Global.getOpen() + 30 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240)){
+		
+			longContract();
+			cutLoss = Math.abs(buyingPoint - Global.getOpen());
+			Global.addLog("cutLoss: " + cutLoss);
+		
+		}else if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
 		{
 
 			longContract();
@@ -37,7 +43,14 @@ public class RuleIBT extends Rules
 			Global.addLog("cutLoss: " + cutLoss);
 			
 
-		} else if (Global.getCurrentPoint() < Global.getOpen() - 15 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240))
+		}else if (Global.getCurrentPoint() < Global.getOpen() - 30 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240)){
+			shortContract();
+			cutLoss = Math.abs(buyingPoint - Global.getOpen());
+			Global.addLog("cutLoss: " + cutLoss);
+		}
+		
+		
+		else if (Global.getCurrentPoint() < Global.getOpen() - 15 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
 		{
 			
 
