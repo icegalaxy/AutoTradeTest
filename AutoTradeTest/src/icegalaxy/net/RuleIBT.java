@@ -5,6 +5,7 @@ package icegalaxy.net;
 public class RuleIBT extends Rules
 {
 	private double cutLoss;
+	private boolean traded;
 
 	public RuleIBT(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
@@ -17,7 +18,7 @@ public class RuleIBT extends Rules
 	{
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown
-				|| TimePeriodDecider.getTime() > 92000 || Global.getOpen() == 0)
+				|| TimePeriodDecider.getTime() > 92000 || Global.getOpen() == 0 || traded)
 			return;
 
 		Global.addLog("Open: " + Global.getOpen());
@@ -28,6 +29,7 @@ public class RuleIBT extends Rules
 		if (Global.getCurrentPoint() > Global.getOpen() + 30 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240)){
 		
 			longContract();
+			traded = true;
 			cutLoss = Math.abs(buyingPoint - Global.getOpen());
 			Global.addLog("cutLoss: " + cutLoss);
 		
@@ -35,6 +37,7 @@ public class RuleIBT extends Rules
 		{
 
 			longContract();
+			traded = true;
 			cutLoss = Math.abs(buyingPoint - Global.getOpen());
 			
 //			Global.addLog("BuyingPt: " + buyingPoint);
@@ -44,6 +47,7 @@ public class RuleIBT extends Rules
 
 		}else if (Global.getCurrentPoint() < Global.getOpen() - 30 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240)){
 			shortContract();
+			traded = true;
 			cutLoss = Math.abs(buyingPoint - Global.getOpen());
 			Global.addLog("cutLoss: " + cutLoss);
 		}
@@ -55,9 +59,12 @@ public class RuleIBT extends Rules
 
 
 			shortContract();
+			traded = true;
 			cutLoss = Math.abs(buyingPoint - Global.getOpen());
 			Global.addLog("cutLoss: " + cutLoss);
 		}
+		
+		wanPrevious.middleWaiter(wanNext);
 
 	}
 
