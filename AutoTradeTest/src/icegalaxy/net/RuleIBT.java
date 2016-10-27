@@ -4,7 +4,6 @@ package icegalaxy.net;
 
 public class RuleIBT extends Rules
 {
-
 	private double cutLoss;
 
 	public RuleIBT(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
