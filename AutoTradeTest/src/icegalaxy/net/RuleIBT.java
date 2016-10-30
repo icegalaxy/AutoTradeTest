@@ -26,14 +26,15 @@ public class RuleIBT extends Rules
 //		Global.addLog("EMA240: " + getTimeBase().getEMA(240));
 //		Global.addLog("0");
 		
-		if (Global.getCurrentPoint() > Global.getOpen() + 30 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240)){
+//		if (Global.getCurrentPoint() > Global.getOpen() + 30 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240)){
 		
-			longContract();
-			traded = true;
-			cutLoss = Math.abs(buyingPoint - Global.getOpen());
-			Global.addLog("cutLoss: " + cutLoss);
+//			longContract();
+//			traded = true;
+//			cutLoss = Math.abs(buyingPoint - Global.getOpen());
+//			Global.addLog("cutLoss: " + cutLoss);
 		
-		}else if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
+//		 }else 
+			if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
 		{
 
 			longContract();
@@ -45,12 +46,13 @@ public class RuleIBT extends Rules
 			Global.addLog("cutLoss: " + cutLoss);
 			
 
-		}else if (Global.getCurrentPoint() < Global.getOpen() - 30 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240)){
-			shortContract();
-			traded = true;
-			cutLoss = Math.abs(buyingPoint - Global.getOpen());
-			Global.addLog("cutLoss: " + cutLoss);
 		}
+//			else if (Global.getCurrentPoint() < Global.getOpen() - 30 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240)){
+//			shortContract();
+//			traded = true;
+//			cutLoss = Math.abs(buyingPoint - Global.getOpen());
+//			Global.addLog("cutLoss: " + cutLoss);
+//		}
 		
 		
 		else if (Global.getCurrentPoint() < Global.getOpen() - 15 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
