@@ -375,15 +375,15 @@ public class Setting extends JFrame {
 //				false); // bad
 
 		
-		RuleEMA56 ema56 = new RuleEMA56(wan[3], wan[4], false); 
-		RuleTest2 test2 = new RuleTest2(wan[2], wan[3], false); 
+		RuleEMA56 ema56 = new RuleEMA56(wan[3], wan[4], true); 
+		RuleTest2 test2 = new RuleTest2(wan[2], wan[3], true); 
 		RulePHigh pH = new RulePHigh(wan[4], wan[5], false); 
-		RuleDanny240 danny240 = new RuleDanny240(wan[5], wan[6], false);
+		RuleDanny240 danny240 = new RuleDanny240(wan[5], wan[6], true);
 
 		RulePLow pL = new RulePLow(wan[6], wan[7], false);
 		RuleIBT ibt = new RuleIBT(wan[7], wan[8], true);
 		RuleSylvia sylvia = new RuleSylvia(wan[8], wan[9], false);
-		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], false);
+		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], true);
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M
 //		RuleBouncing3 bouncing3 = new RuleBouncing3(wan[19], wan[20], false);

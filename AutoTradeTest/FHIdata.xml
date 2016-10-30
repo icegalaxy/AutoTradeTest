@@ -481,11 +481,67 @@
 	</OHLC>
 	
 	<OHLC>
-		<date> 161025 </date>
+		<date> 161024 </date>
 		<pOpen> 23390 </pOpen>
 		<pHigh> 23503 </pHigh>
 		<pLow> 23350 </pLow>
 		<pClose> 23400 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161025 </date>
+		<pOpen> 23355 </pOpen>
+		<pHigh> 23642 </pHigh>
+		<pLow> 23218 </pLow>
+		<pClose> 23613 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161026 </date>
+		<pOpen> 23569 </pOpen>
+		<pHigh> 23653 </pHigh>
+		<pLow> 23497 </pLow>
+		<pClose> 23614 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161027 </date>
+		<pOpen> 23439 </pOpen>
+		<pHigh> 23465 </pHigh>
+		<pLow> 23288 </pLow>
+		<pClose> 23314 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161028 </date>
+		<pOpen> 23315 </pOpen>
+		<pHigh> 23348 </pHigh>
+		<pLow> 22980 </pLow>
+		<pClose> 23144 </pClose>
 		<pFluctuation>  </pFluctuation>
 		<AOH>  </AOH>
 		<AOL>  </AOL>

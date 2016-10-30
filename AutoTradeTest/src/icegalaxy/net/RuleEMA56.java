@@ -50,8 +50,8 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a pull back");
 			refPt = Global.getCurrentPoint();
 			
-			Global.addLog("Latest Close; " + getTimeBase().getLatestCandle().getClose());
-			Global.addLog("Previous Low; " + getTimeBase().getPreviousCandle(1).getLow());
+//			Global.addLog("Latest Close; " + getTimeBase().getLatestCandle().getClose());
+//			Global.addLog("Previous Low; " + getTimeBase().getPreviousCandle(1).getLow());
 
 			while (getTimeBase().getLatestCandle().getClose() > getTimeBase().getPreviousCandle(1).getLow()) {
 				wanPrevious.middleWaiter(wanNext);
@@ -86,8 +86,8 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a pull back");
 			refPt = Global.getCurrentPoint();
 
-			Global.addLog("Latest Close; " + getTimeBase().getLatestCandle().getClose());
-			Global.addLog("Previous High; " + getTimeBase().getPreviousCandle(1).getHigh());
+//			Global.addLog("Latest Close; " + getTimeBase().getLatestCandle().getClose());
+//			Global.addLog("Previous High; " + getTimeBase().getPreviousCandle(1).getHigh());
 			
 			while (getTimeBase().getLatestCandle().getClose() < getTimeBase().getPreviousCandle(1).getHigh()) {
 				wanPrevious.middleWaiter(wanNext);
