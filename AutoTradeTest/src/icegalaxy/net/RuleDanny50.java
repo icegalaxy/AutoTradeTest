@@ -56,7 +56,7 @@ public class RuleDanny50 extends Rules
 			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
 
 			while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getMA(20)
-//					&& Math.abs(Global.getCurrentPoint() - refPt) < 30
+					&& Math.abs(Global.getCurrentPoint() - refPt) < 30
 					)
 			{
 				wanPrevious.middleWaiter(wanNext);
@@ -75,11 +75,11 @@ public class RuleDanny50 extends Rules
 
 			}
 			
-			if (Math.abs(Global.getCurrentPoint() - refPt) > 50)
-			{
-				Global.addLog("Risk too high");
-				return;
-			}
+//			if (Math.abs(Global.getCurrentPoint() - refPt) > 50)
+//			{
+//				Global.addLog("Risk too high");
+//				return;
+//			}
 			
 			longContract();
 			cutLossPt = Math.abs(buyingPoint - refPt);
@@ -107,7 +107,7 @@ public class RuleDanny50 extends Rules
 			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
 
 			while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getMA(20)
-//					&& Math.abs(Global.getCurrentPoint() - refPt) < 30
+					&& Math.abs(Global.getCurrentPoint() - refPt) < 30
 					)
 			{
 
@@ -125,11 +125,11 @@ public class RuleDanny50 extends Rules
 				}
 			}
 			
-			if (Math.abs(Global.getCurrentPoint() - refPt) > 50)
-			{
-				Global.addLog("Risk too high");
-				return;
-			}
+//			if (Math.abs(Global.getCurrentPoint() - refPt) > 50)
+//			{
+//				Global.addLog("Risk too high");
+//				return;
+//			}
 
 			shortContract();
 			cutLossPt = Math.abs(buyingPoint - refPt);
@@ -180,11 +180,11 @@ public class RuleDanny50 extends Rules
 		if (Global.getNoOfContracts() > 0)
 		{
 
-			if (buyingPoint > tempCutLoss && getProfit() > 30)
-			{
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint + 5;
-			}
+//			if (buyingPoint > tempCutLoss && getProfit() > 30)
+//			{
+//				Global.addLog("Free trade");
+//				tempCutLoss = buyingPoint + 5;
+//			}
 
 			if (ema5 < ema6 && getProfit() > 50)
 			{
@@ -194,13 +194,13 @@ public class RuleDanny50 extends Rules
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			if (buyingPoint < tempCutLoss && getProfit() > 30)
-			{
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint - 5;
-			}
+//			if (buyingPoint < tempCutLoss && getProfit() > 30)
+//			{
+//				Global.addLog("Free trade");
+//				tempCutLoss = buyingPoint - 5;
+//			}
 
-			if (ema5 > ema6)
+			if (ema5 > ema6 && getProfit() > 50)
 			{
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 x MA20");
