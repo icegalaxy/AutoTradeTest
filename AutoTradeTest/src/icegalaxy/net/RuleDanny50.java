@@ -28,8 +28,9 @@ public class RuleDanny50 extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= getLossTimesAllowed())
 			return;
 //		
-//		while (Math.abs(Global.getCurrentPoint() - getTimeBase().getEMA(50)) < 10)
-//			wanPrevious.middleWaiter(wanNext);
+		//in case it is a small range
+		while (Math.abs(Global.getCurrentPoint() - getTimeBase().getEMA(50)) < 50)
+			wanPrevious.middleWaiter(wanNext);
 
 		while (Math.abs(Global.getCurrentPoint() - getTimeBase().getEMA(50)) > 10)
 			wanPrevious.middleWaiter(wanNext);
