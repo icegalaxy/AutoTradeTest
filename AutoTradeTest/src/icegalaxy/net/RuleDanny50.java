@@ -12,7 +12,7 @@ public class RuleDanny50 extends Rules
 	public RuleDanny50(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(91600, 113000, 130500, 160000, 172000, 231500);
+		setOrderTime(91600, 113000, 130500, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -27,6 +27,9 @@ public class RuleDanny50 extends Rules
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= getLossTimesAllowed())
 			return;
+//		
+//		while (Math.abs(Global.getCurrentPoint() - getTimeBase().getEMA(50)) < 10)
+//			wanPrevious.middleWaiter(wanNext);
 
 		while (Math.abs(Global.getCurrentPoint() - getTimeBase().getEMA(50)) > 10)
 			wanPrevious.middleWaiter(wanNext);
@@ -52,15 +55,12 @@ public class RuleDanny50 extends Rules
 			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
 
 			while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getMA(20)
-					&& Math.abs(Global.getCurrentPoint() - refPt) < 30)
+//					&& Math.abs(Global.getCurrentPoint() - refPt) < 30
+					)
 			{
 				wanPrevious.middleWaiter(wanNext);
 
-//				if (Math.abs(Global.getCurrentPoint() - refPt) > 30)
-//				{
-//					Global.addLog("Risk too high");
-//					return;
-//				}
+			
 				
 				
 				if (!isUpTrend())
@@ -73,6 +73,13 @@ public class RuleDanny50 extends Rules
 					refPt = Global.getCurrentPoint();
 
 			}
+			
+			if (Math.abs(Global.getCurrentPoint() - refPt) > 50)
+			{
+				Global.addLog("Risk too high");
+				return;
+			}
+			
 			longContract();
 			cutLossPt = Math.abs(buyingPoint - refPt);
 			Global.addLog("Before Low: " + refPt);
@@ -99,16 +106,13 @@ public class RuleDanny50 extends Rules
 			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
 
 			while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getMA(20)
-					&& Math.abs(Global.getCurrentPoint() - refPt) < 30)
+//					&& Math.abs(Global.getCurrentPoint() - refPt) < 30
+					)
 			{
 
 				wanPrevious.middleWaiter(wanNext);
 
-//				if (Math.abs(Global.getCurrentPoint() - refPt) > 30)
-//				{
-//					Global.addLog("Risk too high");
-//					return;
-//				}
+			
 				
 				if (Global.getCurrentPoint() > refPt)
 					refPt = Global.getCurrentPoint();
@@ -118,6 +122,12 @@ public class RuleDanny50 extends Rules
 					Global.addLog("Trend Change");
 					return;
 				}
+			}
+			
+			if (Math.abs(Global.getCurrentPoint() - refPt) > 50)
+			{
+				Global.addLog("Risk too high");
+				return;
 			}
 
 			shortContract();

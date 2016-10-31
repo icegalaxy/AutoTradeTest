@@ -21,7 +21,7 @@ public class RuleIBT extends Rules
 				|| TimePeriodDecider.getTime() > 92000 || Global.getOpen() == 0 || traded)
 			return;
 
-		Global.addLog("Open: " + Global.getOpen());
+//		Global.addLog("Open: " + Global.getOpen());
 //		Global.addLog("EMA50: " + getTimeBase().getEMA(50));
 //		Global.addLog("EMA240: " + getTimeBase().getEMA(240));
 //		Global.addLog("0");
