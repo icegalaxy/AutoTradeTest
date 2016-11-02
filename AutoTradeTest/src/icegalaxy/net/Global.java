@@ -407,6 +407,33 @@ public class Global {
 	public static synchronized void setOpenDown(boolean pOpenDown) {
 		Global.OpenDown = pOpenDown;
 	}
+	
+	
+	
+	
+	
+	public static synchronized boolean isChaseUp()
+	{
+		return chaseUp;
+	}
+
+	public static synchronized void setChaseUp(boolean chaseUp)
+	{
+		Global.chaseUp = chaseUp;
+	}
+
+	public static synchronized boolean isChaseDown()
+	{
+		return chaseDown;
+	}
+
+	public static synchronized void setChaseDown(boolean chaseDown)
+	{
+		Global.chaseDown = chaseDown;
+	}
+
+	static boolean chaseUp;
+	static boolean chaseDown;
 
 	static double pOpen;
 	static boolean OpenDown;
