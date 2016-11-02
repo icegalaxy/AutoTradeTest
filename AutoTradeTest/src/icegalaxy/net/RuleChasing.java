@@ -16,13 +16,21 @@ public class RuleChasing extends Rules
 	public void openContract()
 	{
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getChasing().getRefHL() == 0)
 			return;
+		
+		Chasing chasing = Global.getChasing();
 
-		if (Global.isChaseUp() && getTimeBase().getEMA(5) < getTimeBase().getEMA(6)){
+		if (chasing.chaseUp()){
 			
 			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)){
 				wanPrevious.middleWaiter(wanNext);
+				
+				if (Global.getCurrentPoint() < chasing.getRefHL()){
+					chasing = new Chasing(0);
+					Global.addLog(className + ": Lower than previous low");
+				}
+				
 			}
 			
 		}

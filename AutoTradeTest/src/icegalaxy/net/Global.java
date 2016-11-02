@@ -409,31 +409,19 @@ public class Global {
 	}
 	
 	
-	
-	
-	
-	public static synchronized boolean isChaseUp()
+
+
+	public static synchronized Chasing getChasing()
 	{
-		return chaseUp;
+		return chasing;
 	}
 
-	public static synchronized void setChaseUp(boolean chaseUp)
+	public static synchronized void setChasing(Chasing chasing)
 	{
-		Global.chaseUp = chaseUp;
+		Global.chasing = chasing;
 	}
 
-	public static synchronized boolean isChaseDown()
-	{
-		return chaseDown;
-	}
-
-	public static synchronized void setChaseDown(boolean chaseDown)
-	{
-		Global.chaseDown = chaseDown;
-	}
-
-	static boolean chaseUp;
-	static boolean chaseDown;
+	static Chasing chasing;
 
 	static double pOpen;
 	static boolean OpenDown;
