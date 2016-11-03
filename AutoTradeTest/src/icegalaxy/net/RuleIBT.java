@@ -7,6 +7,8 @@ public class RuleIBT extends Rules
 	private double cutLoss;
 	private boolean traded;
 	private Chasing chasing;
+	
+
 
 
 	public RuleIBT(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
@@ -14,9 +16,18 @@ public class RuleIBT extends Rules
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(91600, 92000, 160000, 160000, 230000, 230000);
 		chasing = new Chasing(0);
+		
+
 		// wait for EMA6, that's why 0945
 	}
+	
+	private double getShortMA(){
+		return StockDataController.getShortTB().getEMA(5);
+	}
 
+	private double getLongMA(){
+		return StockDataController.getShortTB().getEMA(6);
+	}
 	public void openContract()
 	{
 		
@@ -89,15 +100,12 @@ public class RuleIBT extends Rules
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-		float shortMA;
-		float LongMA;
+
 
 		// if (getProfit() > 50 && getProfit() < 100){
-		shortMA = StockDataController.getShortTB().getEMA(5);
-		LongMA = StockDataController.getShortTB().getEMA(6);
 		// }else
 		// {
-//		 shortMA = getTimeBase().getEMA(5);
+//		 getShortMA() = getTimeBase().getEMA(5);
 //		 LongMA = getTimeBase().getEMA(6);
 		// }
 
@@ -107,14 +115,14 @@ public class RuleIBT extends Rules
 			if (Global.getCurrentPoint() > refPt)
 				refPt = Global.getCurrentPoint();
 
-			if (shortMA < LongMA && getProfit() > 30)
+			if (getShortMA() < getLongMA() && getProfit() > 30)
 			{
 				tempCutLoss = 99999;
-				
+				chasing.setRefHL(refPt);
+				chasing.setChaseUp(true);
 			}
 			
-			chasing.setRefHL(refPt);
-			chasing.setChaseUp(true);
+	
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
@@ -122,14 +130,15 @@ public class RuleIBT extends Rules
 			if (Global.getCurrentPoint() < refPt)
 				refPt = Global.getCurrentPoint();
 
-			if (shortMA > LongMA && getProfit() > 30)
+			if (getShortMA() > getLongMA() && getProfit() > 30)
 			{
 				tempCutLoss = 0;
+				chasing.setRefHL(refPt);
+				chasing.setChaseDown(true);
 				
 			}
 			
-			chasing.setRefHL(refPt);
-			chasing.setChaseDown(true);
+	
 
 		}
 
@@ -160,13 +169,9 @@ public class RuleIBT extends Rules
 	double getStopEarnPt()
 	{
 		
-		float shortMA;
-		float LongMA;
+
 		
-		shortMA = StockDataController.getShortTB().getEMA(5);
-		LongMA = StockDataController.getShortTB().getEMA(6);
-		
-//		shortMA = getTimeBase().getEMA(5);
+//		getShortMA() = getTimeBase().getEMA(5);
 //		LongMA = getTimeBase().getEMA(6);
 		
 		if (Global.getNoOfContracts() > 0)
@@ -183,7 +188,7 @@ public class RuleIBT extends Rules
 			if (Global.getCurrentPoint() > refPt)
 				refPt = Global.getCurrentPoint();
 
-			if (shortMA > LongMA && getProfit() > 30)
+			if (getShortMA() > getLongMA() && getProfit() > 30)
 				return -100;
 
 		} else if (Global.getNoOfContracts() < 0)
@@ -202,11 +207,11 @@ public class RuleIBT extends Rules
 //				chasing.setChaseDown(true);
 //			}
 
-			if (shortMA < LongMA && getProfit() > 30)
+			if (getShortMA() < getLongMA() && getProfit() > 30)
 				return -100;
 		}
 
-		return 50;
+		return 30;
 	}
 
 	@Override
