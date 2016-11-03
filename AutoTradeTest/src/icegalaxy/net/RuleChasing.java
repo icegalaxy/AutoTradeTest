@@ -18,22 +18,84 @@ public class RuleChasing extends Rules
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getChasing().getRefHL() == 0)
 			return;
-		
-		Chasing chasing = Global.getChasing();
 
-		if (chasing.chaseUp()){
-			
-			while (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)){
+		Chasing chasing = Global.getChasing();
+		Global.addLog(className + ": refPt " + chasing.getRefHL());
+
+		if (chasing.chaseUp())
+		{
+			Global.addLog(className + ": Chasing Up");
+
+			refPt = Global.getCurrentPoint();
+
+			while (Global.getCurrentPoint() < chasing.getRefHL())
+			{
 				wanPrevious.middleWaiter(wanNext);
-				
-				if (Global.getCurrentPoint() < chasing.getRefHL()){
+
+				if (Global.getCurrentPoint() < refPt)
+					refPt = Global.getCurrentPoint();
+
+//				if (Global.getCurrentPoint() < chasing.getRefHL())
+//				{
+//					chasing = new Chasing(0);
+//					Global.setChasing(chasing);
+//					Global.addLog(className + ": Lower than previous low");
+//					return;
+//				}
+
+				if (Global.getCurrentPoint() - refPt > 100)
+				{
 					chasing = new Chasing(0);
-					Global.addLog(className + ": Lower than previous low");
+					Global.setChasing(chasing);
+					Global.addLog(className + ": Risk too high");
+					return;
 				}
-				
+
 			}
-			
+
+			longContract();
+			cutLoss = buyingPoint - refPt;
+			chasing = new Chasing(0);
+			Global.setChasing(chasing);
+
+		} else if (chasing.chaseDown())
+		{
+			Global.addLog(className + ": Chasing Down");
+			refPt = Global.getCurrentPoint();
+
+			while (Global.getCurrentPoint() > chasing.getRefHL())
+			{
+				wanPrevious.middleWaiter(wanNext);
+
+				if (Global.getCurrentPoint() > refPt)
+					refPt = Global.getCurrentPoint();
+
+//				if (Global.getCurrentPoint() > chasing.getRefHL())
+//				{
+//					chasing = new Chasing(0);
+//					Global.setChasing(chasing);
+//					Global.addLog(className + ": Higher than previous High");
+//					return;
+//				}
+
+				if (refPt - Global.getCurrentPoint() > 100)
+				{
+					chasing = new Chasing(0);
+					Global.setChasing(chasing);
+					Global.addLog(className + ": Risk too high");
+					return;
+				}
+
+			}
+
+			shortContract();
+			cutLoss = refPt - buyingPoint;
+			chasing = new Chasing(0);
+			Global.setChasing(chasing);
+
 		}
+
+		wanPrevious.middleWaiter(wanNext);
 
 	}
 
@@ -42,28 +104,38 @@ public class RuleChasing extends Rules
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-		float ema5;
-		float ema6;
-		
-		if (getProfit() > 50 && getProfit() < 100){
-			ema5 = StockDataController.getShortTB().getEMA(5);
-			ema6 = StockDataController.getShortTB().getEMA(6);
-		}else
-		{
-			ema5 = getTimeBase().getEMA(5);
-			ema6 = getTimeBase().getEMA(6);
-		}
+		float shortMA;
+		float LongMA;
+
+		// if (getProfit() > 50 && getProfit() < 100){
+		shortMA = StockDataController.getShortTB().getEMA(5);
+		LongMA = StockDataController.getShortTB().getEMA(6);
+		// }else
+		// {
+		// shortMA = getTimeBase().getEMA(5);
+		// LongMA = getTimeBase().getEMA(6);
+		// }
 
 		if (Global.getNoOfContracts() > 0)
 		{
-			if (ema5 < ema6 && getProfit() > 30)
+			if (shortMA < LongMA)
+			{
 				tempCutLoss = 99999;
+				Chasing chasing = new Chasing(StockDataController.getShortTB().getLatestCandle().getLow());
+				chasing.setChaseUp(true);
+				Global.setChasing(chasing);
+			}
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			if (ema5 > ema6 && getProfit() > 30)
+			if (shortMA > LongMA)
+			{
 				tempCutLoss = 0;
+				Chasing chasing = new Chasing(StockDataController.getShortTB().getLatestCandle().getLow());
+				chasing.setChaseDown(true);
+				Global.setChasing(chasing);
+			}
 
 		}
 
@@ -72,7 +144,10 @@ public class RuleChasing extends Rules
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return cutLoss + 10;
+		if (cutLoss < 15)
+			return 15;
+		else
+			return cutLoss;
 	}
 
 	@Override
@@ -93,10 +168,10 @@ public class RuleChasing extends Rules
 
 	double getStopEarnPt()
 	{
-		if (Global.getNoOfContracts() > 0 && getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-			return -100;
-		else if (Global.getNoOfContracts() < 0 && getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-			return -100;
+//		if (Global.getNoOfContracts() > 0 && StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getMA(20))
+//			return -100;
+//		else if (Global.getNoOfContracts() < 0 && StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getMA(20))
+//			return -100;
 
 		return 30;
 	}
@@ -106,7 +181,5 @@ public class RuleChasing extends Rules
 	{
 		return StockDataController.getShortTB();
 	}
-	
-
 
 }

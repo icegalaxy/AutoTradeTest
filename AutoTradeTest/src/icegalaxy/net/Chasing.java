@@ -3,7 +3,7 @@ package icegalaxy.net;
 public class Chasing
 {
 
-	double refHL;
+	double refHL = 0;
 	boolean chaseUp;
 	boolean chaseDown;
 	

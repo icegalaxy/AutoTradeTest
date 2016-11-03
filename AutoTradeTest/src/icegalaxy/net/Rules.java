@@ -374,11 +374,13 @@ public abstract class Rules implements Runnable
 				return;
 			}
 
-			updateCutLoss();
-			cutLoss();
 
 			updateStopEarn();
 			stopEarn();
+			
+			updateCutLoss();
+			cutLoss();
+
 
 			// System.out.println("Temp Stop Earn" + tempCutLoss);
 
