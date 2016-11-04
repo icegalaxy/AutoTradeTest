@@ -6,91 +6,66 @@ public class RuleIBT extends Rules
 {
 	private double cutLoss;
 	private boolean traded;
-	private Chasing chasing;
-	
-
-
 
 	public RuleIBT(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(91600, 92000, 160000, 160000, 230000, 230000);
-		chasing = new Chasing(0);
-		
-
 		// wait for EMA6, that's why 0945
 	}
-	
-	private double getShortMA(){
-		return StockDataController.getShortTB().getEMA(5);
-	}
 
-	private double getLongMA(){
-		return StockDataController.getShortTB().getEMA(6);
-	}
 	public void openContract()
 	{
-		
-		if (chasing.getRefHL() != 0){
-			
-//			Global.addLog("IBT start chasing");
-			
-			Global.setChasing(chasing);
-			chasing = new Chasing(0);
-		}
-		
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || TimePeriodDecider.getTime() > 92000
-				|| Global.getOpen() == 0 || traded)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown
+				|| TimePeriodDecider.getTime() > 92000 || Global.getOpen() == 0 || traded)
 			return;
 
-		// Global.addLog("Open: " + Global.getOpen());
-		// Global.addLog("EMA50: " + getTimeBase().getEMA(50));
-		// Global.addLog("EMA240: " + getTimeBase().getEMA(240));
-		// Global.addLog("0");
-
-		// if (Global.getCurrentPoint() > Global.getOpen() + 30 &&
-		// Global.getOpen() > Global.getpClose() + 10 &&
-		// Global.getCurrentPoint() > getTimeBase().getMA(240)){
-
-		// longContract();
-		// traded = true;
-		// cutLoss = Math.abs(buyingPoint - Global.getOpen());
-		// Global.addLog("cutLoss: " + cutLoss);
-
-		// }else
-		if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() + 10
-				&& Global.getCurrentPoint() > getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
+//		Global.addLog("Open: " + Global.getOpen());
+//		Global.addLog("EMA50: " + getTimeBase().getEMA(50));
+//		Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+//		Global.addLog("0");
+		
+//		if (Global.getCurrentPoint() > Global.getOpen() + 30 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240)){
+		
+//			longContract();
+//			traded = true;
+//			cutLoss = Math.abs(buyingPoint - Global.getOpen());
+//			Global.addLog("cutLoss: " + cutLoss);
+		
+//		 }else 
+			if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
 		{
 
 			longContract();
 			traded = true;
 			cutLoss = Math.abs(buyingPoint - Global.getOpen());
-
-			// Global.addLog("BuyingPt: " + buyingPoint);
-			// Global.addLog("Open: " + Global.getOpen());
+			
+//			Global.addLog("BuyingPt: " + buyingPoint);
+//			Global.addLog("Open: " + Global.getOpen());
 			Global.addLog("cutLoss: " + cutLoss);
+			
 
 		}
-		// else if (Global.getCurrentPoint() < Global.getOpen() - 30 &&
-		// Global.getOpen() -10 < Global.getpClose() && Global.getCurrentPoint()
-		// < getTimeBase().getMA(240)){
-		// shortContract();
-		// traded = true;
-		// cutLoss = Math.abs(buyingPoint - Global.getOpen());
-		// Global.addLog("cutLoss: " + cutLoss);
-		// }
-
-		else if (Global.getCurrentPoint() < Global.getOpen() - 15 && Global.getOpen() - 10 < Global.getpClose()
-				&& Global.getCurrentPoint() < getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
+//			else if (Global.getCurrentPoint() < Global.getOpen() - 30 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240)){
+//			shortContract();
+//			traded = true;
+//			cutLoss = Math.abs(buyingPoint - Global.getOpen());
+//			Global.addLog("cutLoss: " + cutLoss);
+//		}
+		
+		
+		else if (Global.getCurrentPoint() < Global.getOpen() - 15 && Global.getOpen() -10 < Global.getpClose()  && Global.getCurrentPoint() < getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
 		{
+			
+
 
 			shortContract();
 			traded = true;
 			cutLoss = Math.abs(buyingPoint - Global.getOpen());
 			Global.addLog("cutLoss: " + cutLoss);
 		}
-
+		
 		wanPrevious.middleWaiter(wanNext);
 
 	}
@@ -100,45 +75,28 @@ public class RuleIBT extends Rules
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-
-
-		// if (getProfit() > 50 && getProfit() < 100){
-		// }else
-		// {
-//		 getShortMA() = getTimeBase().getEMA(5);
-//		 LongMA = getTimeBase().getEMA(6);
-		// }
+		float ema5;
+		float ema6;
+		
+		if (getProfit() > 50 && getProfit() < 100){
+			ema5 = StockDataController.getShortTB().getEMA(5);
+			ema6 = StockDataController.getShortTB().getEMA(6);
+		}else
+		{
+			ema5 = getTimeBase().getEMA(5);
+			ema6 = getTimeBase().getEMA(6);
+		}
 
 		if (Global.getNoOfContracts() > 0)
 		{
-
-			if (Global.getCurrentPoint() > refPt)
-				refPt = Global.getCurrentPoint();
-
-			if (getShortMA() < getLongMA() && getProfit() > 30)
-			{
+			if (ema5 < ema6 && getProfit() > 30)
 				tempCutLoss = 99999;
-				chasing.setRefHL(refPt);
-				chasing.setChaseUp(true);
-			}
-			
-	
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			if (Global.getCurrentPoint() < refPt)
-				refPt = Global.getCurrentPoint();
-
-			if (getShortMA() > getLongMA() && getProfit() > 30)
-			{
+			if (ema5 > ema6 && getProfit() > 30)
 				tempCutLoss = 0;
-				chasing.setRefHL(refPt);
-				chasing.setChaseDown(true);
-				
-			}
-			
-	
 
 		}
 
@@ -168,48 +126,10 @@ public class RuleIBT extends Rules
 
 	double getStopEarnPt()
 	{
-		
-
-		
-//		getShortMA() = getTimeBase().getEMA(5);
-//		LongMA = getTimeBase().getEMA(6);
-		
-		if (Global.getNoOfContracts() > 0)
-		{
-			
-//			if (getProfit() > 30){
-//				tempCutLoss = buyingPoint + 5;
-//				Global.addLog("Free trade");
-//				chasing.setRefHL(refPt);
-//				chasing.setChaseUp(true);
-//			}
-			
-
-			if (Global.getCurrentPoint() > refPt)
-				refPt = Global.getCurrentPoint();
-
-			if (getShortMA() > getLongMA() && getProfit() > 30)
-				return -100;
-
-		} else if (Global.getNoOfContracts() < 0)
-		{
-			
-
-			
-
-			if (Global.getCurrentPoint() < refPt)
-				refPt = Global.getCurrentPoint();
-			
-//			if (getProfit() > 30){
-//				tempCutLoss = buyingPoint - 5;
-//				Global.addLog("Free trade");
-//				chasing.setRefHL(refPt);
-//				chasing.setChaseDown(true);
-//			}
-
-			if (getShortMA() < getLongMA() && getProfit() > 30)
-				return -100;
-		}
+		if (Global.getNoOfContracts() > 0 && getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
+			return -100;
+		else if (Global.getNoOfContracts() < 0 && getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
+			return -100;
 
 		return 30;
 	}
@@ -219,5 +139,7 @@ public class RuleIBT extends Rules
 	{
 		return StockDataController.getLongTB();
 	}
+	
+
 
 }
