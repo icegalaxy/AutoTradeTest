@@ -489,6 +489,10 @@ public class TimeBase {
 	public float getMA(int period) {
 		return ti.getMovingAverage(period);
 	}
+	
+	public float getPreviousMA(int period) {
+		return ti.getMovingAverage(period, 1);
+	}
 
 	public float getAGAL(int period) {
 		return agal.getMovingAverage(period);

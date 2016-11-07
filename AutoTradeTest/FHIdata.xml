@@ -550,4 +550,88 @@
 		<stop>  </stop>
 	</OHLC>
 	
+	<OHLC>
+		<date> 161031 </date>
+		<pOpen> 23084 </pOpen>
+		<pHigh> 23139 </pHigh>
+		<pLow> 22813 </pLow>
+		<pClose> 23124 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161101 </date>
+		<pOpen> 22788 </pOpen>
+		<pHigh> 23054 </pHigh>
+		<pLow> 22707 </pLow>
+		<pClose> 22905 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161102 </date>
+		<pOpen> 22920 </pOpen>
+		<pHigh> 23286 </pHigh>
+		<pLow> 22908 </pLow>
+		<pClose> 23225 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161103 </date>
+		<pOpen> 22881 </pOpen>
+		<pHigh> 22936 </pHigh>
+		<pLow> 22765 </pLow>
+		<pClose> 22788 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161104 </date>
+		<pOpen> 22740 </pOpen>
+		<pHigh> 22859 </pHigh>
+		<pLow> 22653 </pLow>
+		<pClose> 22721 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
+	<OHLC>
+		<date> 161107 </date>
+		<pOpen> 22599 </pOpen>
+		<pHigh> 22767 </pHigh>
+		<pLow> 22580 </pLow>
+		<pClose> 22612 </pClose>
+		<pFluctuation>  </pFluctuation>
+		<AOH>  </AOH>
+		<AOL>  </AOL>
+		<open>  </open>
+		<nOpen>  </nOpen>
+		<stop>  </stop>
+	</OHLC>
+	
 </FHIdata>

@@ -36,6 +36,32 @@ public class RuleIBT extends Rules
 //		 }else 
 			if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() + 10 && Global.getCurrentPoint() > getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
 		{
+				
+				while (getTimeBase().getMA(240) < getTimeBase().getPreviousMA(240)){
+					
+					
+//					if (TimePeriodDecider.getTime() > 100000)
+						return;
+					
+//					if (Global.getCurrentPoint() - Global.getOpen() > 100)
+//						return;
+					
+//					while (StockDataController.getShortTB().getRSI() > 50){
+//						
+//						wanPrevious.middleWaiter(wanNext);
+//					}
+//					
+//					while (StockDataController.getShortTB().getLatestCandle().getClose() < StockDataController.getShortTB().getPreviousCandle(1).getHigh())
+//					{
+//						wanPrevious.middleWaiter(wanNext);
+//					}
+//					
+//					Global.addLog("Current close: " + StockDataController.getShortTB().getLatestCandle().getClose());
+//					Global.addLog("Previous high: " + StockDataController.getShortTB().getPreviousCandle(1).getHigh());
+//					wanPrevious.middleWaiter(wanNext);
+				}
+				
+				
 
 			longContract();
 			traded = true;
@@ -59,6 +85,29 @@ public class RuleIBT extends Rules
 		{
 			
 
+			while (getTimeBase().getMA(240) > getTimeBase().getPreviousMA(240)){
+				
+				
+//				if (TimePeriodDecider.getTime() > 100000)
+					return;
+				
+//				if (Global.getOpen() - Global.getCurrentPoint()  > 100)
+//					return;
+				
+				
+				
+//				while (StockDataController.getShortTB().getRSI() < 50){
+//					
+//					wanPrevious.middleWaiter(wanNext);
+//				}
+//				
+//				while (StockDataController.getShortTB().getLatestCandle().getClose() > StockDataController.getShortTB().getPreviousCandle(1).getLow())
+//				{
+//					wanPrevious.middleWaiter(wanNext);
+//				}
+				
+//				wanPrevious.middleWaiter(wanNext);
+			}
 
 			shortContract();
 			traded = true;
