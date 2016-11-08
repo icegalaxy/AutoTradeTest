@@ -148,15 +148,14 @@ public class RuleChasing extends Rules
 	protected void cutLoss()
 	{
 
-		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
+		if (Global.getNoOfContracts() > 0 && StockDataController.getShortTB().getLatestCandle().getClose() < tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
+		} else if (Global.getNoOfContracts() < 0 && StockDataController.getShortTB().getLatestCandle().getClose() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
-
 		}
 	}
 
