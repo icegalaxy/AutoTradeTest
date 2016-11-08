@@ -15,6 +15,10 @@ public class RuleDanny50 extends Rules
 		setOrderTime(91600, 113000, 130500, 160000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
+	
+	private double getRefPt(){
+		return getTimeBase().getEMA(50);
+	}
 
 	public void openContract()
 	{
@@ -29,10 +33,10 @@ public class RuleDanny50 extends Rules
 			return;
 //		
 		//in case it is a small range
-		while (Math.abs(Global.getCurrentPoint() - getTimeBase().getEMA(50)) < 50)
+		while (Math.abs(Global.getCurrentPoint() - getRefPt()) < 50)
 			wanPrevious.middleWaiter(wanNext);
 
-		while (Math.abs(Global.getCurrentPoint() - getTimeBase().getEMA(50)) > 10)
+		while (Math.abs(Global.getCurrentPoint() - getRefPt()) > 10)
 			wanPrevious.middleWaiter(wanNext);
 
 		if (isUpTrend())
@@ -69,7 +73,7 @@ public class RuleDanny50 extends Rules
 					return;
 				}
 				
-				if (Global.getCurrentPoint() < getTimeBase().getEMA(50) - 30)
+				if (Global.getCurrentPoint() < getRefPt() - 30)
 				{
 					Global.addLog("Penatraded");
 					shutdown = true;
@@ -134,7 +138,7 @@ public class RuleDanny50 extends Rules
 				}
 
 				
-				if (Global.getCurrentPoint() > getTimeBase().getEMA(50) + 30)
+				if (Global.getCurrentPoint() > getRefPt() + 30)
 				{
 					Global.addLog("Penatraded");
 					shutdown = true;
