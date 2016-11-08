@@ -179,7 +179,7 @@ public class RuleChasing extends Rules
 //			if (getShortMA() < getLongMA() && getProfit() > 30)
 //				return -100;
 //		}
-		return 30;
+		return 10;
 	}
 
 	@Override

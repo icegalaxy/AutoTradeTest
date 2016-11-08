@@ -133,16 +133,16 @@ public class RuleIBT extends Rules
 	{
 		double ema5;
 		double ema6;
-
-		if (getProfit() < 100)
-		{
+//
+//		if (getProfit() < 100)
+//		{
 			ema5 = StockDataController.getShortTB().getLatestCandle().getClose();
 			ema6 = StockDataController.getLongTB().getEMA(5);
-		} else
-		{
-			ema5 = StockDataController.getLongTB().getEMA(5);
-			ema6 = StockDataController.getLongTB().getEMA(6);
-		}
+//		} else
+//		{
+//			ema5 = StockDataController.getLongTB().getEMA(5);
+//			ema6 = StockDataController.getLongTB().getEMA(6);
+//		}
 
 		if (Global.getNoOfContracts() > 0)
 		{
