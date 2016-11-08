@@ -3,26 +3,37 @@ package icegalaxy.net;
 public class Chasing
 {
 
-	double refHL = 0;
-	boolean chaseUp;
-	boolean chaseDown;
+	private double refHigh = 0;
+	private double refLow = 99999;
+	private boolean chaseUp;
+	private boolean chaseDown;
 	
-	public Chasing (double refHL){
-		this.refHL = refHL;
+	public Chasing (){
+		
 	}
 	
 	
 
-	public double getRefHL()
+	public double getRefHigh()
 	{
-		return refHL;
+		return refHigh;
+	}
+	
+	public double getRefLow()
+	{
+		return refLow;
 	}
 
 
 
-	public void setRefHL(double refHL)
+	public void setRefHigh(double refHigh)
 	{
-		this.refHL = refHL;
+		this.refHigh = refHigh;
+	}
+	
+	public void setRefLow(double refLow)
+	{
+		this.refLow = refLow;
 	}
 
 

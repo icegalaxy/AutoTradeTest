@@ -6,16 +6,24 @@ public class RuleIBT extends Rules
 {
 	private double cutLoss;
 	private boolean traded;
+	private Chasing chasing;
 
 	public RuleIBT(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(91600, 92000, 160000, 160000, 230000, 230000);
+		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
 	}
 
 	public void openContract()
 	{
+		
+		if (chasing.chaseUp() || chasing.chaseDown()){
+			
+			Global.setChasing(chasing);
+			chasing = new Chasing();
+		}
 
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || TimePeriodDecider.getTime() > 92000
 				|| Global.getOpen() == 0 || traded)
@@ -142,8 +150,11 @@ public class RuleIBT extends Rules
 			// if (ema5 < ema6)
 			// tempCutLoss = buyingPoint + 5;
 
-			if (ema5 < ema6)
+			if (ema5 < ema6){
 				tempCutLoss = 99999;
+//				if (getProfit() > 0)
+					chasing.setChaseUp(true);
+			}
 
 		} else if (Global.getNoOfContracts() < 0)
 		{
@@ -151,9 +162,11 @@ public class RuleIBT extends Rules
 			// if (ema5 > ema6)
 			// tempCutLoss = buyingPoint - 5;
 
-			if (ema5 > ema6)
+			if (ema5 > ema6){
 				tempCutLoss = 0;
-
+//				if (getProfit() > 0)
+					chasing.setChaseDown(true);
+			}
 		}
 
 	}
@@ -178,6 +191,12 @@ public class RuleIBT extends Rules
 			shutdown = true;
 
 		}
+		
+		if (Global.getCurrentPoint() > chasing.getRefHigh())
+			chasing.setRefHigh(Global.getCurrentPoint());
+		if (Global.getCurrentPoint() < chasing.getRefLow())
+			chasing.setRefLow(Global.getCurrentPoint());
+		
 	}
 
 	double getStopEarnPt()
@@ -195,6 +214,9 @@ public class RuleIBT extends Rules
 //			if (StockDataController.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(6))
 //				return -100;
 //		}
+		
+		
+		
 		return 30;
 	}
 

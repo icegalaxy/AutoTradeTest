@@ -7,7 +7,6 @@ import javax.sql.rowset.CachedRowSet;
 public class RuleChasing extends Rules
 {
 	private double cutLoss;
-
 	private Chasing chasing;
 
 	public RuleChasing(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
@@ -15,59 +14,44 @@ public class RuleChasing extends Rules
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(91600, 115500, 130500, 160000, 230000, 230000);
 
-		chasing = new Chasing(0);
+		
 		// wait for EMA6, that's why 0945
 	}
 	
 	private double getShortMA(){
-		return StockDataController.getShortTB().getEMA(5);
+		return StockDataController.getShortTB().getLatestCandle().getClose();
 	}
 
 	private double getLongMA(){
-		return StockDataController.getShortTB().getEMA(6);
+		return StockDataController.getLongTB().getEMA(5);
 	}
 
 	public void openContract()
 	{
 
-		if (chasing.getRefHL() != 0)
-		{
-			Global.setChasing(chasing);
-			chasing = new Chasing(0);
-		}
-
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getChasing().getRefHL() == 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 
-		Chasing chasing = Global.getChasing();
-		Global.addLog(className + ": refPt " + chasing.getRefHL());
-
+		chasing = Global.getChasing();
+		
 		if (chasing.chaseUp())
 		{
 			Global.addLog(className + ": Chasing Up");
-
+			Global.setChasing(new Chasing()); //reset it
+			Global.addLog("Ref High: " + chasing.getRefHigh());
+			Global.addLog("Ref Low: " + chasing.getRefLow());
+			
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() < chasing.getRefHL() && Math.abs(Global.getCurrentPoint() - refPt) < 30)
+			while (Global.getCurrentPoint() < chasing.getRefHigh())
 			{
 				wanPrevious.middleWaiter(wanNext);
 
 				if (Global.getCurrentPoint() < refPt)
 					refPt = Global.getCurrentPoint();
-
-				// if (Global.getCurrentPoint() < chasing.getRefHL())
-				// {
-				// chasing = new Chasing(0);
-				// Global.setChasing(chasing);
-				// Global.addLog(className + ": Lower than previous low");
-				// return;
-				// }
-
-				if (Global.getCurrentPoint() - refPt > 100)
-				{
-					chasing = new Chasing(0);
-					Global.setChasing(chasing);
-					Global.addLog(className + ": Risk too high");
+				
+				if(Global.getCurrentPoint() < chasing.getRefLow()){
+					Global.addLog("Lower than previous low");
 					return;
 				}
 
@@ -75,43 +59,32 @@ public class RuleChasing extends Rules
 
 			longContract();
 			cutLoss = buyingPoint - refPt;
-			chasing = new Chasing(0);
-			Global.setChasing(chasing);
 
 		} else if (chasing.chaseDown())
 		{
 			Global.addLog(className + ": Chasing Down");
+			Global.setChasing(new Chasing()); //reset it
+			Global.addLog("Ref High: " + chasing.getRefHigh());
+			Global.addLog("Ref Low: " + chasing.getRefLow());
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() > chasing.getRefHL() &&  Math.abs(Global.getCurrentPoint() - refPt) < 30)
+			while (Global.getCurrentPoint() > chasing.getRefLow())
 			{
 				wanPrevious.middleWaiter(wanNext);
 
 				if (Global.getCurrentPoint() > refPt)
 					refPt = Global.getCurrentPoint();
 
-				// if (Global.getCurrentPoint() > chasing.getRefHL())
-				// {
-				// chasing = new Chasing(0);
-				// Global.setChasing(chasing);
-				// Global.addLog(className + ": Higher than previous High");
-				// return;
-				// }
-
-				if (refPt - Global.getCurrentPoint() > 100)
-				{
-					chasing = new Chasing(0);
-					Global.setChasing(chasing);
-					Global.addLog(className + ": Risk too high");
+				if(Global.getCurrentPoint() > chasing.getRefHigh()){
+					Global.addLog("Higher than previous high");
 					return;
 				}
+				
 
 			}
 
 			shortContract();
 			cutLoss = refPt - buyingPoint;
-			chasing = new Chasing(0);
-			Global.setChasing(chasing);
 
 		}
 
@@ -140,8 +113,8 @@ public class RuleChasing extends Rules
 			if (getShortMA() < getLongMA())
 			{
 				tempCutLoss = 99999;
-				chasing.setChaseUp(true);
-				chasing.setRefHL(refPt);
+//				chasing.setChaseUp(true);
+//				chasing.setRefHigh(refPt);
 
 			}
 
@@ -154,8 +127,8 @@ public class RuleChasing extends Rules
 			if (getShortMA() > getLongMA())
 			{
 				tempCutLoss = 0;
-				chasing.setChaseDown(true);
-				chasing.setRefHL(refPt);
+//				chasing.setChaseDown(true);
+//				chasing.setRefHigh(refPt);
 			}
 
 		}
@@ -189,24 +162,24 @@ public class RuleChasing extends Rules
 
 	double getStopEarnPt()
 	{
-		if (Global.getNoOfContracts() > 0)
-		{
-
-			if (Global.getCurrentPoint() > refPt)
-				refPt = Global.getCurrentPoint();
-
-			if (getShortMA() > getLongMA() && getProfit() > 30)
-				return -100;
-
-		} else if (Global.getNoOfContracts() < 0)
-		{
-
-			if (Global.getCurrentPoint() < refPt)
-				refPt = Global.getCurrentPoint();
-
-			if (getShortMA() < getLongMA() && getProfit() > 30)
-				return -100;
-		}
+//		if (Global.getNoOfContracts() > 0)
+//		{
+//
+//			if (Global.getCurrentPoint() > refPt)
+//				refPt = Global.getCurrentPoint();
+//
+//			if (getShortMA() > getLongMA() && getProfit() > 30)
+//				return -100;
+//
+//		} else if (Global.getNoOfContracts() < 0)
+//		{
+//
+//			if (Global.getCurrentPoint() < refPt)
+//				refPt = Global.getCurrentPoint();
+//
+//			if (getShortMA() < getLongMA() && getProfit() > 30)
+//				return -100;
+//		}
 		return 30;
 	}
 
