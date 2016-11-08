@@ -147,9 +147,13 @@ public class StockDataController implements Runnable
 
 	public void run()
 	{
-
-		for (int i = 0; i < time.size(); ++i)
+		
+//		while (!Global.isTradeTime())
+//			wan.endWaiter();
+		
+		for (int i = 0; i < time.size(); i++)
 		{
+		
 
 			if (TimePeriodDecider.getTime() >= 163000)
 				break;  // skip night market
@@ -161,8 +165,8 @@ public class StockDataController implements Runnable
 			min = new Integer(timeNow.substring(4, 6)).intValue();
 			AutoTradeDB.setTime(timeNow);
 
-			if (Global.isTradeTime())
-			{
+//			if (Global.isTradeTime())
+//			{
 				dealPt = ((Float) deal.get(i)).floatValue();
 				askPt = ((Float) ask.get(i)).floatValue();
 				bidPt = ((Float) bid.get(i)).floatValue();
@@ -309,7 +313,7 @@ public class StockDataController implements Runnable
 				setGlobal();
 				// counter += 1;
 				// counter10Sec += 1;
-			}
+//			}
 			wan.endWaiter();
 			if (!Global.isTradeTime())
 			{

@@ -52,8 +52,8 @@ public class RuleDanny50 extends Rules
 //			}
 			refPt = Global.getCurrentPoint();
 
-			Global.addLog("CurrentPt: " + Global.getCurrentPoint());
-			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+			Global.addLog("EMA5: " + StockDataController.getShortTB().getEMA(5));
+			Global.addLog("MA20: " + StockDataController.getShortTB().getMA(20));
 
 			while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getMA(20)
 					&& Global.getCurrentPoint() - refPt < 30)
@@ -99,8 +99,8 @@ public class RuleDanny50 extends Rules
 //			}
 			refPt = Global.getCurrentPoint();
 
-			Global.addLog("CurrentPt: " + Global.getCurrentPoint());
-			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+			Global.addLog("EMA5: " + StockDataController.getShortTB().getEMA(5));
+			Global.addLog("EMA20: " + StockDataController.getShortTB().getMA(20));
 
 			while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getMA(20)
 					&& refPt - Global.getCurrentPoint() < 30
