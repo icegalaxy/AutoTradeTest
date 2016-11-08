@@ -182,19 +182,19 @@ public class RuleIBT extends Rules
 
 	double getStopEarnPt()
 	{
-		if (Global.getNoOfContracts() > 0)
-		{
-			if (StockDataController.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5))
-				return -100;
-			
-			
-			
-			
-		} else if (Global.getNoOfContracts() < 0)
-		{
-			if (StockDataController.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(6))
-				return -100;
-		}
+//		if (Global.getNoOfContracts() > 0)
+//		{
+//			if (StockDataController.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5))
+//				return -100;
+//			
+//			
+//			
+//			
+//		} else if (Global.getNoOfContracts() < 0)
+//		{
+//			if (StockDataController.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(6))
+//				return -100;
+//		}
 		return 30;
 	}
 
