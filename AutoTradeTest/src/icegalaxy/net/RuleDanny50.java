@@ -8,11 +8,13 @@ public class RuleDanny50 extends Rules
 	private int lossTimes;
 	// private double refEMA;
 	private boolean firstCorner = true;
+	private Chasing chasing;
 
 	public RuleDanny50(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(91600, 113000, 130500, 160000, 230000, 230000);
+		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
 	}
 	
@@ -22,6 +24,12 @@ public class RuleDanny50 extends Rules
 
 	public void openContract()
 	{
+		
+//		if (chasing.chaseUp() || chasing.chaseDown()){
+//			
+//			Global.setChasing(chasing);
+//			chasing = new Chasing();
+//		}
 
 		if (shutdown)
 		{
@@ -202,6 +210,7 @@ public class RuleDanny50 extends Rules
 			{
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 x MA20");
+				chasing.setChaseUp(true);
 			}
 		} else if (Global.getNoOfContracts() < 0)
 		{
@@ -210,13 +219,14 @@ public class RuleDanny50 extends Rules
 			{
 				Global.addLog("Free trade");
 				tempCutLoss = buyingPoint - 5;
+	
 			}
 
 			if (ema5 > ema6)
 			{
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 x MA20");
-
+				chasing.setChaseDown(true);
 			}
 		}
 
@@ -246,6 +256,11 @@ public class RuleDanny50 extends Rules
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
 		}
+		
+		if (Global.getCurrentPoint() > chasing.getRefHigh())
+			chasing.setRefHigh(Global.getCurrentPoint());
+		if (Global.getCurrentPoint() < chasing.getRefLow())
+			chasing.setRefLow(Global.getCurrentPoint());
 	}
 
 	double getStopEarnPt()
