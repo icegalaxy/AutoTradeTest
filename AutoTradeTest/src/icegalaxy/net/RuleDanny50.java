@@ -55,27 +55,36 @@ public class RuleDanny50 extends Rules
 			Global.addLog("EMA5: " + StockDataController.getShortTB().getEMA(5));
 			Global.addLog("MA20: " + StockDataController.getShortTB().getMA(20));
 
-			while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getMA(20)
-					&& Global.getCurrentPoint() - refPt < 30)
+			while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getMA(20))
 			{
 				wanPrevious.middleWaiter(wanNext);
 
+
+				if (Global.getCurrentPoint() < refPt)
+					refPt = Global.getCurrentPoint();
+				
 				if (!isUpTrend())
 				{
 					Global.addLog("Trend Change");
 					return;
 				}
+				
+				if (Global.getCurrentPoint() < getTimeBase().getEMA(50) - 30)
+				{
+					Global.addLog("Penatraded");
+					shutdown = true;
+					return;
+				}
+				
+				if (Global.getCurrentPoint() > refPt + 50)
+				{
+					Global.addLog("Risk too high");
+					return;
+				}
 
-				if (Global.getCurrentPoint() < refPt)
-					refPt = Global.getCurrentPoint();
 
 			}
 			
-//			if (Math.abs(Global.getCurrentPoint() - refPt) > 50)
-//			{
-//				Global.addLog("Risk too high");
-//				return;
-//			}
 			
 			longContract();
 			cutLossPt = Math.abs(buyingPoint - refPt);
@@ -102,9 +111,7 @@ public class RuleDanny50 extends Rules
 			Global.addLog("EMA5: " + StockDataController.getShortTB().getEMA(5));
 			Global.addLog("EMA20: " + StockDataController.getShortTB().getMA(20));
 
-			while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getMA(20)
-					&& refPt - Global.getCurrentPoint() < 30
-					)
+			while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getMA(20))
 			{
 
 				wanPrevious.middleWaiter(wanNext);
@@ -119,14 +126,24 @@ public class RuleDanny50 extends Rules
 					Global.addLog("Trend Change");
 					return;
 				}
+				
+				if (Global.getCurrentPoint() < refPt - 50)
+				{
+					Global.addLog("Risk too high");
+					return;
+				}
+
+				
+				if (Global.getCurrentPoint() > getTimeBase().getEMA(50) + 30)
+				{
+					Global.addLog("Penatraded");
+					shutdown = true;
+					return;
+				}
+				
 			}
 			
-//			if (Math.abs(Global.getCurrentPoint() - refPt) > 50)
-//			{
-//				Global.addLog("Risk too high");
-//				return;
-//			}
-
+		
 			shortContract();
 			cutLossPt = Math.abs(buyingPoint - refPt);
 			Global.addLog("Before High: " + refPt);
@@ -155,17 +172,12 @@ public class RuleDanny50 extends Rules
 
 		double ema5;
 		double ema6;
-		int difference;
-
-		if (getProfit() > 100)
-			difference = 0;
-		else
-			difference = 2;
+		
 
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
 		// 10){
-		ema5 = getTimeBase().getEMA(5);
-		ema6 = getTimeBase().getEMA(6);
+		ema5 = StockDataController.getShortTB().getLatestCandle().getClose();
+		ema6 = getTimeBase().getEMA(5);
 		// }else{
 		// ema5 = StockDataController.getShortTB().getEMA(5);
 		// ema6 = StockDataController.getShortTB().getEMA(6);
@@ -182,7 +194,7 @@ public class RuleDanny50 extends Rules
 				tempCutLoss = buyingPoint + 5;
 			}
 
-			if (ema5 < ema6 && getProfit() > 50)
+			if (ema5 < ema6)
 			{
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 x MA20");
@@ -196,7 +208,7 @@ public class RuleDanny50 extends Rules
 				tempCutLoss = buyingPoint - 5;
 			}
 
-			if (ema5 > ema6 && getProfit() > 50)
+			if (ema5 > ema6)
 			{
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 x MA20");
@@ -221,49 +233,14 @@ public class RuleDanny50 extends Rules
 	protected void cutLoss()
 	{
 
-		if (Global.getNoOfContracts() > 0 && Global.getCurrentPoint() < tempCutLoss)
+		if (Global.getNoOfContracts() > 0 && StockDataController.getShortTB().getLatestCandle().getClose() < tempCutLoss)
 		{
-			//
-			// while (Global.getCurrentPoint() <
-			// StockDataController.getShortTB().getEMA(5)){
-			// wanPrevious.middleWaiter(wanNext);
-			// if (getProfit() < -30)
-			// break;
-			// }
-			//
-
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-
-			// wait for it to clam down
-
-			// if (Global.getCurrentPoint() < getTimeBase().getEMA(6)){
-			// Global.addLog(className + ": waiting for it to calm down");
-			// }
-
-			// while (Global.getCurrentPoint() < getTimeBase().getEMA(6))
-			// wanPrevious.middleWaiter(wanNext);
-
-		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
+		} else if (Global.getNoOfContracts() < 0 && StockDataController.getShortTB().getLatestCandle().getClose() > tempCutLoss)
 		{
-			//
-			//
-			// while (Global.getCurrentPoint() >
-			// StockDataController.getShortTB().getEMA(5)){
-			// wanPrevious.middleWaiter(wanNext);
-			// if (getProfit() < -30)
-			// break;
-			// }
-
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
-
-			// if (Global.getCurrentPoint() > getTimeBase().getEMA(6)){
-			// Global.addLog(className + ": waiting for it to calm down");
-			// }
-			//
-			// while (Global.getCurrentPoint() > getTimeBase().getEMA(6))
-			// wanPrevious.middleWaiter(wanNext);
 		}
 	}
 
