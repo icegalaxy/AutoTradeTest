@@ -382,10 +382,10 @@ public class Setting extends JFrame {
 		RuleDanny240 danny240 = new RuleDanny240(wan[5], wan[6], false);
 
 		RulePLow pL = new RulePLow(wan[6], wan[7], false);
-		RuleIBT ibt = new RuleIBT(wan[7], wan[8], true);
-		RuleSylvia sylvia = new RuleSylvia(wan[8], wan[9], false);
+		RuleIBT ibt = new RuleIBT(wan[7], wan[8], false);
+		RuleOpen open = new RuleOpen(wan[8], wan[9], true);
 		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], false);
-		RuleChasing chasing = new RuleChasing(wan[10], wan[11], true);
+		RuleChasing chasing = new RuleChasing(wan[10], wan[11], false);
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M
 //		RuleBouncing3 bouncing3 = new RuleBouncing3(wan[19], wan[20], false);
@@ -394,7 +394,7 @@ public class Setting extends JFrame {
 
 //		RuleSeconds sec = new RuleSeconds(wan[23], wan[24], false);
 		
-		Runnable[] r = {sdc, tpd,  login, ruleRSI, ema56, test2, pH, danny240, pL, ibt, sylvia, danny50, chasing};
+		Runnable[] r = {sdc, tpd,  login, ruleRSI, ema56, test2, pH, danny240, pL, ibt, open, danny50, chasing};
 		
 		Thread[] t = new Thread[noOfThreads];
 
