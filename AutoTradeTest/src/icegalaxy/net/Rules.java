@@ -666,14 +666,18 @@ public abstract class Rules implements Runnable
 
 	public boolean isUpTrend2()
 	{
-		return StockDataController.getLongTB().getMA(20) > StockDataController.getLongTB().getEMA(50)
-				&& StockDataController.getLongTB().getEMA(50) > StockDataController.getLongTB().getEMA(240);
+		return StockDataController.getLongTB().getMA(20) > StockDataController.getLongTB().getEMA(50) + 5
+				&& StockDataController.getLongTB().getEMA(50) > StockDataController.getLongTB().getEMA(240) + 100
+				&& StockDataController.getLongTB().getEMA(5) > StockDataController.getLongTB().getEMA(10)
+				&& StockDataController.getLongTB().getEMA(10) > StockDataController.getLongTB().getEMA(20) + 5;
 	}
 	
 	public boolean isDownTrend2()
 	{
-		return StockDataController.getLongTB().getMA(20) < StockDataController.getLongTB().getEMA(50)
-				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240);
+		return StockDataController.getLongTB().getMA(20) < StockDataController.getLongTB().getEMA(50) - 5
+				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240) - 100
+				&& StockDataController.getLongTB().getEMA(5) < StockDataController.getLongTB().getEMA(10)
+				&& StockDataController.getLongTB().getEMA(10) < StockDataController.getLongTB().getEMA(20) - 5;
 	}
 	
 	
