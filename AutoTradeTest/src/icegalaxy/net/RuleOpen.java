@@ -15,7 +15,7 @@ public class RuleOpen extends Rules
 	public RuleOpen(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(91530, 100000, 160000, 160000, 231500, 231500);
+		setOrderTime(91530, 115500, 160000, 160000, 231500, 231500);
 		// wait for EMA6, that's why 0945
 	}
 
@@ -28,18 +28,25 @@ public class RuleOpen extends Rules
 //			shutdown = false;
 //		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 
 		if (isHigherThan4MA(5))
 		{
 			while(!isLowerThan4MA(1) ){
-				
-				
-				
+				wanPrevious.middleWaiter(wanNext);
+			
 			}
+			
+			shortContract();
+		}else if (isLowerThan4MA(5))
+		{
+			while(!isHigherThan4MA(1) ){
+				wanPrevious.middleWaiter(wanNext);
+			
+			}
+			longContract();
 		}
-
 	}
 	
 	
@@ -55,7 +62,7 @@ public class RuleOpen extends Rules
 	
 public boolean isLowerThan4MA(double pointsLower){
 		
-		double lowestMA = 0;
+		double lowestMA = 99999;
 		
 		for (int i=0; i <get4MAs().size(); i++){		
 			lowestMA = Math.min(lowestMA, get4MAs().get(i));			
