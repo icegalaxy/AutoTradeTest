@@ -81,7 +81,6 @@ public class RuleDanny2 extends Rules
 					return;
 				}
 			}
-
 		
 			shortContract();
 			cutLossPt = Math.abs(buyingPoint - getTimeBase().getEMA(10));
