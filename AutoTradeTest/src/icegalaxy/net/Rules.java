@@ -1,5 +1,7 @@
 package icegalaxy.net;
 
+import java.util.ArrayList;
+
 public abstract class Rules implements Runnable
 {
 
@@ -374,13 +376,11 @@ public abstract class Rules implements Runnable
 				return;
 			}
 
-
 			updateStopEarn();
 			stopEarn();
-			
+
 			updateCutLoss();
 			cutLoss();
-
 
 			// System.out.println("Temp Stop Earn" + tempCutLoss);
 
@@ -664,41 +664,88 @@ public abstract class Rules implements Runnable
 
 	}
 
-	public boolean isMyUpTrend(){
+	public boolean isMyUpTrend()
+	{
 		return StockDataController.getLongTB().getEMA(5) > StockDataController.getLongTB().getEMA(6);
 	}
-	
-	public boolean isMyDownTrend(){
+
+	public boolean isMyDownTrend()
+	{
 		return StockDataController.getLongTB().getEMA(5) < StockDataController.getLongTB().getEMA(6);
 	}
-	
+
+	public double getHighestMA()
+	{
+
+		double highestMA = 0;
+
+		for (int i = 0; i < get4MAs().size(); i++)
+		{
+			highestMA = Math.max(highestMA, get4MAs().get(i));
+		}
+		return highestMA;
+	}
+
+	public double getLowestMA()
+	{
+
+		double lowestMA = 99999;
+
+		for (int i = 0; i < get4MAs().size(); i++)
+		{
+			lowestMA = Math.min(lowestMA, get4MAs().get(i));
+		}
+		return lowestMA;
+	}
+
+	private ArrayList<Float> get4MAs()
+	{
+		ArrayList<Float> mas = new ArrayList<Float>();
+
+		mas.add(StockDataController.getM15TB().getMA(20));
+		mas.add(StockDataController.getM15TB().getEMA(50));
+		mas.add(StockDataController.getLongTB().getEMA(50));
+		mas.add(StockDataController.getLongTB().getEMA(240));
+
+		return mas;
+
+	}
+
 	// Danny �l�ȥ�e�w��V
 	public boolean isUpTrend()
 	{
 		return StockDataController.getM15TB().getMA(20) > StockDataController.getM15TB().getEMA(50)
 				&& StockDataController.getLongTB().getEMA(50) > StockDataController.getLongTB().getEMA(240);
-//				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getM15TB()
-//						.getMA(20)
-//				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getM15TB()
-//						.getEMA(50)
-//				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getLongTB()
-//						.getEMA(50)
-//				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getLongTB()
-//						.getEMA(240);
+		// && StockDataController.getLongTB().getLatestCandle().getClose() >
+		// StockDataController.getM15TB()
+		// .getMA(20)
+		// && StockDataController.getLongTB().getLatestCandle().getClose() >
+		// StockDataController.getM15TB()
+		// .getEMA(50)
+		// && StockDataController.getLongTB().getLatestCandle().getClose() >
+		// StockDataController.getLongTB()
+		// .getEMA(50)
+		// && StockDataController.getLongTB().getLatestCandle().getClose() >
+		// StockDataController.getLongTB()
+		// .getEMA(240);
 	}
 
 	public boolean isDownTrend()
 	{
-		return StockDataController.getM15TB().getMA(20) < StockDataController.getM15TB().getEMA(50) 
+		return StockDataController.getM15TB().getMA(20) < StockDataController.getM15TB().getEMA(50)
 				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240);
-//				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getM15TB()
-//						.getMA(20)
-//				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getM15TB()
-//						.getEMA(50)
-//				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getLongTB()
-//						.getEMA(50)
-//				&& StockDataController.getLongTB().getLatestCandle().getClose() > StockDataController.getLongTB()
-//						.getEMA(240);
+		// && StockDataController.getLongTB().getLatestCandle().getClose() >
+		// StockDataController.getM15TB()
+		// .getMA(20)
+		// && StockDataController.getLongTB().getLatestCandle().getClose() >
+		// StockDataController.getM15TB()
+		// .getEMA(50)
+		// && StockDataController.getLongTB().getLatestCandle().getClose() >
+		// StockDataController.getLongTB()
+		// .getEMA(50)
+		// && StockDataController.getLongTB().getLatestCandle().getClose() >
+		// StockDataController.getLongTB()
+		// .getEMA(240);
 
 	}
 

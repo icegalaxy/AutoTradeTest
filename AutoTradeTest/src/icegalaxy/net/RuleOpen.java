@@ -72,38 +72,7 @@ public class RuleOpen extends Rules
 		return StockDataController.getShortTB().getLatestCandle().getClose();
 	}
 	
-	public double getHighestMA(){
-		
-		double highestMA = 0;
-		
-		for (int i=0; i <get4MAs().size(); i++){		
-			highestMA = Math.max(highestMA, get4MAs().get(i));			
-		}	
-		return highestMA;
-	}
 	
-public double getLowestMA(){
-		
-		double lowestMA = 99999;
-		
-		for (int i=0; i <get4MAs().size(); i++){		
-			lowestMA = Math.min(lowestMA, get4MAs().get(i));			
-		}	
-		return lowestMA;
-	}
-
-	private ArrayList<Float> get4MAs()
-	{
-		ArrayList<Float> mas = new ArrayList<Float>();
-		
-		mas.add(StockDataController.getM15TB().getMA(20));
-		mas.add(StockDataController.getM15TB().getEMA(50));
-		mas.add(StockDataController.getLongTB().getEMA(50));
-		mas.add(StockDataController.getLongTB().getEMA(240));
-		
-		return mas;
-		
-	}
 
 	// use 1min instead of 5min
 	void updateStopEarn()
