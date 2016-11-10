@@ -385,7 +385,7 @@ public class Setting extends JFrame {
 		RuleIBT ibt = new RuleIBT(wan[7], wan[8], false);
 		RuleOpen open = new RuleOpen(wan[8], wan[9], true);
 		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], false);
-		RuleChasing chasing = new RuleChasing(wan[10], wan[11], false);
+		RuleChasing chasing = new RuleChasing(wan[10], wan[11], true);
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M
 //		RuleBouncing3 bouncing3 = new RuleBouncing3(wan[19], wan[20], false);

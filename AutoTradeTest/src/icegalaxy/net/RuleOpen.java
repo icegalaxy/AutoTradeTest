@@ -9,13 +9,14 @@ public class RuleOpen extends Rules
 
 
 	private double cutLoss;
-
+	private Chasing chasing;
 
 
 	public RuleOpen(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(91530, 115500, 160000, 160000, 231500, 231500);
+		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
 	}
 
@@ -28,46 +29,67 @@ public class RuleOpen extends Rules
 //			shutdown = false;
 //		}
 		
+//		if (chasing.chaseUp() || chasing.chaseDown()){
+//			
+//			Global.setChasing(chasing);
+//			chasing = new Chasing();
+//		}
+		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
+		
+		
 
-		if (isHigherThan4MA(5))
+		if (getCurrentClose() > getHighestMA() + 5)
 		{
-			while(!isLowerThan4MA(1) ){
-				wanPrevious.middleWaiter(wanNext);
 			
+
+			while(getCurrentClose() > getLowestMA() - 1){
+				wanPrevious.middleWaiter(wanNext);
+
 			}
 			
 			shortContract();
-		}else if (isLowerThan4MA(5))
+			chasing.setChaseDown(true);
+//			cutLoss = getHighestMA() - buyingPoint;
+			
+		}else if (getCurrentClose() < getLowestMA() - 5)
 		{
-			while(!isHigherThan4MA(1) ){
+			
+		
+			while(getCurrentClose() < getHighestMA() + 1){
 				wanPrevious.middleWaiter(wanNext);
+
 			
 			}
 			longContract();
+			chasing.setChaseUp(true);
+//			cutLoss = buyingPoint - getLowestMA();
 		}
 	}
 	
+	public double getCurrentClose(){
+		return StockDataController.getShortTB().getLatestCandle().getClose();
+	}
 	
-	public boolean isHigherThan4MA(double pointsHigher){
+	public double getHighestMA(){
 		
 		double highestMA = 0;
 		
 		for (int i=0; i <get4MAs().size(); i++){		
 			highestMA = Math.max(highestMA, get4MAs().get(i));			
 		}	
-		return StockDataController.getShortTB().getLatestCandle().getClose() > highestMA + pointsHigher;
+		return highestMA;
 	}
 	
-public boolean isLowerThan4MA(double pointsLower){
+public double getLowestMA(){
 		
 		double lowestMA = 99999;
 		
 		for (int i=0; i <get4MAs().size(); i++){		
 			lowestMA = Math.min(lowestMA, get4MAs().get(i));			
 		}	
-		return StockDataController.getShortTB().getLatestCandle().getClose() < lowestMA - pointsLower;
+		return lowestMA;
 	}
 
 	private ArrayList<Float> get4MAs()
@@ -147,10 +169,10 @@ public boolean isLowerThan4MA(double pointsLower){
 
 		}
 		
-//		if (Global.getCurrentPoint() > chasing.getRefHigh())
-//			chasing.setRefHigh(Global.getCurrentPoint());
-//		if (Global.getCurrentPoint() < chasing.getRefLow())
-//			chasing.setRefLow(Global.getCurrentPoint());
+		if (Global.getCurrentPoint() > chasing.getRefHigh())
+			chasing.setRefHigh(Global.getCurrentPoint());
+		if (Global.getCurrentPoint() < chasing.getRefLow())
+			chasing.setRefLow(Global.getCurrentPoint());
 		
 	}
 
