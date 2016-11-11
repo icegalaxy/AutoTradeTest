@@ -13,13 +13,17 @@ public class RuleDanny2 extends Rules
 	public RuleDanny2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(91600, 113000, 130500, 160000, 230000, 230000);
+		setOrderTime(93000, 115500, 130500, 160000, 230000, 230000);
 		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
 	}
 	
 	private double getRefPt(){
 		return getTimeBase().getEMA(10);
+	}
+	
+	double getMADiff(){
+		return GetData.getEma5().getEMA() - GetData.getEma50().getEMA();
 	}
 
 	public void openContract()
@@ -39,24 +43,14 @@ public class RuleDanny2 extends Rules
 		if (isUpTrend2() 
 //				&& GetData.getEma25().getEMA() > GetData.getEma50().getEMA()
 ///			&& GetData.getShortTB().getLatestCandle().getClose() < GetData.getEma25().getEMA() 
-				&& Global.getCurrentPoint() > GetData.getEma50().getEMA()
+//				&& Global.getCurrentPoint() > GetData.getEma50().getEMA()
+				&& GetData.getEma5().getEMA() > GetData.getEma50().getEMA()
 				)
 		{
 
 			Global.addLog("Up Trend");
 			
-//			while (GetData.getShortTB().getLatestCandle().getClose() > GetData.getEma25().getEMA())
-//			{
-//				wanPrevious.middleWaiter(wanNext);
-//
-//				if (!isUpTrend2())
-//				{
-//					Global.addLog("Trend Change");
-//					return;
-//				}
-//			}
-
-			while (Global.getCurrentPoint() > GetData.getEma50().getEMA() + 20)
+			while (Global.getCurrentPoint() > GetData.getEma50().getEMA() + 10)
 			{
 				wanPrevious.middleWaiter(wanNext);
 
@@ -65,6 +59,29 @@ public class RuleDanny2 extends Rules
 					Global.addLog("Trend Change");
 					return;
 				}
+			}
+			int spreadingTimes = 0;
+			double refDiff = 0;
+
+			while (spreadingTimes < 3)
+			{
+				wanPrevious.middleWaiter(wanNext);
+
+				if (!isUpTrend2() || GetData.getEma5().getEMA() < GetData.getEma50().getEMA())
+				{
+					Global.addLog("Trend Change");
+					return;
+				}
+				
+				if (getMADiff() > refDiff){
+					refDiff = getMADiff();
+					spreadingTimes++;
+				}else if (getMADiff() < refDiff){
+					refDiff = getMADiff();
+					spreadingTimes--;
+				}
+				
+				
 			}
 				
 			longContract();
@@ -79,23 +96,13 @@ public class RuleDanny2 extends Rules
 //				&& GetData.getEma25().getEMA() < GetData.getEma50().getEMA()
 //				&& GetData.getShortTB().getLatestCandle().getClose() > GetData.getEma25().getEMA() 
 //				&& Global.getCurrentPoint() < GetData.getEma50().getEMA()
+				&& GetData.getEma5().getEMA() < GetData.getEma50().getEMA()
 				)
 		{
 
 			Global.addLog("Down Trend");
 			
-//			while (GetData.getShortTB().getLatestCandle().getClose() < GetData.getEma25().getEMA())
-//			{
-//				wanPrevious.middleWaiter(wanNext);
-//
-//				if (!isUpTrend2())
-//				{
-//					Global.addLog("Trend Change");
-//					return;
-//				}
-//			}
-
-			while (Global.getCurrentPoint() < GetData.getEma50().getEMA() - 20)
+			while (Global.getCurrentPoint() < GetData.getEma50().getEMA() - 10)
 			{
 				wanPrevious.middleWaiter(wanNext);
 
@@ -104,6 +111,30 @@ public class RuleDanny2 extends Rules
 					Global.addLog("Trend Change");
 					return;
 				}
+			}
+
+			int spreadingTimes = 0;
+			double refDiff = 0;
+
+			while (spreadingTimes < 3)
+			{
+				wanPrevious.middleWaiter(wanNext);
+
+				if (!isDownTrend2() || GetData.getEma5().getEMA() > GetData.getEma50().getEMA())
+				{
+					Global.addLog("Trend Change");
+					return;
+				}
+				
+				if (getMADiff() < refDiff){
+					refDiff = getMADiff();
+					spreadingTimes++;
+				}else if (getMADiff() > refDiff){
+					refDiff = getMADiff();
+					spreadingTimes--;
+				}
+				
+				
 			}
 		
 			shortContract();
