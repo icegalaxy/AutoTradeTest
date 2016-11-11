@@ -105,14 +105,14 @@ public class RuleRSI extends Rules {
         double slope = 0;
         double longSlope = 0;
 
-        if (StockDataController.getShortTB().getMainDownRail().getSlope() != 100)
-            slope = StockDataController.getShortTB().getMainDownRail()
+        if (GetData.getShortTB().getMainDownRail().getSlope() != 100)
+            slope = GetData.getShortTB().getMainDownRail()
                     .getSlope();
         if (getTimeBase().getMainUpRail().getSlope() != 100)
             longSlope = getTimeBase().getMainUpRail().getSlope();
 
         return slope > longSlope * 2
-                && StockDataController.getShortTB().getMainDownRail().slopeRetained > 2;
+                && GetData.getShortTB().getMainDownRail().slopeRetained > 2;
     }
 
     boolean isRising() {
@@ -120,14 +120,14 @@ public class RuleRSI extends Rules {
         double slope = 0;
         double longSlope = 0;
 
-        if (StockDataController.getShortTB().getMainUpRail().getSlope() != 100)
-            slope = StockDataController.getShortTB().getMainUpRail().getSlope();
+        if (GetData.getShortTB().getMainUpRail().getSlope() != 100)
+            slope = GetData.getShortTB().getMainUpRail().getSlope();
 
         if (getTimeBase().getMainDownRail().getSlope() != 100)
             longSlope = getTimeBase().getMainDownRail().getSlope();
 
         return slope > longSlope * 2
-                && StockDataController.getShortTB().getMainUpRail().slopeRetained > 2;
+                && GetData.getShortTB().getMainUpRail().slopeRetained > 2;
 
     }
 
@@ -145,31 +145,31 @@ public class RuleRSI extends Rules {
 
     @Override
     public TimeBase getTimeBase() {
-        return StockDataController.getShortTB();
+        return GetData.getShortTB();
     }
 
     
 
     void updateStopEarn() {
 
-		if (StockDataController.getLongTB().getEMA(5) == -1)
+		if (GetData.getLongTB().getEMA(5) == -1)
 			super.updateStopEarn();
 
 		else {
 
 			if (Global.getNoOfContracts() > 0) {
 
-				if (StockDataController.getLongTB().getEMA(5) < refEMA)
+				if (GetData.getLongTB().getEMA(5) < refEMA)
 					tempCutLoss = 99999;
 
-				refEMA = StockDataController.getLongTB().getEMA(5);
+				refEMA = GetData.getLongTB().getEMA(5);
 
 			} else if (Global.getNoOfContracts() < 0) {
 
-				if (StockDataController.getLongTB().getEMA(5) > refEMA)
+				if (GetData.getLongTB().getEMA(5) > refEMA)
 					tempCutLoss = 0;
 
-				refEMA = StockDataController.getLongTB().getEMA(5);
+				refEMA = GetData.getLongTB().getEMA(5);
 			}
 		}
 

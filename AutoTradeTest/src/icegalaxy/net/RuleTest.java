@@ -100,7 +100,7 @@ public class RuleTest extends Rules {
 	@Override
 	public TimeBase getTimeBase() {
 		// TODO Auto-generated method stub
-		return StockDataController.getLongTB();
+		return GetData.getLongTB();
 	}
 
 }

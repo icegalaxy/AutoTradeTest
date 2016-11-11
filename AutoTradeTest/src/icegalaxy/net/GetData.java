@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class StockDataController implements Runnable
+public class GetData implements Runnable
 {
 
 	private static TimeBase shortTB;
@@ -51,15 +51,15 @@ public class StockDataController implements Runnable
 
 	ArrayList<Candle> candles = new ArrayList<Candle>();
 
-	StockDataController.CandleData shortData;
-	StockDataController.CandleData m15Data;
-	StockDataController.CandleData longData;
+	GetData.CandleData shortData;
+	GetData.CandleData m15Data;
+	GetData.CandleData longData;
 	// StockDataController.CandleData sec10Data;
 	// StockDataController.CandleData secData;
 
 	// StockDataController.CandleData secData;
 
-	public StockDataController(String tableName, WaitAndNotify wan)
+	public GetData(String tableName, WaitAndNotify wan)
 	{
 		this.wan = wan;
 		this.tableName = tableName;

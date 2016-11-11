@@ -45,17 +45,17 @@ public class RulePLow extends Rules
 
 		waitForANewCandle();
 
-		if (StockDataController.getShortTB().getLatestCandle().getHigh() > tempHigh)
-			tempHigh = StockDataController.getShortTB().getLatestCandle().getHigh();
-		if (StockDataController.getShortTB().getLatestCandle().getLow() < tempLow)
-			tempLow = StockDataController.getShortTB().getLatestCandle().getLow() ;
+		if (GetData.getShortTB().getLatestCandle().getHigh() > tempHigh)
+			tempHigh = GetData.getShortTB().getLatestCandle().getHigh();
+		if (GetData.getShortTB().getLatestCandle().getLow() < tempLow)
+			tempLow = GetData.getShortTB().getLatestCandle().getLow() ;
 		
 		Global.addLog("TempHigh: " + tempHigh);
 		Global.addLog("TempLow: " + tempLow);
 
 		Global.addLog("Waiting for a first corner");
-		while (StockDataController.getShortTB().getLatestCandle().getHigh() < OHLC + 15
-				&& StockDataController.getShortTB().getLatestCandle().getLow() > OHLC - 15)
+		while (GetData.getShortTB().getLatestCandle().getHigh() < OHLC + 15
+				&& GetData.getShortTB().getLatestCandle().getLow() > OHLC - 15)
 		{
 
 			wanPrevious.middleWaiter(wanNext);
@@ -158,9 +158,9 @@ public class RulePLow extends Rules
 	
 	public void waitForANewCandle() {
 		
-		int currentSize = StockDataController.getShortTB().getCandles().size();
+		int currentSize = GetData.getShortTB().getCandles().size();
 		
-		while (currentSize == StockDataController.getShortTB().getCandles().size())
+		while (currentSize == GetData.getShortTB().getCandles().size())
 			wanPrevious.middleWaiter(wanNext);;
 		
 	}
@@ -254,7 +254,7 @@ public class RulePLow extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return StockDataController.getLongTB();
+		return GetData.getLongTB();
 	}
 
 }

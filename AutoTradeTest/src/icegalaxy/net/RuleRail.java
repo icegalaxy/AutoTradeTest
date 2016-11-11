@@ -118,7 +118,7 @@ public class RuleRail extends Rules {
 	
 	@Override
 	public TimeBase getTimeBase() {
-		return StockDataController.getShortTB();
+		return GetData.getShortTB();
 	}
 
 //	@Override
@@ -146,11 +146,11 @@ public class RuleRail extends Rules {
 		double slope = 0;
 
 		if (Global.getNoOfContracts() > 0)
-			slope = StockDataController.getShortTB().getMainDownRail()
+			slope = GetData.getShortTB().getMainDownRail()
 					.getSlope();
 
 		if (Global.getNoOfContracts() < 0)
-			slope = StockDataController.getShortTB().getMainUpRail().getSlope();
+			slope = GetData.getShortTB().getMainUpRail().getSlope();
 
 		return slope > 5 && slope != 100;
 	}

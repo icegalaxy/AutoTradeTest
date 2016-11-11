@@ -64,10 +64,10 @@ public class RuleDanny50 extends Rules
 //			}
 			refPt = Global.getCurrentPoint();
 
-			Global.addLog("EMA5: " + StockDataController.getShortTB().getEMA(5));
-			Global.addLog("MA20: " + StockDataController.getShortTB().getMA(20));
+			Global.addLog("EMA5: " + GetData.getShortTB().getEMA(5));
+			Global.addLog("MA20: " + GetData.getShortTB().getMA(20));
 
-			while (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getMA(20))
+			while (GetData.getShortTB().getEMA(5) < GetData.getShortTB().getMA(20))
 			{
 				wanPrevious.middleWaiter(wanNext);
 
@@ -120,10 +120,10 @@ public class RuleDanny50 extends Rules
 //			}
 			refPt = Global.getCurrentPoint();
 
-			Global.addLog("EMA5: " + StockDataController.getShortTB().getEMA(5));
-			Global.addLog("EMA20: " + StockDataController.getShortTB().getMA(20));
+			Global.addLog("EMA5: " + GetData.getShortTB().getEMA(5));
+			Global.addLog("EMA20: " + GetData.getShortTB().getMA(20));
 
-			while (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getMA(20))
+			while (GetData.getShortTB().getEMA(5) > GetData.getShortTB().getMA(20))
 			{
 
 				wanPrevious.middleWaiter(wanNext);
@@ -188,7 +188,7 @@ public class RuleDanny50 extends Rules
 
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
 		// 10){
-		ema5 = StockDataController.getShortTB().getLatestCandle().getClose();
+		ema5 = GetData.getShortTB().getLatestCandle().getClose();
 		ema6 = getTimeBase().getEMA(5);
 		// }else{
 		// ema5 = StockDataController.getShortTB().getEMA(5);
@@ -247,11 +247,11 @@ public class RuleDanny50 extends Rules
 	protected void cutLoss()
 	{
 
-		if (Global.getNoOfContracts() > 0 && StockDataController.getShortTB().getLatestCandle().getClose() < tempCutLoss)
+		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && StockDataController.getShortTB().getLatestCandle().getClose() > tempCutLoss)
+		} else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
@@ -280,7 +280,7 @@ public class RuleDanny50 extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return StockDataController.getLongTB();
+		return GetData.getLongTB();
 	}
 
 }

@@ -296,7 +296,7 @@ public class Setting extends JFrame {
 		LoginThread login = new LoginThread(wan[wan.length - 2],
 				wan[wan.length - 1]);
 
-		StockDataController sdc = new StockDataController(fileName, wan[0]);
+		GetData sdc = new GetData(fileName, wan[0]);
 		TimePeriodDecider tpd = new TimePeriodDecider(wan[0], wan[1]);
 //		RuleMA ruleMA_0 = new RuleMA(wan[1], wan[2], Global.runRuleMA);
 //		ruleMA_0.setBufferPt(0);

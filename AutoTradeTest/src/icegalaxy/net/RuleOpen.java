@@ -69,7 +69,7 @@ public class RuleOpen extends Rules
 	}
 	
 	public double getCurrentClose(){
-		return StockDataController.getShortTB().getLatestCandle().getClose();
+		return GetData.getShortTB().getLatestCandle().getClose();
 	}
 	
 	
@@ -82,8 +82,8 @@ public class RuleOpen extends Rules
 //
 //		if (getProfit() < 100)
 //		{
-			ema5 = StockDataController.getShortTB().getLatestCandle().getClose();
-			ema6 = StockDataController.getLongTB().getEMA(5);
+			ema5 = GetData.getShortTB().getLatestCandle().getClose();
+			ema6 = GetData.getLongTB().getEMA(5);
 //		} else
 //		{
 //			ema5 = StockDataController.getLongTB().getEMA(5);
@@ -169,6 +169,6 @@ public class RuleOpen extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return StockDataController.getLongTB();
+		return GetData.getLongTB();
 	}
 }

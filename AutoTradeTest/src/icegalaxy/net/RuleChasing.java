@@ -19,11 +19,11 @@ public class RuleChasing extends Rules
 	}
 	
 	private double getShortMA(){
-		return StockDataController.getShortTB().getLatestCandle().getClose();
+		return GetData.getShortTB().getLatestCandle().getClose();
 	}
 
 	private double getLongMA(){
-		return StockDataController.getLongTB().getEMA(5);
+		return GetData.getLongTB().getEMA(5);
 	}
 
 	public void openContract()
@@ -148,11 +148,11 @@ public class RuleChasing extends Rules
 	protected void cutLoss()
 	{
 
-		if (Global.getNoOfContracts() > 0 && StockDataController.getShortTB().getLatestCandle().getClose() < tempCutLoss)
+		if (Global.getNoOfContracts() > 0 && GetData.getShortTB().getLatestCandle().getClose() < tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
-		} else if (Global.getNoOfContracts() < 0 && StockDataController.getShortTB().getLatestCandle().getClose() > tempCutLoss)
+		} else if (Global.getNoOfContracts() < 0 && GetData.getShortTB().getLatestCandle().getClose() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
@@ -185,7 +185,7 @@ public class RuleChasing extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return StockDataController.getShortTB();
+		return GetData.getShortTB();
 	}
 
 }

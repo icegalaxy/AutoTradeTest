@@ -42,7 +42,7 @@ public class RuleEMA56 extends Rules {
 			return;
 
 		if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6)
-				&& StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)
+				&& GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6)
 
 		) {
 
@@ -57,7 +57,7 @@ public class RuleEMA56 extends Rules {
 				wanPrevious.middleWaiter(wanNext);
 
 
-				if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)) {
+				if (GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6)) {
 					Global.addLog(className + ": trend change");
 					return;
 				}
@@ -66,7 +66,7 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a second corner");
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()){
+			while (Global.getCurrentPoint() < GetData.getShortTB().getLatestCandle().getHigh()){
 				wanPrevious.middleWaiter(wanNext);
 				
 				if (Global.getCurrentPoint() < refPt)
@@ -79,7 +79,7 @@ public class RuleEMA56 extends Rules {
 			Global.addLog("CutLossPt: " + cutLoss);
 		} else if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6)
 //				&& Global.getCurrentPoint() < getTimeBase().getEMA(5)
-				&& StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6)
+				&& GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6)
 		) {
 
 			// wait for a better position
@@ -94,7 +94,7 @@ public class RuleEMA56 extends Rules {
 				
 				
 			
-				if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6)) {
+				if (GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6)) {
 					Global.addLog(className + ": trend change");
 					return;
 				}
@@ -104,7 +104,7 @@ public class RuleEMA56 extends Rules {
 			Global.addLog(className + ": waiting for a second corner");
 			refPt = Global.getCurrentPoint();
 			
-			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()){
+			while (Global.getCurrentPoint() > GetData.getShortTB().getLatestCandle().getLow()){
 				wanPrevious.middleWaiter(wanNext);
 				
 				if (Global.getCurrentPoint() > refPt)
@@ -137,14 +137,14 @@ public class RuleEMA56 extends Rules {
 
 			Global.addLog(className + ": waiting for a pull back");
 
-			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()){
+			while (Global.getCurrentPoint() < GetData.getShortTB().getLatestCandle().getHigh()){
 				wanPrevious.middleWaiter(wanNext);
 			}
 				refPt = Global.getCurrentPoint();	
 				
 			Global.addLog(className + ": waiting for a second corner");
 			
-			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()){
+			while (Global.getCurrentPoint() > GetData.getShortTB().getLatestCandle().getLow()){
 				wanPrevious.middleWaiter(wanNext);
 				
 				if (Global.getCurrentPoint() > refPt)
@@ -177,14 +177,14 @@ public class RuleEMA56 extends Rules {
 			
 			refPt = Global.getCurrentPoint();
 
-			while (Global.getCurrentPoint() > StockDataController.getShortTB().getLatestCandle().getLow()){
+			while (Global.getCurrentPoint() > GetData.getShortTB().getLatestCandle().getLow()){
 				wanPrevious.middleWaiter(wanNext);			
 			}
 			
 			refPt = Global.getCurrentPoint();
 			Global.addLog(className + ": waiting for a second corner");
 			
-			while (Global.getCurrentPoint() < StockDataController.getShortTB().getLatestCandle().getHigh()){
+			while (Global.getCurrentPoint() < GetData.getShortTB().getLatestCandle().getHigh()){
 				wanPrevious.middleWaiter(wanNext);
 				if (Global.getCurrentPoint() < refPt)
 					refPt = Global.getCurrentPoint();		
@@ -215,8 +215,8 @@ public class RuleEMA56 extends Rules {
 	
 		if (lossTimes > 2){
 			
-			 ema5 = StockDataController.getShortTB().getEMA(5);
-			 ema6 = StockDataController.getShortTB().getEMA(6);
+			 ema5 = GetData.getShortTB().getEMA(5);
+			 ema6 = GetData.getShortTB().getEMA(6);
 			
 		}else {
 		// 10){
@@ -303,7 +303,7 @@ public class RuleEMA56 extends Rules {
 
 	@Override
 	public TimeBase getTimeBase() {
-		return StockDataController.getLongTB();
+		return GetData.getLongTB();
 	}
 
 }

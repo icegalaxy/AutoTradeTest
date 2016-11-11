@@ -59,8 +59,8 @@ public class RuleEMA extends Rules {
 
 		if (getTimeBase().getEMA(10) < getTimeBase().getEMA(20)) {
 
-			while (getTimeBase().getEMA(10) - bufferPt < getTimeBase().getEMA(20) // ¬ï¤­ÂI¥ýºâ¬ï
-					&& Global.isOrderTime() && getTimeBase().getRSI() < 70 // ©O¥y¥[¥ª«Y­ø¦Pªº¡A¥[¥ªÃø¶Rd
+			while (getTimeBase().getEMA(10) - bufferPt < getTimeBase().getEMA(20) // ï¿½ï¤­ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½
+					&& Global.isOrderTime() && getTimeBase().getRSI() < 70 // ï¿½Oï¿½yï¿½[ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½Aï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Rd
 			) {
 
 				wanPrevious.middleWaiter(wanNext);
@@ -69,7 +69,7 @@ public class RuleEMA extends Rules {
 			if (!Global.isOrderTime()
 					|| Global.getCurrentPoint() < getTimeBase().getMA(20)
 					|| getTimeBase().getRSI() > 70
-					|| getAGAL() < 6.5 // getALAG¶Wºò­n
+					|| getAGAL() < 6.5 // getALAGï¿½Wï¿½ï¿½n
 					|| getTimeBase().getLatestCandle().getHigh() == getTimeBase().getHL(60).getTempHigh()
 					|| getTimeBase().isMADropping(20,1)
 					|| !getTimeBase().isMARising(10,1)
@@ -109,7 +109,7 @@ public class RuleEMA extends Rules {
 //					|| getTimeBase().getTempRsiHigh() < 70
 					// || getTimeBase().getMainDownRail().getRail() == 0
 //					|| getTimeBase().getFluctuation() < fluctuation
-					|| getTimeBase().getHL(60).getRsiFluctuation() > rsiFluctuation //rsi Flu¶V¤jªí¥Ü¤W¤Uªi¨ì¤j,¶V²Ó§Y¶V³æÃä¨«
+					|| getTimeBase().getHL(60).getRsiFluctuation() > rsiFluctuation //rsi Fluï¿½Vï¿½jï¿½ï¿½Ü¤Wï¿½Uï¿½iï¿½ï¿½j,ï¿½Vï¿½Ó§Yï¿½Vï¿½ï¿½ï¿½ä¨«
 		
 			) {
 				return;
@@ -122,7 +122,7 @@ public class RuleEMA extends Rules {
 
 	@Override
 	public TimeBase getTimeBase() {
-		return StockDataController.getShortTB();
+		return GetData.getShortTB();
 	}
 
 }

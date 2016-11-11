@@ -43,9 +43,9 @@ public abstract class LocalRules implements Runnable {
 	boolean shutDownLong;
 	boolean shutDownShort;
 	
-	private static float balance; // holding contracts ªº balance
+	private static float balance; // holding contracts ï¿½ï¿½ balance
 
-	// ¥i¥H´zRun­øRun
+	// ï¿½iï¿½Hï¿½zRunï¿½ï¿½Run
 	public LocalRules(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		this.wanPrevious = wan1;
 		this.wanNext = wan2;
@@ -54,7 +54,7 @@ public abstract class LocalRules implements Runnable {
 
 	}
 
-	// ¤@©wrun
+	// ï¿½@ï¿½wrun
 	public LocalRules(WaitAndNotify wan1, WaitAndNotify wan2) {
 		this.wanPrevious = wan1;
 		this.wanNext = wan2;
@@ -144,7 +144,7 @@ public abstract class LocalRules implements Runnable {
 		if (getCutLossPt() < cutLossPt)
 			cutLossPt = getCutLossPt();
 		
-		//¨C¬í¥[0.016¡A¨C¤À¤¤¥[1.´X
+		//ï¿½Cï¿½ï¿½[0.016ï¿½Aï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½[1.ï¿½X
 		earnAdjustment = earnAdjustment + 0.02;
 		lossAdjustment = lossAdjustment + 0.02;
 
@@ -302,8 +302,8 @@ public abstract class LocalRules implements Runnable {
 				return;
 			}
 
-			if (Global.getNoOfContracts() == 0) { // ¥i¯à­Ú¨ä¥Lrule close¥ª¡A©ÎTrend
-				// truned¡A¥Ì§Y«YÂà¥ª¶Õ¡A¨«
+			if (Global.getNoOfContracts() == 0) { // ï¿½iï¿½ï¿½Ú¨ï¿½Lrule closeï¿½ï¿½ï¿½Aï¿½ï¿½Trend
+				// trunedï¿½Aï¿½Ì§Yï¿½Yï¿½à¥ªï¿½Õ¡Aï¿½ï¿½
 				hasContract = false;
 				break;
 			}
@@ -410,11 +410,11 @@ public abstract class LocalRules implements Runnable {
 
 	protected float getAGAL() {
 
-		StockDataController.getShortTB().getRSI(); // ­ø¥[©O¥yªº¸ÜAGAL«Y­ø·|­§ªº
-		return (StockDataController.getShortTB().getAG() + StockDataController
-				.getShortTB().getAL()); // §Y°µ©O«×«Y³£«Y­n¥ÎµfShort
+		GetData.getShortTB().getRSI(); // ï¿½ï¿½ï¿½[ï¿½Oï¿½yï¿½ï¿½ï¿½ï¿½AGALï¿½Yï¿½ï¿½ï¿½|ï¿½ï¿½ï¿½ï¿½
+		return (GetData.getShortTB().getAG() + GetData
+				.getShortTB().getAL()); // ï¿½Yï¿½ï¿½ï¿½Oï¿½×«Yï¿½ï¿½ï¿½Yï¿½nï¿½ÎµfShort
 		// Period
-		// ALAG¥ýÄ¹¨ì
+		// ALAGï¿½ï¿½Ä¹ï¿½ï¿½
 	}
 
 	public void shortContract() {
@@ -592,7 +592,7 @@ public abstract class LocalRules implements Runnable {
 //				- getTimeBase().getQuatityByPeriods(Setting.quantityPeriods[getQuantitiesIndex()-1])
 				;
 		
-		for (int i=0; i<Setting.quantity.length; i++){ //for ­ø°÷20 DAYªº¤é¤l
+		for (int i=0; i<Setting.quantity.length; i++){ //for ï¿½ï¿½ï¿½ï¿½20 DAYï¿½ï¿½ï¿½ï¿½l
 			if (maxIndex < Setting.quantity[0][i] + 1)
 				maxIndex = (int) Setting.quantity[0][i] + 1;
 		}

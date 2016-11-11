@@ -53,7 +53,7 @@ public class RuleIBT extends Rules
 				if (TimePeriodDecider.getTime() > 100000)
 					return;
 				
-				if (StockDataController.getShortTB().getEMA(5) > StockDataController.getShortTB().getEMA(6))
+				if (GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6))
 					break;
 				
 				if (Global.getCurrentPoint() < Global.getOpen() - 10)
@@ -90,7 +90,7 @@ public class RuleIBT extends Rules
 			while (getTimeBase().getMA(240) > getTimeBase().getPreviousMA(240))
 			{
 
-				if (StockDataController.getShortTB().getEMA(5) < StockDataController.getShortTB().getEMA(6))
+				if (GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6))
 					break;
 				
 				if (TimePeriodDecider.getTime() > 100000)
@@ -136,8 +136,8 @@ public class RuleIBT extends Rules
 //
 //		if (getProfit() < 100)
 //		{
-			ema5 = StockDataController.getShortTB().getLatestCandle().getClose();
-			ema6 = StockDataController.getLongTB().getEMA(5);
+			ema5 = GetData.getShortTB().getLatestCandle().getClose();
+			ema6 = GetData.getLongTB().getEMA(5);
 //		} else
 //		{
 //			ema5 = StockDataController.getLongTB().getEMA(5);
@@ -223,7 +223,7 @@ public class RuleIBT extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return StockDataController.getLongTB();
+		return GetData.getLongTB();
 	}
 
 }

@@ -91,7 +91,7 @@ public class RuleSupportAndResist extends Rules {
 
 	@Override
 	public TimeBase getTimeBase() {
-		return StockDataController.getShortTB();
+		return GetData.getShortTB();
 	}
 	
 	@Override

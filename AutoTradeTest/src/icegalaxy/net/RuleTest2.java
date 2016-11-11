@@ -28,11 +28,11 @@ public class RuleTest2 extends Rules {
 		)
 			return;
 		
-		if (isUpTrend() && StockDataController.getShortTB().getRSI() < 30 - lossTimes * 10)
+		if (isUpTrend() && GetData.getShortTB().getRSI() < 30 - lossTimes * 10)
 		{
 			
 			refPt = Global.getCurrentPoint();
-			while (StockDataController.getShortTB().getLatestCandle().getClose() < StockDataController.getShortTB().getPreviousCandle(1).getClose())
+			while (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getPreviousCandle(1).getClose())
 				{
 					wanPrevious.middleWaiter(wanNext);
 					if (Global.getCurrentPoint() < refPt)
@@ -44,10 +44,10 @@ public class RuleTest2 extends Rules {
 			
 			cutLoss = buyingPoint - refPt;
 		}
-		else if  (isDownTrend() && StockDataController.getShortTB().getRSI() > 70 + lossTimes * 10)
+		else if  (isDownTrend() && GetData.getShortTB().getRSI() > 70 + lossTimes * 10)
 		{
 			
-			while (StockDataController.getShortTB().getLatestCandle().getClose() > StockDataController.getShortTB().getPreviousCandle(1).getClose())
+			while (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getPreviousCandle(1).getClose())
 				{
 					wanPrevious.middleWaiter(wanNext);
 					
@@ -137,7 +137,7 @@ public class RuleTest2 extends Rules {
 
 	@Override
 	public TimeBase getTimeBase() {
-		return StockDataController.getLongTB();
+		return GetData.getLongTB();
 	}
 
 }

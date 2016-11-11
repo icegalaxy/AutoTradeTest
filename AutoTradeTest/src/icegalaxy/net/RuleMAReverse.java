@@ -26,19 +26,19 @@ public class RuleMAReverse extends Rules {
 
 		if (getTimeBase().getMA(10) < getTimeBase().getMA(20)) {
 
-			while (getTimeBase().getMA(10) - bufferPt < getTimeBase().getMA(20) // ¬ï¤­ÂI¥ýºâ¬ï
+			while (getTimeBase().getMA(10) - bufferPt < getTimeBase().getMA(20) // ï¿½ï¤­ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½
 					&& Global.isOrderTime()) {
 
 				wanPrevious.middleWaiter(wanNext);
 			}
 
 			// wanPrevious.middleWaiter(wanNext); //
-			// µ¥¤@¬í¡AÅåGetdata¥¼set¦nGlobal¡AÚ»¤U·|­ø·|¦nd
+			// ï¿½ï¿½ï¿½@ï¿½ï¿½Aï¿½ï¿½Getdataï¿½ï¿½setï¿½nGlobalï¿½AÚ»ï¿½Uï¿½|ï¿½ï¿½ï¿½|ï¿½nd
 
 			if (!Global.isOrderTime()
 			// || Global.getCurrentPoint() < getTimeBase().getMA(20)
 			// || getTimeBase().getRSI() > 70
-			// || getAGAL() < 6.5 // getALAG¶Wºò­n
+			// || getAGAL() < 6.5 // getALAGï¿½Wï¿½ï¿½n
 					// || !getTimeBase().isMARising(20)
 					// || !getTimeBase().isMARising(1)
 					// || getTimeBase().getMA(5) < getTimeBase().getMA(20)
@@ -51,7 +51,7 @@ public class RuleMAReverse extends Rules {
 			// || !shouldRise()
 
 			// || Global.getMacdHistogram() < 1
-			)// ¤§«áÚ»µf­ì¨Óma20rising³£´Xºò­n¡A¥iÚ»¨ì¤j¶Õ¡AÁ×§K¶R¿ù¦n¦h³¥
+			)// ï¿½ï¿½ï¿½ï¿½Ú»ï¿½fï¿½ï¿½ï¿½ma20risingï¿½ï¿½ï¿½Xï¿½ï¿½nï¿½Aï¿½iÚ»ï¿½ï¿½jï¿½Õ¡Aï¿½×§Kï¿½Rï¿½ï¿½ï¿½nï¿½hï¿½ï¿½
 
 			{
 				// Global.addLog("RuleMA, Give up Long");
@@ -164,8 +164,8 @@ public class RuleMAReverse extends Rules {
 //				return;
 //			}
 //
-//			if (Global.getNoOfContracts() == 0) { // ¥i¯à­Ú¨ä¥Lrule close¥ª¡A©ÎTrend
-//				// truned¡A¥Ì§Y«YÂà¥ª¶Õ¡A¨«
+//			if (Global.getNoOfContracts() == 0) { // ï¿½iï¿½ï¿½Ú¨ï¿½Lrule closeï¿½ï¿½ï¿½Aï¿½ï¿½Trend
+//				// trunedï¿½Aï¿½Ì§Yï¿½Yï¿½à¥ªï¿½Õ¡Aï¿½ï¿½
 //				hasContract = false;
 //				break;
 //			}
@@ -220,7 +220,7 @@ public class RuleMAReverse extends Rules {
 
 	@Override
 	public TimeBase getTimeBase() {
-		return StockDataController.getShortTB();
+		return GetData.getShortTB();
 	}
 
 	@Override

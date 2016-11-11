@@ -38,13 +38,13 @@ public class RuleDanny2 extends Rules
 
 		if (isUpTrend2() 
 				&& getTimeBase().getEMA(5) > getTimeBase().getEMA(10)
-				&& StockDataController.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(5)
+				&& GetData.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(5)
 				&& Global.getCurrentPoint() > getTimeBase().getEMA(10))
 		{
 
 			Global.addLog("Up Trend");
 
-			while (StockDataController.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(5))
+			while (GetData.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(5))
 			{
 				wanPrevious.middleWaiter(wanNext);
 
@@ -65,13 +65,13 @@ public class RuleDanny2 extends Rules
 			
 		} else if (isDownTrend2()
 				&& getTimeBase().getEMA(5) < getTimeBase().getEMA(10)
-				&& StockDataController.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5)
+				&& GetData.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5)
 				&& Global.getCurrentPoint() < getTimeBase().getEMA(10))
 		{
 
 			Global.addLog("Down Trend");
 
-			while (StockDataController.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5))
+			while (GetData.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5))
 			{
 				wanPrevious.middleWaiter(wanNext);
 
@@ -118,7 +118,7 @@ public class RuleDanny2 extends Rules
 
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
 		// 10){
-		ema5 = StockDataController.getShortTB().getLatestCandle().getClose();
+		ema5 = GetData.getShortTB().getLatestCandle().getClose();
 		ema6 = getTimeBase().getEMA(5);
 
 
@@ -203,7 +203,7 @@ public class RuleDanny2 extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return StockDataController.getLongTB();
+		return GetData.getLongTB();
 	}
 
 }

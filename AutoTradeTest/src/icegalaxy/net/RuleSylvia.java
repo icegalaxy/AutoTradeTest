@@ -128,7 +128,7 @@ public class RuleSylvia extends Rules
 	@Override
 	public TimeBase getTimeBase()
 	{
-		return StockDataController.getLongTB();
+		return GetData.getLongTB();
 	}
 
 }

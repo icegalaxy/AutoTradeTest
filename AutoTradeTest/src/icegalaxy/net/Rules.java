@@ -402,8 +402,8 @@ public abstract class Rules implements Runnable
 	protected float getAGAL()
 	{
 
-		StockDataController.getShortTB().getRSI(); // ���[�O�y����AGAL�Y���|����
-		return (StockDataController.getShortTB().getAG() + StockDataController.getShortTB().getAL()); // �Y���O�׫Y���Y�n�εfShort
+		GetData.getShortTB().getRSI(); // ���[�O�y����AGAL�Y���|����
+		return (GetData.getShortTB().getAG() + GetData.getShortTB().getAL()); // �Y���O�׫Y���Y�n�εfShort
 		// Period
 		// ALAG��Ĺ��
 	}
@@ -464,9 +464,9 @@ public abstract class Rules implements Runnable
 		if (Global.getNoOfContracts() > 0)
 		{
 
-			if (StockDataController.getShortTB().getLatestCandle().getLow() > tempCutLoss)
+			if (GetData.getShortTB().getLatestCandle().getLow() > tempCutLoss)
 			{
-				tempCutLoss = StockDataController.getShortTB().getLatestCandle().getLow();
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getLow();
 				// usingMA20 = false;
 				// usingMA10 = false;
 				// usingMA5 = false;
@@ -475,9 +475,9 @@ public abstract class Rules implements Runnable
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			if (StockDataController.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
+			if (GetData.getShortTB().getLatestCandle().getHigh() < tempCutLoss)
 			{
-				tempCutLoss = StockDataController.getShortTB().getLatestCandle().getHigh();
+				tempCutLoss = GetData.getShortTB().getLatestCandle().getHigh();
 				// usingMA20 = false;
 				// usingMA10 = false;
 				// usingMA5 = false;
@@ -498,14 +498,14 @@ public abstract class Rules implements Runnable
 
 		if (Global.getNoOfContracts() > 0)
 		{
-			if (Global.getCurrentPoint() < StockDataController.getLongTB().getEMA(5))
+			if (Global.getCurrentPoint() < GetData.getLongTB().getEMA(5))
 			{
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: Current Pt < EMA5");
 			}
 		} else if (Global.getNoOfContracts() < 0)
 		{
-			if (Global.getCurrentPoint() > StockDataController.getLongTB().getEMA(5))
+			if (Global.getCurrentPoint() > GetData.getLongTB().getEMA(5))
 			{
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: Current Pt > EMA5");
@@ -520,14 +520,14 @@ public abstract class Rules implements Runnable
 
 		if (Global.getNoOfContracts() > 0)
 		{
-			if (StockDataController.getLongTB().getEMA(5) < StockDataController.getLongTB().getEMA(6))
+			if (GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(6))
 			{
 				tempCutLoss = 99999;
 				Global.addLog(className + " StopEarn: EMA5 < EMA6");
 			}
 		} else if (Global.getNoOfContracts() < 0)
 		{
-			if (StockDataController.getLongTB().getEMA(5) > StockDataController.getLongTB().getEMA(6))
+			if (GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(6))
 			{
 				tempCutLoss = 0;
 				Global.addLog(className + " StopEarn: EMA5 > EMA6");
@@ -648,36 +648,36 @@ public abstract class Rules implements Runnable
 
 	public boolean isSylviaUpTrend()
 	{
-		return Global.getCurrentPoint() > StockDataController.getShortTB().getEMA(5)
-				&& Global.getCurrentPoint() > StockDataController.getShortTB().getMA(20)
-				&& Global.getCurrentPoint() > StockDataController.getShortTB().getEMA(50)
-				&& Global.getCurrentPoint() > StockDataController.getShortTB().getEMA(240);
+		return Global.getCurrentPoint() > GetData.getShortTB().getEMA(5)
+				&& Global.getCurrentPoint() > GetData.getShortTB().getMA(20)
+				&& Global.getCurrentPoint() > GetData.getShortTB().getEMA(50)
+				&& Global.getCurrentPoint() > GetData.getShortTB().getEMA(240);
 
 	}
 
 	public boolean isSylviaDownTrend()
 	{
-		return Global.getCurrentPoint() < StockDataController.getShortTB().getEMA(5)
-				&& Global.getCurrentPoint() < StockDataController.getShortTB().getMA(20)
-				&& Global.getCurrentPoint() < StockDataController.getShortTB().getEMA(50)
-				&& Global.getCurrentPoint() < StockDataController.getShortTB().getEMA(240);
+		return Global.getCurrentPoint() < GetData.getShortTB().getEMA(5)
+				&& Global.getCurrentPoint() < GetData.getShortTB().getMA(20)
+				&& Global.getCurrentPoint() < GetData.getShortTB().getEMA(50)
+				&& Global.getCurrentPoint() < GetData.getShortTB().getEMA(240);
 
 	}
 
 	public boolean isUpTrend2()
 	{
-		return StockDataController.getLongTB().getMA(20) > StockDataController.getLongTB().getEMA(50) + 5
-				&& StockDataController.getLongTB().getEMA(50) > StockDataController.getLongTB().getEMA(240) + 100
-				&& StockDataController.getLongTB().getEMA(5) > StockDataController.getLongTB().getEMA(10)
-				&& StockDataController.getLongTB().getEMA(10) > StockDataController.getLongTB().getEMA(20) + 5;
+		return GetData.getLongTB().getMA(20) > GetData.getLongTB().getEMA(50) + 5
+				&& GetData.getLongTB().getEMA(50) > GetData.getLongTB().getEMA(240) + 100
+				&& GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(10)
+				&& GetData.getLongTB().getEMA(10) > GetData.getLongTB().getEMA(20) + 5;
 	}
 	
 	public boolean isDownTrend2()
 	{
-		return StockDataController.getLongTB().getMA(20) < StockDataController.getLongTB().getEMA(50) - 5
-				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240) - 100
-				&& StockDataController.getLongTB().getEMA(5) < StockDataController.getLongTB().getEMA(10)
-				&& StockDataController.getLongTB().getEMA(10) < StockDataController.getLongTB().getEMA(20) - 5;
+		return GetData.getLongTB().getMA(20) < GetData.getLongTB().getEMA(50) - 5
+				&& GetData.getLongTB().getEMA(50) < GetData.getLongTB().getEMA(240) - 100
+				&& GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(10)
+				&& GetData.getLongTB().getEMA(10) < GetData.getLongTB().getEMA(20) - 5;
 	}
 	
 	
@@ -710,10 +710,10 @@ public abstract class Rules implements Runnable
 	{
 		ArrayList<Float> mas = new ArrayList<Float>();
 
-		mas.add(StockDataController.getM15TB().getMA(20));
-		mas.add(StockDataController.getM15TB().getEMA(50));
-		mas.add(StockDataController.getLongTB().getEMA(50));
-		mas.add(StockDataController.getLongTB().getEMA(240));
+		mas.add(GetData.getM15TB().getMA(20));
+		mas.add(GetData.getM15TB().getEMA(50));
+		mas.add(GetData.getLongTB().getEMA(50));
+		mas.add(GetData.getLongTB().getEMA(240));
 
 		return mas;
 
@@ -722,8 +722,8 @@ public abstract class Rules implements Runnable
 	// Danny �l�ȥ�e�w��V
 	public boolean isUpTrend()
 	{
-		return StockDataController.getM15TB().getMA(20) > StockDataController.getM15TB().getEMA(50)
-				&& StockDataController.getLongTB().getEMA(50) > StockDataController.getLongTB().getEMA(240);
+		return GetData.getM15TB().getMA(20) > GetData.getM15TB().getEMA(50)
+				&& GetData.getLongTB().getEMA(50) > GetData.getLongTB().getEMA(240);
 		// && StockDataController.getLongTB().getLatestCandle().getClose() >
 		// StockDataController.getM15TB()
 		// .getMA(20)
@@ -740,8 +740,8 @@ public abstract class Rules implements Runnable
 
 	public boolean isDownTrend()
 	{
-		return StockDataController.getM15TB().getMA(20) < StockDataController.getM15TB().getEMA(50)
-				&& StockDataController.getLongTB().getEMA(50) < StockDataController.getLongTB().getEMA(240);
+		return GetData.getM15TB().getMA(20) < GetData.getM15TB().getEMA(50)
+				&& GetData.getLongTB().getEMA(50) < GetData.getLongTB().getEMA(240);
 		// && StockDataController.getLongTB().getLatestCandle().getClose() >
 		// StockDataController.getM15TB()
 		// .getMA(20)
@@ -760,8 +760,8 @@ public abstract class Rules implements Runnable
 	public boolean isSideWay()
 	{
 
-		return !StockDataController.getLongTB().isEMARising(50, 1)
-				&& !StockDataController.getLongTB().isEMADropping(50, 1);
+		return !GetData.getLongTB().isEMARising(50, 1)
+				&& !GetData.getLongTB().isEMADropping(50, 1);
 	}
 
 	void reverseOHLC(double ohlc)
@@ -770,10 +770,10 @@ public abstract class Rules implements Runnable
 		{
 
 			Global.addLog(className + ": Entered waiting zone");
-			Global.addLog("MA20(M15): " + StockDataController.getM15TB().getMA(20));
-			Global.addLog("EMA50(M15): " + StockDataController.getM15TB().getEMA(50));
-			Global.addLog("EMA50(M5): " + StockDataController.getLongTB().getEMA(50));
-			Global.addLog("EMA240(M5): " + StockDataController.getLongTB().getEMA(240));
+			Global.addLog("MA20(M15): " + GetData.getM15TB().getMA(20));
+			Global.addLog("EMA50(M15): " + GetData.getM15TB().getEMA(50));
+			Global.addLog("EMA50(M5): " + GetData.getLongTB().getEMA(50));
+			Global.addLog("EMA240(M5): " + GetData.getLongTB().getEMA(240));
 			Global.addLog("");
 
 			while (Global.getCurrentPoint() <= ohlc + 20 && Global.getCurrentPoint() >= ohlc - 20)
@@ -826,7 +826,7 @@ public abstract class Rules implements Runnable
 			//
 			// // for inside
 			// } else {
-			if (StockDataController.getShortTB().getLatestCandle().getClose() > ohlc && isUpTrend())
+			if (GetData.getShortTB().getLatestCandle().getClose() > ohlc && isUpTrend())
 			{
 				// if (StockDataController.getShortTB().getEMA(5) <
 				// StockDataController.getShortTB().getEMA(6)){
@@ -834,7 +834,7 @@ public abstract class Rules implements Runnable
 				// return;
 				// }
 				longContract();
-			} else if (StockDataController.getShortTB().getLatestCandle().getClose() < ohlc && isDownTrend())
+			} else if (GetData.getShortTB().getLatestCandle().getClose() < ohlc && isDownTrend())
 			{
 				// if (StockDataController.getShortTB().getEMA(5) >
 				// StockDataController.getShortTB().getEMA(6)){
@@ -850,9 +850,9 @@ public abstract class Rules implements Runnable
 	public void waitForANewCandle()
 	{
 
-		int currentSize = StockDataController.getLongTB().getCandles().size();
+		int currentSize = GetData.getLongTB().getCandles().size();
 
-		while (currentSize == StockDataController.getLongTB().getCandles().size())
+		while (currentSize == GetData.getLongTB().getCandles().size())
 			wanPrevious.middleWaiter(wanNext);
 		;
 
