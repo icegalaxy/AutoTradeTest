@@ -37,14 +37,26 @@ public class RuleDanny2 extends Rules
 			return;
 
 		if (isUpTrend2() 
-				&& getTimeBase().getEMA(5) > getTimeBase().getEMA(10)
-				&& GetData.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(5)
-				&& Global.getCurrentPoint() > getTimeBase().getEMA(10))
+//				&& GetData.getEma25().getEMA() > GetData.getEma50().getEMA()
+///			&& GetData.getShortTB().getLatestCandle().getClose() < GetData.getEma25().getEMA() 
+				&& Global.getCurrentPoint() > GetData.getEma50().getEMA()
+				)
 		{
 
 			Global.addLog("Up Trend");
+			
+//			while (GetData.getShortTB().getLatestCandle().getClose() > GetData.getEma25().getEMA())
+//			{
+//				wanPrevious.middleWaiter(wanNext);
+//
+//				if (!isUpTrend2())
+//				{
+//					Global.addLog("Trend Change");
+//					return;
+//				}
+//			}
 
-			while (GetData.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(5))
+			while (Global.getCurrentPoint() > GetData.getEma50().getEMA() + 20)
 			{
 				wanPrevious.middleWaiter(wanNext);
 
@@ -56,22 +68,34 @@ public class RuleDanny2 extends Rules
 			}
 				
 			longContract();
-			cutLossPt = Math.abs(buyingPoint - getTimeBase().getEMA(10));
-			Global.addLog("EMA5: " + getTimeBase().getEMA(5));
-			Global.addLog("EMA10: " + getTimeBase().getEMA(10));
-			Global.addLog("EMA50: " + getTimeBase().getEMA(50));
-			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
-			Global.addLog("CutLossPt: " + cutLossPt);
+			cutLossPt = Math.abs(buyingPoint - GetData.getEma50().getEMA());
+//			Global.addLog("EMA5: " + getTimeBase().getEMA(5));
+//			Global.addLog("EMA10: " + getTimeBase().getEMA(10));
+//			Global.addLog("EMA50: " + getTimeBase().getEMA(50));
+//			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+//			Global.addLog("CutLossPt: " + cutLossPt);
 			
 		} else if (isDownTrend2()
-				&& getTimeBase().getEMA(5) < getTimeBase().getEMA(10)
-				&& GetData.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5)
-				&& Global.getCurrentPoint() < getTimeBase().getEMA(10))
+//				&& GetData.getEma25().getEMA() < GetData.getEma50().getEMA()
+//				&& GetData.getShortTB().getLatestCandle().getClose() > GetData.getEma25().getEMA() 
+//				&& Global.getCurrentPoint() < GetData.getEma50().getEMA()
+				)
 		{
 
 			Global.addLog("Down Trend");
+			
+//			while (GetData.getShortTB().getLatestCandle().getClose() < GetData.getEma25().getEMA())
+//			{
+//				wanPrevious.middleWaiter(wanNext);
+//
+//				if (!isUpTrend2())
+//				{
+//					Global.addLog("Trend Change");
+//					return;
+//				}
+//			}
 
-			while (GetData.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5))
+			while (Global.getCurrentPoint() < GetData.getEma50().getEMA() - 20)
 			{
 				wanPrevious.middleWaiter(wanNext);
 
@@ -83,13 +107,13 @@ public class RuleDanny2 extends Rules
 			}
 		
 			shortContract();
-			cutLossPt = Math.abs(buyingPoint - getTimeBase().getEMA(10));
-			Global.addLog("EMA5: " + getTimeBase().getEMA(5));
-			Global.addLog("EMA10: " + getTimeBase().getEMA(10));
-			Global.addLog("EMA50: " + getTimeBase().getEMA(50));
-			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
-//			Global.addLog("Before High: " + refPt);
-			Global.addLog("CutLossPt: " + cutLossPt);
+			cutLossPt = Math.abs(buyingPoint - GetData.getEma50().getEMA());
+//			Global.addLog("EMA5: " + getTimeBase().getEMA(5));
+//			Global.addLog("EMA10: " + getTimeBase().getEMA(10));
+//			Global.addLog("EMA50: " + getTimeBase().getEMA(50));
+//			Global.addLog("EMA240: " + getTimeBase().getEMA(240));
+////			Global.addLog("Before High: " + refPt);
+//			Global.addLog("CutLossPt: " + cutLossPt);
 
 		}
 
@@ -119,7 +143,7 @@ public class RuleDanny2 extends Rules
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
 		// 10){
 		ema5 = GetData.getShortTB().getLatestCandle().getClose();
-		ema6 = getTimeBase().getEMA(5);
+		ema6 = GetData.getEma25().getEMA();
 
 
 		if (Global.getNoOfContracts() > 0)

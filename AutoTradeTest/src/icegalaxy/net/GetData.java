@@ -12,6 +12,18 @@ public class GetData implements Runnable
 	private static TimeBase shortTB;
 	private static TimeBase m15TB;
 	private static TimeBase longTB;
+	
+	XMLReader ohlc;
+	
+	private static EMA ema5;
+	private static EMA ema25;
+	private static EMA ema50;
+	private static EMA ema100;
+	private static EMA ema250;
+	private static EMA ema1200;
+	
+	
+	
 
 	private boolean isOpenAdded = false;
 
@@ -63,11 +75,24 @@ public class GetData implements Runnable
 	{
 		this.wan = wan;
 		this.tableName = tableName;
+		
+		
 
 		for (int i = 0; i < added.length; i++)
 		{
 			added[i] = false;
 		}
+		
+		ohlc = new XMLReader(tableName);
+		
+		ema5 = new EMA(ohlc.getpEMA5(),5);
+		ema25 = new EMA(ohlc.getpEMA25(),25);;
+		ema50 = new EMA(ohlc.getpEMA50(),50);
+		ema100 = new EMA(ohlc.getpEMA100(),100);
+		ema250 = new EMA(ohlc.getpEMA250(),250);
+		ema1200 = new EMA(ohlc.getpEMA1200(),1200);
+		
+//		Global.addLog("pEMA250: " + ohlc.getpEMA250());
 
 		shortTB = new TimeBase();
 		shortTB.setBaseMin(Setting.getShortTB());
@@ -240,6 +265,13 @@ public class GetData implements Runnable
 					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
 							calDeal, totalQuantity);
 
+					
+					  ema5.setlatestEMA(calDeal);
+					  ema25.setlatestEMA(calDeal);
+					  ema50.setlatestEMA(calDeal);
+					  ema100.setlatestEMA(calDeal);
+					  ema250.setlatestEMA(calDeal);
+					  ema1200.setlatestEMA(calDeal);
 					// getShortTB().getMACD();
 
 					// if (calDeal == 23868)
@@ -390,6 +422,8 @@ public class GetData implements Runnable
 	// }
 	// }
 	// }
+	
+	
 
 	private void setGlobal()
 	{
@@ -397,6 +431,36 @@ public class GetData implements Runnable
 			Global.setLowFluctuation(true);
 		else
 			Global.setLowFluctuation(false);
+	}
+
+	public static EMA getEma5()
+	{
+		return ema5;
+	}
+
+	public static EMA getEma25()
+	{
+		return ema25;
+	}
+
+	public static EMA getEma50()
+	{
+		return ema50;
+	}
+
+	public static EMA getEma100()
+	{
+		return ema100;
+	}
+
+	public static EMA getEma250()
+	{
+		return ema250;
+	}
+
+	public static EMA getEma1200()
+	{
+		return ema1200;
 	}
 
 	private Date getCSVTime(String time)
@@ -588,12 +652,12 @@ public class GetData implements Runnable
 
 	private void setOHLC()
 	{
-		XMLReader ohlc = new XMLReader(tableName);
+		
 		Global.setpHigh(ohlc.getpHigh());
 		Global.setpLow(ohlc.getpLow());
 		Global.setpOpen(ohlc.getpOpen());
 		Global.setpClose(ohlc.getpClose());
-		Global.setpFluc(ohlc.getpFluc());
+//		Global.setpFluc(ohlc.getpFluc());
 
 		if (Global.getpHigh() != 0)
 		{

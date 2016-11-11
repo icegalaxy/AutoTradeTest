@@ -666,21 +666,21 @@ public abstract class Rules implements Runnable
 
 	public boolean isUpTrend2()
 	{
-		return GetData.getLongTB().getMA(20) > GetData.getLongTB().getEMA(50) + 5
-				&& GetData.getLongTB().getEMA(50) > GetData.getLongTB().getEMA(240) + 100
-				&& GetData.getLongTB().getEMA(5) > GetData.getLongTB().getEMA(10)
-				&& GetData.getLongTB().getEMA(10) > GetData.getLongTB().getEMA(20) + 5;
+		return GetData.getEma100().getEMA() > GetData.getEma250().getEMA()
+				&& GetData.getEma250().getEMA() > GetData.getEma1200().getEMA()
+				&& GetData.getEma25().getEMA() > GetData.getEma50().getEMA()
+				&& GetData.getEma50().getEMA() > GetData.getEma100().getEMA();
+				
 	}
-	
+
 	public boolean isDownTrend2()
 	{
-		return GetData.getLongTB().getMA(20) < GetData.getLongTB().getEMA(50) - 5
-				&& GetData.getLongTB().getEMA(50) < GetData.getLongTB().getEMA(240) - 100
-				&& GetData.getLongTB().getEMA(5) < GetData.getLongTB().getEMA(10)
-				&& GetData.getLongTB().getEMA(10) < GetData.getLongTB().getEMA(20) - 5;
+		return GetData.getEma100().getEMA() < GetData.getEma250().getEMA() 
+				&& GetData.getEma250().getEMA() < GetData.getEma1200().getEMA() 
+				&& GetData.getEma25().getEMA() < GetData.getEma50().getEMA() 
+				&& GetData.getEma50().getEMA() < GetData.getEma100().getEMA() ;
+		
 	}
-	
-	
 
 	public double getHighestMA()
 	{
@@ -760,8 +760,7 @@ public abstract class Rules implements Runnable
 	public boolean isSideWay()
 	{
 
-		return !GetData.getLongTB().isEMARising(50, 1)
-				&& !GetData.getLongTB().isEMADropping(50, 1);
+		return !GetData.getLongTB().isEMARising(50, 1) && !GetData.getLongTB().isEMADropping(50, 1);
 	}
 
 	void reverseOHLC(double ohlc)
