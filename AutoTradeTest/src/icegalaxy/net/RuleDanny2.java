@@ -81,6 +81,10 @@ public class RuleDanny2 extends Rules
 					spreadingTimes--;
 				}
 				
+//				if (Math.abs(buyingPoint - GetData.getEma50().getEMA()) > 50){
+//					Global.addLog("Risk too high");
+//					return;
+//				}
 				
 			}
 				
@@ -134,7 +138,10 @@ public class RuleDanny2 extends Rules
 					spreadingTimes--;
 				}
 				
-				
+//				if (Math.abs(buyingPoint - GetData.getEma50().getEMA()) > 50){
+//					Global.addLog("Risk too high");
+//					return;
+//				}
 			}
 		
 			shortContract();
@@ -217,7 +224,8 @@ public class RuleDanny2 extends Rules
 	{
 
 		
-		return Math.max(cutLossPt + 10, 30);
+		return Math.min(cutLossPt + 10, 40);
+//		return 40;
 
 	}
 
