@@ -676,7 +676,7 @@ public abstract class Rules implements Runnable
 
 	public boolean isDownTrend2()
 	{
-		return GetData.getEma100().getEMA() < GetData.getEma250().getEMA() 
+		return GetData.getEma100().getEMA() < GetData.getEma250().getEMA()
 				&& GetData.getEma250().getEMA() < GetData.getEma1200().getEMA()
 				&& Global.getCurrentPoint() < GetData.getEma250().getEMA();
 //				&& GetData.getEma25().getEMA() < GetData.getEma50().getEMA() 

@@ -54,6 +54,13 @@ public class RuleDanny2 extends Rules
 			{
 				wanPrevious.middleWaiter(wanNext);
 
+				if ( !isOrderTime())
+				{
+					Global.addLog("Not order time");
+					return;
+				}
+				
+				
 				if (!isUpTrend2())
 				{
 					Global.addLog("Trend Change");
@@ -73,9 +80,16 @@ public class RuleDanny2 extends Rules
 					return;
 				}
 				
+				if ( !isOrderTime())
+				{
+					Global.addLog("Not order time");
+					return;
+				}
+				
 				if (getMADiff() > refDiff){
 					refDiff = getMADiff();
 					spreadingTimes++;
+//					Global.addLog("Spreading time: "  + spreadingTimes);
 				}else if (getMADiff() < refDiff){
 					refDiff = getMADiff();
 					spreadingTimes--;
@@ -85,7 +99,7 @@ public class RuleDanny2 extends Rules
 //					Global.addLog("Risk too high");
 //					return;
 //				}
-				
+
 			}
 				
 			longContract();
@@ -115,6 +129,12 @@ public class RuleDanny2 extends Rules
 					Global.addLog("Trend Change");
 					return;
 				}
+				
+				if ( !isOrderTime())
+				{
+					Global.addLog("Not order time");
+					return;
+				}
 			}
 
 			int spreadingTimes = 0;
@@ -130,9 +150,16 @@ public class RuleDanny2 extends Rules
 					return;
 				}
 				
+				if ( !isOrderTime())
+				{
+					Global.addLog("Not order time");
+					return;
+				}
+				
 				if (getMADiff() < refDiff){
 					refDiff = getMADiff();
 					spreadingTimes++;
+//					Global.addLog("Spreading time: "  + spreadingTimes);
 				}else if (getMADiff() > refDiff){
 					refDiff = getMADiff();
 					spreadingTimes--;
@@ -224,8 +251,8 @@ public class RuleDanny2 extends Rules
 	{
 
 		
-		return Math.min(cutLossPt + 10, 40);
-//		return 40;
+//		return Math.min(cutLossPt + 10, 40);
+		return 40;
 
 	}
 
