@@ -12,18 +12,15 @@ public class GetData implements Runnable
 	private static TimeBase shortTB;
 	private static TimeBase m15TB;
 	private static TimeBase longTB;
-	
+
 	XMLReader ohlc;
-	
+
 	private static EMA ema5;
 	private static EMA ema25;
 	private static EMA ema50;
 	private static EMA ema100;
 	private static EMA ema250;
 	private static EMA ema1200;
-	
-	
-	
 
 	private boolean isOpenAdded = false;
 
@@ -70,29 +67,30 @@ public class GetData implements Runnable
 	// StockDataController.CandleData secData;
 
 	// StockDataController.CandleData secData;
+	ArrayList<Float> m1Deal;
 
 	public GetData(String tableName, WaitAndNotify wan)
 	{
 		this.wan = wan;
 		this.tableName = tableName;
-		
-		
+		m1Deal = new ArrayList<Float>();
 
 		for (int i = 0; i < added.length; i++)
 		{
 			added[i] = false;
 		}
-		
+
 		ohlc = new XMLReader(tableName);
-		
-		ema5 = new EMA(ohlc.getpEMA5(),5);
-		ema25 = new EMA(ohlc.getpEMA25(),25);;
-		ema50 = new EMA(ohlc.getpEMA50(),50);
-		ema100 = new EMA(ohlc.getpEMA100(),100);
-		ema250 = new EMA(ohlc.getpEMA250(),250);
-		ema1200 = new EMA(ohlc.getpEMA1200(),1200);
-		
-//		Global.addLog("pEMA250: " + ohlc.getpEMA250());
+
+		ema5 = new EMA(ohlc.getpEMA5(), 5);
+		ema25 = new EMA(ohlc.getpEMA25(), 25);
+		;
+		ema50 = new EMA(ohlc.getpEMA50(), 50);
+		ema100 = new EMA(ohlc.getpEMA100(), 100);
+		ema250 = new EMA(ohlc.getpEMA250(), 250);
+		ema1200 = new EMA(ohlc.getpEMA1200(), 1200);
+
+		// Global.addLog("pEMA250: " + ohlc.getpEMA250());
 
 		shortTB = new TimeBase();
 		shortTB.setBaseMin(Setting.getShortTB());
@@ -113,6 +111,7 @@ public class GetData implements Runnable
 		longData = new CandleData();
 		// sec10Data = new CandleData();
 		// secData = new CandleData();
+
 	}
 
 	public void getData()
@@ -172,16 +171,15 @@ public class GetData implements Runnable
 
 	public void run()
 	{
-		
-//		while (!Global.isTradeTime())
-//			wan.endWaiter();
-		
+
+		// while (!Global.isTradeTime())
+		// wan.endWaiter();
+
 		for (int i = 0; i < time.size(); i++)
 		{
-		
 
 			if (TimePeriodDecider.getTime() >= 163000)
-				break;  // skip night market
+				break; // skip night market
 			// if (time.get(i).toString().contains("12:59:"))
 			// continue;
 
@@ -190,162 +188,165 @@ public class GetData implements Runnable
 			min = new Integer(timeNow.substring(4, 6)).intValue();
 			AutoTradeDB.setTime(timeNow);
 
-//			if (Global.isTradeTime())
-//			{
-				dealPt = ((Float) deal.get(i)).floatValue();
-				askPt = ((Float) ask.get(i)).floatValue();
-				bidPt = ((Float) bid.get(i)).floatValue();
-				totalQuantity = ((Float) quantity.get(i)).floatValue();
+			// if (Global.isTradeTime())
+			// {
+			dealPt = ((Float) deal.get(i)).floatValue();
+			askPt = ((Float) ask.get(i)).floatValue();
+			bidPt = ((Float) bid.get(i)).floatValue();
+			totalQuantity = ((Float) quantity.get(i)).floatValue();
 
-				// if (dealPt > askPt) {
-				// calDeal = askPt;
-				// } else if (dealPt < bidPt) {
-				// calDeal = bidPt;
-				// } else {
-				calDeal = dealPt;
-				// }
+			// if (dealPt > askPt) {
+			// calDeal = askPt;
+			// } else if (dealPt < bidPt) {
+			// calDeal = bidPt;
+			// } else {
+			calDeal = dealPt;
+			// }
 
-				Global.setCurrentDeal(calDeal);
-				Global.setCurrentAsk(askPt);
-				Global.setCurrentBid(bidPt);
-				Global.setCurrentPoint(calDeal);
+			if (m1Deal.size() >= 60)
+				m1Deal.remove(0);
+			m1Deal.add(dealPt);
 
-				// addRenko(); ???
+			Global.setCurrentDeal(calDeal);
+			Global.setCurrentAsk(askPt);
+			Global.setCurrentBid(bidPt);
+			Global.setCurrentPoint(calDeal);
 
-				if (calDeal > Global.getDayHigh())
-					Global.setDayHigh(calDeal);
-				if (calDeal < Global.getDayLow())
+			// addRenko(); ???
+
+			if (calDeal > Global.getDayHigh())
+				Global.setDayHigh(calDeal);
+			if (calDeal < Global.getDayLow())
+			{
+				Global.setDayLow(calDeal);
+			}
+
+			if (!isOpenAdded)
+			{
+				Global.setOpen(calDeal);
+				isOpenAdded = true;
+			}
+
+			shortData.getHighLow();
+			shortData.getOpen();
+
+			m15Data.getHighLow();
+			m15Data.getOpen();
+
+			longData.getHighLow();
+			longData.getOpen();
+
+			// that Math.abs is for when min = 59 and ref = -1
+			if (min > refMin && Math.abs(min - refMin) < 10)
+			{
+
+				// System.out.println("min " + min);
+				// System.out.println("refMin " + refMin);
+				// System.out.println(" ");
+
+				shortMinutes++;
+				longMinutes++;
+				m15Minutes++;
+
+				if (refMin == 58)
+					refMin = -1;
+				else
+					refMin = min;
+			}
+
+			if (shortMinutes == Setting.getShortTB())
+			{
+
+				getShortTB().addData(getPreviousPt(), Float.valueOf(totalQuantity));
+
+				if (getShortTB().tops.size() > 1)
+					getShortTB().zone.setResist();
+				if (getShortTB().bottoms.size() > 1)
+					getShortTB().zone.setSupport();
+
+				getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
+						getPreviousPt(), totalQuantity);
+
+				ema5.setlatestEMA(calDeal);
+				ema25.setlatestEMA(calDeal);
+				ema50.setlatestEMA(calDeal);
+				ema100.setlatestEMA(calDeal);
+				ema250.setlatestEMA(calDeal);
+				ema1200.setlatestEMA(calDeal);
+				// getShortTB().getMACD();
+
+				// if (calDeal == 23868)
+				// System.out.println("xxx time: " + getTime());
+				//
+				// System.out.println("time: " + getTime());
+
+				shortMinutes = 0;
+				shortData.reset();
+			}
+
+			if (m15Minutes == 15)
+			{
+				if (!(noQuantity))
+					getM15TB().addData(getPreviousPt(), Float.valueOf(totalQuantity));
+				else
+					getM15TB().addPoint(getPreviousPt());
+
+				getM15TB().addCandle(getTime(), m15Data.periodHigh, m15Data.periodLow, m15Data.openPt,
+						getPreviousPt(), totalQuantity);
+
+				// System.out.println(AutoTradeDB.getTime() + " " +
+				// calDeal);
+				getM15TB().getMACD();
+				m15Minutes = 0;
+				m15Data.reset();
+
+				if (Global.getAOH() == 0)
 				{
-					Global.setDayLow(calDeal);
-				}
-
-				if (!isOpenAdded)
-				{
-					Global.setOpen(calDeal);
-					isOpenAdded = true;
-				}
-
-				shortData.getHighLow();
-				shortData.getOpen();
-
-				m15Data.getHighLow();
-				m15Data.getOpen();
-
-				longData.getHighLow();
-				longData.getOpen();
-
-				// that Math.abs is for when min = 59 and ref = -1
-				if (min > refMin && Math.abs(min - refMin) < 10)
-				{
-
-					// System.out.println("min " + min);
-					// System.out.println("refMin " + refMin);
-					// System.out.println(" ");
-
-					shortMinutes++;
-					longMinutes++;
-					m15Minutes++;
-
-					if (refMin == 58)
-						refMin = -1;
-					else
-						refMin = min;
-				}
-
-				if (shortMinutes == Setting.getShortTB())
-				{
-
-					getShortTB().addData(Float.valueOf(calDeal), Float.valueOf(totalQuantity));
-
-					if (getShortTB().tops.size() > 1)
-						getShortTB().zone.setResist();
-					if (getShortTB().bottoms.size() > 1)
-						getShortTB().zone.setSupport();
-
-					getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
-							calDeal, totalQuantity);
-
-					
-					  ema5.setlatestEMA(calDeal);
-					  ema25.setlatestEMA(calDeal);
-					  ema50.setlatestEMA(calDeal);
-					  ema100.setlatestEMA(calDeal);
-					  ema250.setlatestEMA(calDeal);
-					  ema1200.setlatestEMA(calDeal);
-					// getShortTB().getMACD();
-
-					// if (calDeal == 23868)
-					// System.out.println("xxx time: " + getTime());
-					//
-					// System.out.println("time: " + getTime());
-
-					shortMinutes = 0;
-					shortData.reset();
-				}
-
-				if (m15Minutes == 15)
-				{
-					if (!(noQuantity))
-						getM15TB().addData(Float.valueOf(calDeal), Float.valueOf(totalQuantity));
-					else
-						getM15TB().addPoint(Float.valueOf(calDeal));
-
-					getM15TB().addCandle(getTime(), m15Data.periodHigh, m15Data.periodLow, m15Data.openPt, calDeal,
-							totalQuantity);
-
-					// System.out.println(AutoTradeDB.getTime() + " " +
-					// calDeal);
-					getM15TB().getMACD();
-					m15Minutes = 0;
-					m15Data.reset();
-
-					if (Global.getAOH() == 0)
+					if (TimePeriodDecider.getTime() >= 91510)
 					{
-						if (TimePeriodDecider.getTime() >= 91510)
-						{
-							Global.setAOH(getM15TB().getLatestCandle().getHigh());
-							Global.setAOL(getM15TB().getLatestCandle().getLow());
+						Global.setAOH(getM15TB().getLatestCandle().getHigh());
+						Global.setAOL(getM15TB().getLatestCandle().getLow());
 
-							Global.addLog("--------------------");
-							Global.addLog("AOH: " + Global.getAOH());
-							Global.addLog("AOL: " + Global.getAOL());
-							Global.addLog("--------------------");
-
-						}
+						Global.addLog("--------------------");
+						Global.addLog("AOH: " + Global.getAOH());
+						Global.addLog("AOL: " + Global.getAOL());
+						Global.addLog("--------------------");
 
 					}
 
 				}
 
-				if (longMinutes == Setting.getLongTB())
-				{
+			}
 
-					getLongTB().addData(Float.valueOf(calDeal), Float.valueOf(totalQuantity));
+			if (longMinutes == Setting.getLongTB())
+			{
 
-					getLongTB().addCandle(getTime(), longData.periodHigh, longData.periodLow, longData.openPt, calDeal,
-							totalQuantity);
+				getLongTB().addData(getPreviousPt(), Float.valueOf(totalQuantity));
 
-					// getLongTB().getMACD();
-					// System.out.println("MACD Histo: "
-					// + getLongTB().getMACDHistogram());
-					longMinutes = 0;
-					longData.reset();
+				getLongTB().addCandle(getTime(), longData.periodHigh, longData.periodLow, longData.openPt,
+						getPreviousPt(), totalQuantity);
 
-					// getLongTB().ti.calculateEMA(5);
-					// getLongTB().ti.calculateEMA(6);
-					// Global.addLog("EMA5: " + getLongTB().getEMA(5));
+				// getLongTB().getMACD();
+				// System.out.println("MACD Histo: "
+				// + getLongTB().getMACDHistogram());
+				longMinutes = 0;
+				longData.reset();
 
-					// Global.addLog("EMA5/6: " + getLongTB().getEMA(5) + " / "
-					// + getLongTB().getEMA(6));
-					// Global.addLog("Diff: " + (getLongTB().getEMA(5) -
-					// getLongTB().getEMA(6)));
-					// Global.addLog("------------------------");
-				}
+				// getLongTB().ti.calculateEMA(5);
+				// getLongTB().ti.calculateEMA(6);
+				// Global.addLog("EMA5: " + getLongTB().getEMA(5));
 
-				setGlobal();
-				// counter += 1;
-				// counter10Sec += 1;
-//			}
+				// Global.addLog("EMA5/6: " + getLongTB().getEMA(5) + " / "
+				// + getLongTB().getEMA(6));
+				// Global.addLog("Diff: " + (getLongTB().getEMA(5) -
+				// getLongTB().getEMA(6)));
+				// Global.addLog("------------------------");
+			}
+
+			setGlobal();
+			// counter += 1;
+			// counter10Sec += 1;
+			// }
 			wan.endWaiter();
 			if (!Global.isTradeTime())
 			{
@@ -422,8 +423,6 @@ public class GetData implements Runnable
 	// }
 	// }
 	// }
-	
-	
 
 	private void setGlobal()
 	{
@@ -547,21 +546,29 @@ public class GetData implements Runnable
 
 		void getHighLow()
 		{
-			if (calDeal > periodHigh)
-				periodHigh = calDeal;
-			if (calDeal < periodLow)
-				periodLow = calDeal;
+			if (getPreviousPt() > periodHigh)
+				periodHigh = getPreviousPt();
+			if (getPreviousPt() < periodLow)
+				periodLow = getPreviousPt();
 		}
 
 		void getOpen()
 		{
 			if (!openAdded)
 			{
-				openPt = calDeal;
+				openPt = getPreviousPt();
 				openAdded = true;
 			}
 		}
 
+	}
+
+	private float getPreviousPt()
+	{
+		if (m1Deal.size() < 2)
+			return m1Deal.get(0);
+		else
+			return m1Deal.get(m1Deal.size()-2);
 	}
 
 	private void addQuantities()
@@ -652,12 +659,12 @@ public class GetData implements Runnable
 
 	private void setOHLC()
 	{
-		
+
 		Global.setpHigh(ohlc.getpHigh());
 		Global.setpLow(ohlc.getpLow());
 		Global.setpOpen(ohlc.getpOpen());
 		Global.setpClose(ohlc.getpClose());
-//		Global.setpFluc(ohlc.getpFluc());
+		// Global.setpFluc(ohlc.getpFluc());
 
 		if (Global.getpHigh() != 0)
 		{
