@@ -124,7 +124,7 @@ public class GetData implements Runnable
 			asql = new SQLite(Setting.dataBase);
 
 		setOHLC();
-		getPreviousData();
+//		getPreviousData();
 
 		// getLongTB().setPreviousEMA(5, (float) 23628.89);
 		// getLongTB().setPreviousEMA(6, (float) 23635.57);

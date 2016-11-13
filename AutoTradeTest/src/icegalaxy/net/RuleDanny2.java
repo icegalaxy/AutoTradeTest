@@ -45,6 +45,7 @@ public class RuleDanny2 extends Rules
 ///			&& GetData.getShortTB().getLatestCandle().getClose() < GetData.getEma25().getEMA() 
 //				&& Global.getCurrentPoint() > GetData.getEma50().getEMA()
 				&& GetData.getEma5().getEMA() > GetData.getEma50().getEMA()
+				&& GetData.getEma50().getEMA() - GetData.getEma100().getEMA() > 20
 				)
 		{
 
@@ -93,6 +94,8 @@ public class RuleDanny2 extends Rules
 				}else if (getMADiff() < refDiff){
 					refDiff = getMADiff();
 					spreadingTimes--;
+					if (spreadingTimes < 0)
+						return;
 				}
 				
 //				if (Math.abs(buyingPoint - GetData.getEma50().getEMA()) > 50){
@@ -101,6 +104,9 @@ public class RuleDanny2 extends Rules
 //				}
 
 			}
+			
+//			if (GetData.getEma50().getEMA() - GetData.getEma100().getEMA() < 10)
+//				return;
 				
 			longContract();
 			cutLossPt = Math.abs(buyingPoint - GetData.getEma50().getEMA());
@@ -115,6 +121,7 @@ public class RuleDanny2 extends Rules
 //				&& GetData.getShortTB().getLatestCandle().getClose() > GetData.getEma25().getEMA() 
 //				&& Global.getCurrentPoint() < GetData.getEma50().getEMA()
 				&& GetData.getEma5().getEMA() < GetData.getEma50().getEMA()
+				&& GetData.getEma100().getEMA() - GetData.getEma50().getEMA() > 20
 				)
 		{
 
@@ -163,6 +170,8 @@ public class RuleDanny2 extends Rules
 				}else if (getMADiff() > refDiff){
 					refDiff = getMADiff();
 					spreadingTimes--;
+					if (spreadingTimes < 0)
+						return;
 				}
 				
 //				if (Math.abs(buyingPoint - GetData.getEma50().getEMA()) > 50){
@@ -170,6 +179,9 @@ public class RuleDanny2 extends Rules
 //					return;
 //				}
 			}
+			
+//			if (GetData.getEma100().getEMA() - GetData.getEma50().getEMA() < 10)
+//				return;
 		
 			shortContract();
 			cutLossPt = Math.abs(buyingPoint - GetData.getEma50().getEMA());
@@ -197,6 +209,16 @@ public class RuleDanny2 extends Rules
 			return 1;
 	}
 
+	@Override
+	boolean trendReversed(){
+		
+		if (Global.getNoOfContracts() > 0)
+			return GetData.getEma5().getEMA() < GetData.getEma50().getEMA();
+		else
+			return GetData.getEma5().getEMA() > GetData.getEma50().getEMA();
+		
+	}
+	
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{

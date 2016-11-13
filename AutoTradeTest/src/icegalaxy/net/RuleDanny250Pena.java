@@ -126,7 +126,15 @@ public class RuleDanny250Pena extends Rules
 
 	}
 
-	
+	@Override
+	boolean trendReversed(){
+		
+		if (Global.getNoOfContracts() > 0)
+			return GetData.getEma5().getEMA() < GetData.getEma250().getEMA();
+		else
+			return GetData.getEma5().getEMA() > GetData.getEma250().getEMA();
+		
+	}
 
 	// use 1min instead of 5min
 	void updateStopEarn()
@@ -138,8 +146,8 @@ public class RuleDanny250Pena extends Rules
 
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
 		// 10){
-		ema5 = GetData.getShortTB().getLatestCandle().getClose();
-		ema6 = GetData.getEma25().getEMA();
+		ema5 = GetData.getEma5().getEMA();
+		ema6 = GetData.getEma50().getEMA();
 
 
 		if (Global.getNoOfContracts() > 0)

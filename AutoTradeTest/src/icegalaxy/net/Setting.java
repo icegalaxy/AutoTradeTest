@@ -382,7 +382,7 @@ public class Setting extends JFrame {
 		RuleDanny240 danny240 = new RuleDanny240(wan[5], wan[6], false);
 
 		RulePLow pL = new RulePLow(wan[6], wan[7], false);
-		RuleIBT ibt = new RuleIBT(wan[7], wan[8], false);
+		RuleIBT ibt = new RuleIBT(wan[7], wan[8], true);
 		RuleOpen open = new RuleOpen(wan[8], wan[9], false);
 		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], false);
 		RuleChasing chasing = new RuleChasing(wan[10], wan[11], false);

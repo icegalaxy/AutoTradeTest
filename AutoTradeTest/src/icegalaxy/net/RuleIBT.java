@@ -11,9 +11,13 @@ public class RuleIBT extends Rules
 	public RuleIBT(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(91600, 92000, 160000, 160000, 230000, 230000);
+		setOrderTime(92000, 93000, 160000, 160000, 230000, 230000);
 		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
+	}
+	
+	double getMADiff(){
+		return GetData.getEma5().getEMA() - GetData.getEma50().getEMA();
 	}
 
 	public void openContract()
@@ -45,21 +49,51 @@ public class RuleIBT extends Rules
 
 		// }else
 		if (Global.getCurrentPoint() > Global.getOpen() + 15 && Global.getOpen() > Global.getpClose() + 10
-				&& Global.getCurrentPoint() > getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
+				&& GetData.getEma5().getEMA() > GetData.getEma250().getEMA() && TimePeriodDecider.getTime() > 91600)
 		{
 
-			while (getTimeBase().getMA(240) < getTimeBase().getPreviousMA(240))
+//			while (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
+//			{
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+//				
+////				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
+////					break;
+//				
+//				if (Global.getCurrentPoint() < Global.getOpen() - 10)
+//					return;
+//				
+//				wanPrevious.middleWaiter(wanNext);
+//			}
+			int spreadingTimes = 0;
+			double refDiff = 0;
+
+			while (spreadingTimes < 3)
 			{
-				if (TimePeriodDecider.getTime() > 100000)
-					return;
-				
-				if (GetData.getShortTB().getEMA(5) > GetData.getShortTB().getEMA(6))
-					break;
-				
-				if (Global.getCurrentPoint() < Global.getOpen() - 10)
-					return;
-				
 				wanPrevious.middleWaiter(wanNext);
+
+				if (!isUpTrend2() || GetData.getEma5().getEMA() < GetData.getEma50().getEMA())
+				{
+					Global.addLog("Trend Change");
+					return;
+				}
+				
+				if (!isOrderTime())
+				{
+					Global.addLog("Not order time");
+					return;
+				}
+				
+				if (getMADiff() > refDiff){
+					refDiff = getMADiff();
+					spreadingTimes++;
+					Global.addLog("Spreading time: "  + spreadingTimes);
+				}else if (getMADiff() < refDiff){
+					refDiff = getMADiff();
+					spreadingTimes--;
+					if (spreadingTimes < 0)
+						return;
+				}
 			}
 
 			if (Global.getCurrentPoint() - Global.getOpen() > 50)
@@ -84,22 +118,52 @@ public class RuleIBT extends Rules
 		}
 
 		else if (Global.getCurrentPoint() < Global.getOpen() - 15 && Global.getOpen() - 10 < Global.getpClose()
-				&& Global.getCurrentPoint() < getTimeBase().getMA(240) && TimePeriodDecider.getTime() > 91800)
+				&& GetData.getEma5().getEMA() < GetData.getEma250().getEMA() && TimePeriodDecider.getTime() > 91800)
 		{
 
-			while (getTimeBase().getMA(240) > getTimeBase().getPreviousMA(240))
-			{
+//			while (GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
+//			{
+//
+////				if (GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6))
+////					break;
+//				
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+//				
+//				if (Global.getCurrentPoint() > Global.getOpen() + 10)
+//					return;
+//				
+//				wanPrevious.middleWaiter(wanNext);
+//			}
+			int spreadingTimes = 0;
+			double refDiff = 0;
 
-				if (GetData.getShortTB().getEMA(5) < GetData.getShortTB().getEMA(6))
-					break;
-				
-				if (TimePeriodDecider.getTime() > 100000)
-					return;
-				
-				if (Global.getCurrentPoint() > Global.getOpen() + 10)
-					return;
-				
+			while (spreadingTimes < 3)
+			{
 				wanPrevious.middleWaiter(wanNext);
+
+				if (!isDownTrend2() || GetData.getEma5().getEMA() > GetData.getEma50().getEMA())
+				{
+					Global.addLog("Trend Change");
+					return;
+				}
+				
+				if ( !isOrderTime())
+				{
+					Global.addLog("Not order time");
+					return;
+				}
+				
+				if (getMADiff() < refDiff){
+					refDiff = getMADiff();
+					spreadingTimes++;
+					Global.addLog("Spreading time: "  + spreadingTimes);
+				}else if (getMADiff() > refDiff){
+					refDiff = getMADiff();
+					spreadingTimes--;
+					if (spreadingTimes < 0)
+						return;
+				}
 			}
 
 			if (Global.getOpen() - Global.getCurrentPoint() > 50)
@@ -137,7 +201,7 @@ public class RuleIBT extends Rules
 //		if (getProfit() < 100)
 //		{
 			ema5 = GetData.getShortTB().getLatestCandle().getClose();
-			ema6 = GetData.getLongTB().getEMA(5);
+			ema6 = GetData.getEma25().getEMA();
 //		} else
 //		{
 //			ema5 = StockDataController.getLongTB().getEMA(5);
