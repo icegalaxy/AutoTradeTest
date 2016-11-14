@@ -19,7 +19,7 @@ public class RuleDanny50 extends Rules
 	}
 	
 	private double getRefPt(){
-		return getTimeBase().getEMA(50);
+		return GetData.getEma250().getEMA();
 	}
 
 	public void openContract()
@@ -47,7 +47,7 @@ public class RuleDanny50 extends Rules
 		while (Math.abs(Global.getCurrentPoint() - getRefPt()) > 10)
 			wanPrevious.middleWaiter(wanNext);
 
-		if (isUpTrend())
+		if (isUpTrend2())
 		{
 
 			Global.addLog("Up Trend");
@@ -64,10 +64,10 @@ public class RuleDanny50 extends Rules
 //			}
 			refPt = Global.getCurrentPoint();
 
-			Global.addLog("EMA5: " + GetData.getShortTB().getEMA(5));
-			Global.addLog("MA20: " + GetData.getShortTB().getMA(20));
+//			Global.addLog("EMA5: " + GetData.getShortTB().getEMA(5));
+//			Global.addLog("MA20: " + GetData.getShortTB().getMA(20));
 
-			while (GetData.getShortTB().getEMA(5) < GetData.getShortTB().getMA(20))
+			while (GetData.getEma25().getEMA() < GetData.getEma100().getEMA())
 			{
 				wanPrevious.middleWaiter(wanNext);
 
@@ -103,7 +103,7 @@ public class RuleDanny50 extends Rules
 			Global.addLog("Before Low: " + refPt);
 			Global.addLog("CutLossPt: " + cutLossPt);
 
-		} else if (isDownTrend())
+		} else if (isDownTrend2())
 		{
 
 			Global.addLog("Down Trend");
@@ -120,10 +120,10 @@ public class RuleDanny50 extends Rules
 //			}
 			refPt = Global.getCurrentPoint();
 
-			Global.addLog("EMA5: " + GetData.getShortTB().getEMA(5));
-			Global.addLog("EMA20: " + GetData.getShortTB().getMA(20));
+//			Global.addLog("EMA5: " + GetData.getShortTB().getEMA(5));
+//			Global.addLog("EMA20: " + GetData.getShortTB().getMA(20));
 
-			while (GetData.getShortTB().getEMA(5) > GetData.getShortTB().getMA(20))
+			while (GetData.getEma25().getEMA() > GetData.getEma100().getEMA())
 			{
 
 				wanPrevious.middleWaiter(wanNext);
@@ -189,7 +189,7 @@ public class RuleDanny50 extends Rules
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
 		// 10){
 		ema5 = GetData.getShortTB().getLatestCandle().getClose();
-		ema6 = getTimeBase().getEMA(5);
+		ema6 = GetData.getEma25().getEMA();
 		// }else{
 		// ema5 = StockDataController.getShortTB().getEMA(5);
 		// ema6 = StockDataController.getShortTB().getEMA(6);
