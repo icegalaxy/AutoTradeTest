@@ -19,11 +19,17 @@ public class EMA
 		EMAs.add(getEMA(currentPt));
 	}
 	
-	public double getEMA(){
+	public double getEMA()
+	{
 		return EMAs.get(EMAs.size()-1);
 	}
+	
+	public double getPreviousEMA(int noOfPeriodBefore)
+	{
+		return EMAs.get(EMAs.size() -1 -noOfPeriodBefore);
+	}
 
-	public double getEMA(double currentPt)
+	private double getEMA(double currentPt)
 	{
 		double smoothingConstant = (double) 2 / (period + 1);
 		return (currentPt - EMAs.get(EMAs.size()-1)) * smoothingConstant + EMAs.get(EMAs.size()-1);
