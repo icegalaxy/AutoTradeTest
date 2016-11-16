@@ -274,6 +274,8 @@ public class GetData implements Runnable
 				ema250.setlatestEMA(calDeal);
 				ema1200.setlatestEMA(calDeal);
 				// getShortTB().getMACD();
+				
+//				Global.addLog("EMA250: " + getEma250().getEMA());
 
 				// if (calDeal == 23868)
 				// System.out.println("xxx time: " + getTime());

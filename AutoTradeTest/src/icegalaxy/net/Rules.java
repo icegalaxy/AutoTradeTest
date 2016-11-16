@@ -311,7 +311,13 @@ public abstract class Rules implements Runnable
 			// checkDayHighLow();
 			if (trendReversed())
 			{
-				closeContract(className + ": Trend Reversed");
+				if (getProfit() < 0)
+				{
+					closeContract(className + ": Trend reversed");
+					shutdown = true;
+				} else
+					closeContract(className + ": Trend reversed");
+				
 				return;
 			}
 
@@ -669,9 +675,9 @@ public abstract class Rules implements Runnable
 		return GetData.getEma100().getEMA() > GetData.getEma250().getEMA()
 				&& GetData.getEma250().getEMA() > GetData.getEma1200().getEMA()
 				&& Global.getCurrentPoint() > GetData.getEma250().getEMA();
-//				&& GetData.getEma25().getEMA() > GetData.getEma50().getEMA()
-//				&& GetData.getEma50().getEMA() > GetData.getEma100().getEMA();
-				
+		// && GetData.getEma25().getEMA() > GetData.getEma50().getEMA()
+		// && GetData.getEma50().getEMA() > GetData.getEma100().getEMA();
+
 	}
 
 	public boolean isDownTrend2()
@@ -679,9 +685,9 @@ public abstract class Rules implements Runnable
 		return GetData.getEma100().getEMA() < GetData.getEma250().getEMA()
 				&& GetData.getEma250().getEMA() < GetData.getEma1200().getEMA()
 				&& Global.getCurrentPoint() < GetData.getEma250().getEMA();
-//				&& GetData.getEma25().getEMA() < GetData.getEma50().getEMA() 
-//				&& GetData.getEma50().getEMA() < GetData.getEma100().getEMA() ;
-		
+		// && GetData.getEma25().getEMA() < GetData.getEma50().getEMA()
+		// && GetData.getEma50().getEMA() < GetData.getEma100().getEMA() ;
+
 	}
 
 	public double getHighestMA()

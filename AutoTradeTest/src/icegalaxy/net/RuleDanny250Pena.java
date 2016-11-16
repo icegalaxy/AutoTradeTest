@@ -11,11 +11,12 @@ public class RuleDanny250Pena extends Rules
 	// private double refEMA;
 	private boolean firstCorner = true;
 	private Chasing chasing;
+	double buffer = 5;
 
 	public RuleDanny250Pena(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(93000, 115500, 160000, 160000, 230000, 230000);
+		setOrderTime(93000, 115500, 130500, 160000, 230000, 230000);
 		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
 	}
@@ -35,15 +36,16 @@ public class RuleDanny250Pena extends Rules
 	public void openContract()
 	{
 		
-
+		
 
 		if (shutdown)
 		{
 			lossTimes++;
 			shutdown = false;
+			Global.addLog("LossTimes: " + lossTimes);
 		}
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 10)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= getLossTimesAllowed())
 			return;
 
 //		Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
@@ -53,40 +55,13 @@ public class RuleDanny250Pena extends Rules
 				&& GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
 		{
 			
-//			Global.addLog("1");
-//			while (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
-//				wanPrevious.middleWaiter(wanNext);
-		
-			int spreadingTimes = 0;
-			double refDiff = 0;	
-			refPt = Global.getCurrentPoint();
-			
-			while (spreadingTimes < 3)
-			{
-				wanPrevious.middleWaiter(wanNext);	
-				if ( !isOrderTime())
-				{
-					Global.addLog("Not order time");
-					return;
-				}
-				
-				if (getClosePrice() < GetData.getEma250().getEMA())
-					return;
-										
-				
-				if (getMADiff() > refDiff){
-					refDiff = getMADiff();
-					spreadingTimes++;
-				}else if (getMADiff() < refDiff){
-					refDiff = getMADiff();
-					spreadingTimes--;
-				}
-			}
-			
-			if (GetData.getEma5().getEMA() < GetData.getEma25().getEMA()
-					|| Global.getCurrentPoint() < refPt)
-				return;
-			
+			Global.addLog("---------------------");
+			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
+			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
+			Global.addLog("5: " + GetData.getEma5().getEMA());
+			Global.addLog("250: " + GetData.getEma250().getEMA());
+			Global.addLog("---------------------");
+					
 			longContract();
 			cutLossPt = buyingPoint - GetData.getEma250().getEMA();
 			
@@ -95,36 +70,13 @@ public class RuleDanny250Pena extends Rules
 				&& GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
 		{
 			
-//			Global.addLog("2");
+			Global.addLog("---------------------");
+			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
+			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
+			Global.addLog("5: " + GetData.getEma5().getEMA());
+			Global.addLog("250: " + GetData.getEma250().getEMA());
+			Global.addLog("---------------------");
 			
-			int spreadingTimes = 0;
-			double refDiff = 0;	
-			refPt = Global.getCurrentPoint();
-			
-			while (spreadingTimes < 3)
-			{
-				wanPrevious.middleWaiter(wanNext);	
-				if ( !isOrderTime())
-				{
-					Global.addLog("Not order time");
-					return;
-				}
-				
-				if (getClosePrice() > GetData.getEma250().getEMA())
-					return;
-										
-				
-				if (getMADiff() < refDiff){
-					refDiff = getMADiff();
-					spreadingTimes++;
-				}else if (getMADiff() > refDiff){
-					refDiff = getMADiff();
-					spreadingTimes--;
-				}
-			}
-			if (GetData.getEma5().getEMA() > GetData.getEma25().getEMA()
-					|| Global.getCurrentPoint() > refPt)
-				return;
 			shortContract();
 			cutLossPt = GetData.getEma250().getEMA() - buyingPoint;
 		}
@@ -153,13 +105,21 @@ public class RuleDanny250Pena extends Rules
 
 		// if (Math.abs(getTimeBase().getEMA(5) - getTimeBase().getEMA(6)) <
 		// 10){
-		ema5 = GetData.getEma5().getEMA();
-		ema6 = GetData.getEma50().getEMA();
+		ema5 = GetData.getShortTB().getLatestCandle().getClose();
+		ema6 = GetData.getEma25().getEMA();
+				
+	
 
 
 		if (Global.getNoOfContracts() > 0)
 		{
 
+			if (isUpTrend2() && getProfit() > 50)
+			{
+				ema5 = GetData.getEma5().getEMA();
+				ema6 = GetData.getEma50().getEMA();
+			}
+			
 			if (buyingPoint > tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");
@@ -174,6 +134,12 @@ public class RuleDanny250Pena extends Rules
 			}
 		} else if (Global.getNoOfContracts() < 0)
 		{
+			
+			if (isDownTrend2() && getProfit() > 50)
+			{
+				ema5 = GetData.getEma5().getEMA();
+				ema6 = GetData.getEma50().getEMA();
+			}
 
 			if (buyingPoint < tempCutLoss && getProfit() > 50)
 			{
@@ -220,6 +186,19 @@ public class RuleDanny250Pena extends Rules
 			chasing.setRefHigh(Global.getCurrentPoint());
 		if (Global.getCurrentPoint() < chasing.getRefLow())
 			chasing.setRefLow(Global.getCurrentPoint());
+	}
+	
+	private int getLossTimesAllowed()
+	{
+
+		double balance = Global.balance + Global.getCurrentPoint() * Global.getNoOfContracts();
+
+		if (balance > 30)
+			return 3;
+		else if (balance > 0)
+			return 2;
+		else
+			return 1;
 	}
 
 	double getStopEarnPt()
