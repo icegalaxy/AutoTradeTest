@@ -45,14 +45,15 @@ public class RuleDanny250Pena extends Rules
 			Global.addLog("LossTimes: " + lossTimes);
 		}
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= getLossTimesAllowed())
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 10)
 			return;
 
 //		Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
 //		Global.addLog("now5: " + GetData.getEma5().getEMA());
 		
 		if (GetData.getEma5().getPreviousEMA(1) < GetData.getEma250().getPreviousEMA(1)
-				&& GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
+				&& GetData.getEma5().getEMA() > GetData.getEma250().getEMA()
+				&& getHighestMA() - getLowestMA() > getTimeBase().getHL(1).getFluctuation())
 		{
 			
 			Global.addLog("---------------------");
@@ -67,7 +68,8 @@ public class RuleDanny250Pena extends Rules
 			
 			
 		}else if (GetData.getEma5().getPreviousEMA(1) > GetData.getEma250().getPreviousEMA(1)
-				&& GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
+				&& GetData.getEma5().getEMA() < GetData.getEma250().getEMA()
+				&& getHighestMA() - getLowestMA() > getTimeBase().getHL(1).getFluctuation())
 		{
 			
 			Global.addLog("---------------------");

@@ -714,14 +714,14 @@ public abstract class Rules implements Runnable
 		return lowestMA;
 	}
 
-	private ArrayList<Float> get4MAs()
+	private ArrayList<Double> get4MAs()
 	{
-		ArrayList<Float> mas = new ArrayList<Float>();
+		ArrayList<Double> mas = new ArrayList<Double>();
 
-		mas.add(GetData.getM15TB().getMA(20));
-		mas.add(GetData.getM15TB().getEMA(50));
-		mas.add(GetData.getLongTB().getEMA(50));
-		mas.add(GetData.getLongTB().getEMA(240));
+		mas.add(GetData.getEma25().getEMA());
+		mas.add(GetData.getEma50().getEMA());
+		mas.add(GetData.getEma100().getEMA());
+		mas.add(GetData.getEma250().getEMA());
 
 		return mas;
 
