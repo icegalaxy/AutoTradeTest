@@ -124,6 +124,40 @@
     </OHLC>
     
     <OHLC>
+        <date> 161116 </date>
+        <pOpen> 22250 </pOpen>
+        <pHigh> 22412 </pHigh>
+        <pLow> 22225 </pLow>
+        <pClose> 22328 </pClose>
+        <pEMA5> 22308.22 </pEMA5>
+        <pEMA25> 22325.10 </pEMA25>
+        <pEMA50> 22323.50 </pEMA50>
+        <pEMA100> 22307.45 </pEMA100>
+        <pEMA250> 22285.96 </pEMA250>
+        <pEMA1200> 22283.53 </pEMA1200>
+        <pSMA20> 22326.85 </pSMA20>
+        <stop> false </stop>
+        <open>  </open>
+    </OHLC>
+    
+    <OHLC>
+        <date> 161117 </date>
+        <pOpen> 22445 </pOpen>
+        <pHigh> 22485 </pHigh>
+        <pLow> 22189 </pLow>
+        <pClose> 22213 </pClose>
+        <pEMA5> 22173.58 </pEMA5>
+        <pEMA25> 22167.56 </pEMA25>
+        <pEMA50> 22159.58 </pEMA50>
+        <pEMA100> 22147.32 </pEMA100>
+        <pEMA250> 22145.07 </pEMA250>
+        <pEMA1200> 22239.77 </pEMA1200>
+        <pSMA20> 22169.40 </pSMA20>
+        <stop> false </stop>
+        <open>  </open>
+    </OHLC>
+    
+    <OHLC>
         <date>  </date>
         <pOpen>  </pOpen>
         <pHigh>  </pHigh>
@@ -139,5 +173,6 @@
         <stop> false </stop>
         <open>  </open>
     </OHLC>
+
 	
 </FHIdata>
