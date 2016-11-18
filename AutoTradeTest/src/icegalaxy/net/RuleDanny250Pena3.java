@@ -63,6 +63,24 @@ public class RuleDanny250Pena3 extends Rules
 			Global.addLog("5: " + GetData.getEma5().getEMA());
 			Global.addLog("250: " + GetData.getEma250().getEMA());
 			Global.addLog("---------------------");
+			
+			while (GetData.getEma5().getEMA() < GetData.getEma5().getEMA())
+			{
+				wanPrevious.middleWaiter(wanNext);	
+				
+				if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
+				{
+					Global.addLog("Trend Change");
+					return;
+				}
+
+				if (!isOrderTime())
+				{
+					Global.addLog("Not order time");
+					return;
+				}
+					
+			}
 					
 			longContract();
 			cutLossPt = buyingPoint - GetData.getEma250().getEMA();
@@ -79,6 +97,25 @@ public class RuleDanny250Pena3 extends Rules
 			Global.addLog("5: " + GetData.getEma5().getEMA());
 			Global.addLog("250: " + GetData.getEma250().getEMA());
 			Global.addLog("---------------------");
+			
+			
+			while (GetData.getEma5().getEMA() > GetData.getEma5().getEMA())
+			{
+				wanPrevious.middleWaiter(wanNext);	
+				
+				if (GetData.getEma5().getEMA() >  GetData.getEma250().getEMA())
+				{
+					Global.addLog("Trend Change");
+					return;
+				}
+
+				if (!isOrderTime())
+				{
+					Global.addLog("Not order time");
+					return;
+				}
+					
+			}
 			
 			shortContract();
 			cutLossPt = GetData.getEma250().getEMA() - buyingPoint;
@@ -167,7 +204,7 @@ public class RuleDanny250Pena3 extends Rules
 
 		
 //		return Math.min(cutLossPt + 10, 40);
-		return 40;
+		return 30;
 
 	}
 
