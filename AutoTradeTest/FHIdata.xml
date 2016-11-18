@@ -158,6 +158,23 @@
     </OHLC>
     
     <OHLC>
+        <date> 161118 </date>
+        <pOpen> 22182 </pOpen>
+        <pHigh> 22367 </pHigh>
+        <pLow> 22111 </pLow>
+        <pClose> 22249 </pClose>
+        <pEMA5> 22300.61 </pEMA5>
+        <pEMA25> 22298.08 </pEMA25>
+        <pEMA50> 22292.09 </pEMA50>
+        <pEMA100> 22273.98 </pEMA100>
+        <pEMA250> 22247.75 </pEMA250>
+        <pEMA1200> 22262.85 </pEMA1200>
+        <pSMA20> 22296.95 </pSMA20>
+        <stop> false </stop>
+        <open>  </open>
+    </OHLC>
+    
+    <OHLC>
         <date>  </date>
         <pOpen>  </pOpen>
         <pHigh>  </pHigh>

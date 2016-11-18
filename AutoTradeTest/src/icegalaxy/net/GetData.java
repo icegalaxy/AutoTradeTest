@@ -84,7 +84,6 @@ public class GetData implements Runnable
 
 		ema5 = new EMA(ohlc.getpEMA5(), 5);
 		ema25 = new EMA(ohlc.getpEMA25(), 25);
-		;
 		ema50 = new EMA(ohlc.getpEMA50(), 50);
 		ema100 = new EMA(ohlc.getpEMA100(), 100);
 		ema250 = new EMA(ohlc.getpEMA250(), 250);

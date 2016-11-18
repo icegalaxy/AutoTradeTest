@@ -64,7 +64,7 @@ public class RuleDanny250Pena3 extends Rules
 			Global.addLog("250: " + GetData.getEma250().getEMA());
 			Global.addLog("---------------------");
 			
-			while (GetData.getEma5().getEMA() < GetData.getEma5().getEMA())
+			while (GetData.getEma5().getEMA() < GetData.getEma50().getEMA())
 			{
 				wanPrevious.middleWaiter(wanNext);	
 				
@@ -99,7 +99,7 @@ public class RuleDanny250Pena3 extends Rules
 			Global.addLog("---------------------");
 			
 			
-			while (GetData.getEma5().getEMA() > GetData.getEma5().getEMA())
+			while (GetData.getEma5().getEMA() > GetData.getEma50().getEMA())
 			{
 				wanPrevious.middleWaiter(wanNext);	
 				
