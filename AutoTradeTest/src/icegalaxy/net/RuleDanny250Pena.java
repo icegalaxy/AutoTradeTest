@@ -166,7 +166,7 @@ public class RuleDanny250Pena extends Rules
 
 		
 //		return Math.min(cutLossPt + 10, 40);
-		return 40;
+		return 100;
 
 	}
 
