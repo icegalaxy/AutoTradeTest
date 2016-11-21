@@ -2,6 +2,8 @@ package icegalaxy.net;
 
 import java.util.ArrayList;
 
+import com.sun.org.apache.xalan.internal.xsltc.cmdline.getopt.GetOptsException;
+
 //Use the OPEN Line
 
 public class RuleOpen extends Rules
@@ -10,6 +12,7 @@ public class RuleOpen extends Rules
 
 	private double cutLoss;
 	private Chasing chasing;
+	private double OHLC;
 
 
 	public RuleOpen(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
@@ -29,42 +32,42 @@ public class RuleOpen extends Rules
 //			shutdown = false;
 //		}
 		
+	
+		
 //		if (chasing.chaseUp() || chasing.chaseDown()){
 //			
 //			Global.setChasing(chasing);
 //			chasing = new Chasing();
 //		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getOpen() == 0 || shutdown)
 			return;
 		
-		
-
-		if (getCurrentClose() > getHighestMA() + 5)
-		{
-			
-
-			while(getCurrentClose() > getLowestMA() - 1){
+		while (Math.abs(Global.getCurrentPoint() - Global.getOpen()) < 50)
+			{
 				wanPrevious.middleWaiter(wanNext);
-
+				if (!isOrderTime())
+					return;
 			}
-			
-			shortContract();
-			chasing.setChaseDown(true);
-//			cutLoss = getHighestMA() - buyingPoint;
-			
-		}else if (getCurrentClose() < getLowestMA() - 5)
-		{
-			
-		
-			while(getCurrentClose() < getHighestMA() + 1){
-				wanPrevious.middleWaiter(wanNext);
 
-			
+		if (Global.getCurrentPoint() < Global.getOpen() && GetData.getEma5().getEMA() < Global.getOpen())
+		{
+			while (GetData.getEma5().getEMA() < Global.getOpen())
+			{
+				wanPrevious.middleWaiter(wanNext);
+				if (!isOrderTime())
+					return;
 			}
 			longContract();
-			chasing.setChaseUp(true);
-//			cutLoss = buyingPoint - getLowestMA();
+		}else if (Global.getCurrentPoint() > Global.getOpen() && GetData.getEma5().getEMA() > Global.getOpen())
+		{
+			while (GetData.getEma5().getEMA() > Global.getOpen())
+			{
+				wanPrevious.middleWaiter(wanNext);
+				if (!isOrderTime())
+					return;
+			}
+			shortContract();		
 		}
 	}
 	
@@ -142,6 +145,16 @@ public class RuleOpen extends Rules
 			chasing.setRefHigh(Global.getCurrentPoint());
 		if (Global.getCurrentPoint() < chasing.getRefLow())
 			chasing.setRefLow(Global.getCurrentPoint());
+		
+	}
+	
+	@Override
+	boolean trendReversed(){
+		
+		if (Global.getNoOfContracts() > 0)
+			return GetData.getEma5().getEMA() < Global.getOpen();
+		else
+			return GetData.getEma5().getEMA() > Global.getOpen();
 		
 	}
 

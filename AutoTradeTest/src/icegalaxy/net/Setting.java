@@ -382,14 +382,14 @@ public class Setting extends JFrame {
 		RuleDanny240 danny240 = new RuleDanny240(wan[5], wan[6], false);
 
 		RulePLow pL = new RulePLow(wan[6], wan[7], false);
-		RuleIBT ibt = new RuleIBT(wan[7], wan[8], true);
-		RuleOpen open = new RuleOpen(wan[8], wan[9], false);
+		RuleIBT ibt = new RuleIBT(wan[7], wan[8], false);
+		RuleOpen open = new RuleOpen(wan[8], wan[9], true);
 		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], false);
 		RuleChasing chasing = new RuleChasing(wan[10], wan[11], false);
 		RuleDanny2 danny2 = new RuleDanny2(wan[11], wan[12], false);
-		RuleDanny250Pena danny250 = new RuleDanny250Pena(wan[12], wan[13], true);
-		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(wan[13], wan[14], true);
-		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(wan[14], wan[15], true);
+		RuleDanny250Pena danny250 = new RuleDanny250Pena(wan[12], wan[13], false);
+		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(wan[13], wan[14], false);
+		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(wan[14], wan[15], false);
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M
 //		RuleBouncing3 bouncing3 = new RuleBouncing3(wan[19], wan[20], false);
