@@ -129,9 +129,9 @@ public class RuleDanny250Pena3 extends Rules
 	boolean trendReversed(){
 		
 		if (Global.getNoOfContracts() > 0)
-			return GetData.getEma5().getEMA() < GetData.getEma250().getEMA();
+			return GetData.getEma5().getEMA() < GetData.getEma50().getEMA();
 		else
-			return GetData.getEma5().getEMA() > GetData.getEma250().getEMA();
+			return GetData.getEma5().getEMA() > GetData.getEma50().getEMA();
 		
 	}
 
@@ -204,7 +204,7 @@ public class RuleDanny250Pena3 extends Rules
 
 		
 //		return Math.min(cutLossPt + 10, 40);
-		return 30;
+		return 100;
 
 	}
 

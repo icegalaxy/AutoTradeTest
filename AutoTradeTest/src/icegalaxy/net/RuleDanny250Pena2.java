@@ -46,7 +46,7 @@ public class RuleDanny250Pena2 extends Rules
 			Global.addLog("LossTimes: " + lossTimes);
 		}
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 2)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 10)
 			return;
 
 		// Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
@@ -243,7 +243,7 @@ public class RuleDanny250Pena2 extends Rules
 	{
 
 		// return Math.min(cutLossPt + 10, 40);
-		return 30;
+		return 100;
 
 	}
 
