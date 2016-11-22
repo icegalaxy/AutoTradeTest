@@ -2,7 +2,7 @@ package icegalaxy.net;
 
 import com.sun.javafx.css.parser.StopConverter;
 
-//Use the OPEN Line
+//m1 EMA5 x EMA250, wait 4 pushes
 
 public class RuleDanny250Pena2 extends Rules
 {

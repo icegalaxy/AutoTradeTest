@@ -2,7 +2,7 @@ package icegalaxy.net;
 
 import com.sun.javafx.css.parser.StopConverter;
 
-//Use the OPEN Line
+//m1 EMA5 x EMA250 buy immediately if small fluctuation
 
 public class RuleDanny250Pena extends Rules
 {
