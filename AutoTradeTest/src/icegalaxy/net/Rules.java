@@ -695,9 +695,9 @@ public abstract class Rules implements Runnable
 
 		double highestMA = 0;
 
-		for (int i = 0; i < get4MAs().size(); i++)
+		for (int i = 0; i < getMAs().size(); i++)
 		{
-			highestMA = Math.max(highestMA, get4MAs().get(i));
+			highestMA = Math.max(highestMA, getMAs().get(i));
 		}
 		return highestMA;
 	}
@@ -707,14 +707,14 @@ public abstract class Rules implements Runnable
 
 		double lowestMA = 99999;
 
-		for (int i = 0; i < get4MAs().size(); i++)
+		for (int i = 0; i < getMAs().size(); i++)
 		{
-			lowestMA = Math.min(lowestMA, get4MAs().get(i));
+			lowestMA = Math.min(lowestMA, getMAs().get(i));
 		}
 		return lowestMA;
 	}
 
-	private ArrayList<Double> get4MAs()
+	public ArrayList<Double> getMAs()
 	{
 		ArrayList<Double> mas = new ArrayList<Double>();
 

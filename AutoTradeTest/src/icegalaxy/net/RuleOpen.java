@@ -13,12 +13,13 @@ public class RuleOpen extends Rules
 	private double cutLoss;
 	private Chasing chasing;
 	private double OHLC;
-
+	private double refHigh;
+	private double refLow;
 
 	public RuleOpen(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(91530, 115500, 160000, 160000, 231500, 231500);
+		setOrderTime(93000, 115500, 160000, 160000, 231500, 231500);
 		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
 	}
@@ -43,31 +44,100 @@ public class RuleOpen extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getOpen() == 0 || shutdown)
 			return;
 		
-		while (Math.abs(Global.getCurrentPoint() - Global.getOpen()) < 50)
-			{
-				wanPrevious.middleWaiter(wanNext);
-				if (!isOrderTime())
-					return;
-			}
+//		while (Math.abs(Global.getCurrentPoint() - Global.getOpen()) < 20)
+//			{
+//				wanPrevious.middleWaiter(wanNext);
+//				if (!isOrderTime())
+//					return;
+//			}
 
-		if (Global.getCurrentPoint() < Global.getOpen() && GetData.getEma5().getEMA() < Global.getOpen())
+		if (GetData.getEma5().getPreviousEMA(1) < Global.getOpen()
+				&& GetData.getEma5().getEMA() > Global.getOpen())
 		{
-			while (GetData.getEma5().getEMA() < Global.getOpen())
+			refHigh = 0;
+			refLow = 99999;
+			
+			Global.addLog("Waiting for first pull back");
+			while (GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1))
 			{
-				wanPrevious.middleWaiter(wanNext);
-				if (!isOrderTime())
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+//				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
+//					break;
+				
+				if (GetData.getEma5().getEMA() < Global.getOpen())
 					return;
+				
+				if (GetData.getEma5().getEMA() > refHigh)
+					refHigh = GetData.getEma5().getEMA();
+				else if (GetData.getEma5().getEMA() < refLow)
+					refLow = GetData.getEma5().getEMA();
+				
+				wanPrevious.middleWaiter(wanNext);
 			}
-			longContract();
-		}else if (Global.getCurrentPoint() > Global.getOpen() && GetData.getEma5().getEMA() > Global.getOpen())
-		{
-			while (GetData.getEma5().getEMA() > Global.getOpen())
+			
+			while (GetData.getEma5().getEMA() < refHigh)
 			{
 				wanPrevious.middleWaiter(wanNext);
-				if (!isOrderTime())
+				
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+				if (GetData.getEma5().getEMA() < Global.getOpen())
 					return;
+
+			 if (GetData.getEma5().getEMA() < refLow)
+					refLow = GetData.getEma5().getEMA();
+				
+			}
+			
+			longContract();
+			cutLoss = buyingPoint - refLow;
+			
+		}else if (GetData.getEma5().getPreviousEMA(1) > Global.getOpen()
+				&& GetData.getEma5().getEMA() < Global.getOpen())
+		{	
+			refHigh = 0;
+			refLow = 99999;
+			
+			Global.addLog("Waiting for first pull back");
+			while (GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1))
+			{
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+//				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
+//					break;
+				
+				if (GetData.getEma5().getEMA()  > Global.getOpen())
+					return;
+				
+				if (GetData.getEma5().getEMA() > refHigh)
+					refHigh = GetData.getEma5().getEMA();
+				else if (GetData.getEma5().getEMA() < refLow)
+					refLow = GetData.getEma5().getEMA();
+				
+				wanPrevious.middleWaiter(wanNext);
+			}
+			
+			while (GetData.getEma5().getEMA() > refLow)
+			{
+				wanPrevious.middleWaiter(wanNext);
+				
+//				if (TimePeriodDecider.getTime() > 100000)
+//					return;
+				
+				if (GetData.getEma5().getEMA() > Global.getOpen())
+					return;
+
+				if (GetData.getEma5().getEMA() > refHigh)
+					refHigh = GetData.getEma5().getEMA();
+			
+				
 			}
 			shortContract();		
+			cutLoss = refHigh - buyingPoint;
 		}
 	}
 	
@@ -123,7 +193,7 @@ public class RuleOpen extends Rules
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return Math.max(15, cutLoss);
+		return Math.max(100, cutLoss);
 	}
 
 	@Override
@@ -152,9 +222,9 @@ public class RuleOpen extends Rules
 	boolean trendReversed(){
 		
 		if (Global.getNoOfContracts() > 0)
-			return GetData.getEma5().getEMA() < Global.getOpen();
+			return GetData.getEma5().getEMA() < refLow;
 		else
-			return GetData.getEma5().getEMA() > Global.getOpen();
+			return GetData.getEma5().getEMA() > refHigh;
 		
 	}
 
@@ -176,7 +246,7 @@ public class RuleOpen extends Rules
 		
 		
 		
-		return 30;
+		return 50;
 	}
 
 	@Override
