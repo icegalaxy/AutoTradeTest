@@ -163,13 +163,81 @@
         <pHigh> 22367 </pHigh>
         <pLow> 22111 </pLow>
         <pClose> 22249 </pClose>
-        <pEMA5> 22300.61 </pEMA5>
+        <pEMA5>  22300.61 </pEMA5>
         <pEMA25> 22298.08 </pEMA25>
         <pEMA50> 22292.09 </pEMA50>
         <pEMA100> 22273.98 </pEMA100>
         <pEMA250> 22247.75 </pEMA250>
         <pEMA1200> 22262.85 </pEMA1200>
         <pSMA20> 22296.95 </pSMA20>
+        <stop> false </stop>
+        <open>  </open>
+    </OHLC>
+    
+	 <OHLC>
+        <date> 161121 </date>
+        <pOpen> 22250 </pOpen>
+        <pHigh> 22364 </pHigh>
+        <pLow> 22115 </pLow>
+        <pClose> 22331 </pClose>
+        <pEMA5>  </pEMA5>
+        <pEMA25>  </pEMA25>
+        <pEMA50>  </pEMA50>
+        <pEMA100>  </pEMA100>
+        <pEMA250>  </pEMA250>
+        <pEMA1200>  </pEMA1200>
+        <pSMA20>  </pSMA20>
+        <stop> false </stop>
+        <open>  </open>
+    </OHLC>
+	
+    <OHLC>
+        <date> 161122 </date>
+        <pOpen> 22331 </pOpen>
+        <pHigh> 22486 </pHigh>
+        <pLow> 22206 </pLow>
+        <pClose> 22346 </pClose>
+        <pEMA5>  </pEMA5>
+        <pEMA25>  </pEMA25>
+        <pEMA50>  </pEMA50>
+        <pEMA100>  </pEMA100>
+        <pEMA250>  </pEMA250>
+        <pEMA1200>  </pEMA1200>
+        <pSMA20>  </pSMA20>
+        <stop> false </stop>
+        <open>  </open>
+    </OHLC>
+
+    <OHLC>
+        <date> 161123 </date>
+        <pOpen> 22450 </pOpen>
+        <pHigh> 22733 </pHigh>
+        <pLow> 22443 </pLow>
+        <pClose> 22670 </pClose>
+        <pEMA5>  </pEMA5>
+        <pEMA25>  </pEMA25>
+        <pEMA50>  </pEMA50>
+        <pEMA100>  </pEMA100>
+        <pEMA250>  </pEMA250>
+        <pEMA1200>  </pEMA1200>
+        <pSMA20>  </pSMA20>
+        <stop> false </stop>
+        <open>  </open>
+    </OHLC>
+    
+    <OHLC>
+        <date> 161124 </date>
+        <pOpen> 22665 </pOpen>
+        <pHigh> 22819 </pHigh>
+        <pLow> 22626 </pLow>
+        <pClose> 22716 </pClose>
+        <pEMA5>  </pEMA5>
+        <pEMA25>  </pEMA25>
+        <pEMA50>  </pEMA50>
+        <pEMA100>  </pEMA100>
+        <pEMA250>  </pEMA250>
+        <pEMA1200>  </pEMA1200>
+        <pSMA20>  </pSMA20>
         <stop> false </stop>
         <open>  </open>
     </OHLC>
@@ -190,6 +258,8 @@
         <stop> false </stop>
         <open>  </open>
     </OHLC>
+
+
 
 	
 </FHIdata>

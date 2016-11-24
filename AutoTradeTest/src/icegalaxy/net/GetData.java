@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+
+
 public class GetData implements Runnable
 {
 
@@ -82,12 +84,12 @@ public class GetData implements Runnable
 
 		ohlc = new XMLReader(tableName);
 
-		ema5 = new EMA(ohlc.getpEMA5(), 5);
-		ema25 = new EMA(ohlc.getpEMA25(), 25);
-		ema50 = new EMA(ohlc.getpEMA50(), 50);
-		ema100 = new EMA(ohlc.getpEMA100(), 100);
-		ema250 = new EMA(ohlc.getpEMA250(), 250);
-		ema1200 = new EMA(ohlc.getpEMA1200(), 1200);
+//		ema5 = new EMA(ohlc.getpEMA5(), 5);
+//		ema25 = new EMA(ohlc.getpEMA25(), 25);
+//		ema50 = new EMA(ohlc.getpEMA50(), 50);
+//		ema100 = new EMA(ohlc.getpEMA100(), 100);
+//		ema250 = new EMA(ohlc.getpEMA250(), 250);
+//		ema1200 = new EMA(ohlc.getpEMA1200(), 1200);
 
 		// Global.addLog("pEMA250: " + ohlc.getpEMA250());
 
@@ -123,7 +125,7 @@ public class GetData implements Runnable
 			asql = new SQLite(Setting.dataBase);
 
 		setOHLC();
-//		getPreviousData();
+		getPreviousData();
 
 		// getLongTB().setPreviousEMA(5, (float) 23628.89);
 		// getLongTB().setPreviousEMA(6, (float) 23635.57);
@@ -469,7 +471,7 @@ public class GetData implements Runnable
 		DateFormat formatter = new SimpleDateFormat("hh:mm");
 		try
 		{
-			s = formatter.parse(time.substring(10, 12) + ":" + time.substring(12, 14));
+			s = formatter.parse(time.substring(11, 13) + ":" + time.substring(14, 16));
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -630,31 +632,61 @@ public class GetData implements Runnable
 	private void getPreviousData()
 	{
 
-		CSVparser csv = null;
-		csv = new CSVparser("OHLC/" + tableName + ".csv");
+		parseSPRecord csv = new parseSPRecord("SPRecords/" + tableName + "/m1.txt");
 		csv.parseOHLC();
 		int j = 0;
+		int k = 0;
 
 		for (int i = 0; i < csv.getLow().size(); i++)
 		{
 
+			Double close = csv.getClose().get(i);
 			// addPoint is for technical indicators
-			getLongTB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
+//			getShortTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
 			// addCandle History is made for previous data, volume is not
 			// accumulated
-			getLongTB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
-					csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
+//			getShortTB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
+//					csv.getOpen().get(i), close, csv.getVolume().get(i));
 
-			j++;
-			if (j == 3)
+			if (i == 0)
 			{
-				getM15TB().addData(csv.getClose().get(i).floatValue(), csv.getVolume().get(i).floatValue());
-				getM15TB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
-						csv.getOpen().get(i), csv.getClose().get(i), csv.getVolume().get(i));
+				ema5 = new EMA(close, 5);
+				ema25 = new EMA(close, 25);
+				ema50 = new EMA(close, 50);
+				ema100 = new EMA(close, 100);
+				ema250 = new EMA(close, 250);
+				ema1200 = new EMA(close, 1200);
+			} else
+			{
+				ema5.setlatestEMA(close);
+				ema25.setlatestEMA(close);
+				ema50.setlatestEMA(close);
+				ema100.setlatestEMA(close);
+				ema250.setlatestEMA(close);
+				ema1200.setlatestEMA(close);
+			}
+			j++;
+			k++;
+
+			if (j == 5)
+			{
+				getLongTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
+				getLongTB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
+						csv.getOpen().get(i), close, csv.getVolume().get(i));
 				j = 0;
 			}
 
+			if (k == 15)
+			{
+				getM15TB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
+				getM15TB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
+						csv.getOpen().get(i), close, csv.getVolume().get(i));
+				k = 0;
+			}
+
 		}
+		
+		Global.addLog("Previous m1_EMA250: " + getEma250().getEMA());
 
 	}
 
