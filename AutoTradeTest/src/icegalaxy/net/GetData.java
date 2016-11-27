@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-
-
 public class GetData implements Runnable
 {
 
@@ -84,12 +82,12 @@ public class GetData implements Runnable
 
 		ohlc = new XMLReader(tableName);
 
-//		ema5 = new EMA(ohlc.getpEMA5(), 5);
-//		ema25 = new EMA(ohlc.getpEMA25(), 25);
-//		ema50 = new EMA(ohlc.getpEMA50(), 50);
-//		ema100 = new EMA(ohlc.getpEMA100(), 100);
-//		ema250 = new EMA(ohlc.getpEMA250(), 250);
-//		ema1200 = new EMA(ohlc.getpEMA1200(), 1200);
+		// ema5 = new EMA(ohlc.getpEMA5(), 5);
+		// ema25 = new EMA(ohlc.getpEMA25(), 25);
+		// ema50 = new EMA(ohlc.getpEMA50(), 50);
+		// ema100 = new EMA(ohlc.getpEMA100(), 100);
+		// ema250 = new EMA(ohlc.getpEMA250(), 250);
+		// ema1200 = new EMA(ohlc.getpEMA1200(), 1200);
 
 		// Global.addLog("pEMA250: " + ohlc.getpEMA250());
 
@@ -125,8 +123,19 @@ public class GetData implements Runnable
 			asql = new SQLite(Setting.dataBase);
 
 		setOHLC();
-		getPreviousData();
 
+		if (ohlc.getpEMA250() != 0)
+		{
+			ema5 = new EMA(ohlc.getpEMA5(), 5);
+			ema25 = new EMA(ohlc.getpEMA25(), 25);
+			ema50 = new EMA(ohlc.getpEMA50(), 50);
+			ema100 = new EMA(ohlc.getpEMA100(), 100);
+			ema250 = new EMA(ohlc.getpEMA250(), 250);
+			ema1200 = new EMA(ohlc.getpEMA1200(), 1200);
+		} else
+		{
+			getPreviousData();
+		}
 		// getLongTB().setPreviousEMA(5, (float) 23628.89);
 		// getLongTB().setPreviousEMA(6, (float) 23635.57);
 
@@ -275,8 +284,8 @@ public class GetData implements Runnable
 				ema250.setlatestEMA(calDeal);
 				ema1200.setlatestEMA(calDeal);
 				// getShortTB().getMACD();
-				
-//				Global.addLog("EMA250: " + getEma250().getEMA());
+
+				// Global.addLog("EMA250: " + getEma250().getEMA());
 
 				// if (calDeal == 23868)
 				// System.out.println("xxx time: " + getTime());
@@ -294,8 +303,8 @@ public class GetData implements Runnable
 				else
 					getM15TB().addPoint(getPreviousPt());
 
-				getM15TB().addCandle(getTime(), m15Data.periodHigh, m15Data.periodLow, m15Data.openPt,
-						getPreviousPt(), totalQuantity);
+				getM15TB().addCandle(getTime(), m15Data.periodHigh, m15Data.periodLow, m15Data.openPt, getPreviousPt(),
+						totalQuantity);
 
 				// System.out.println(AutoTradeDB.getTime() + " " +
 				// calDeal);
@@ -571,7 +580,7 @@ public class GetData implements Runnable
 		if (m1Deal.size() < 2)
 			return m1Deal.get(0);
 		else
-			return m1Deal.get(m1Deal.size()-2);
+			return m1Deal.get(m1Deal.size() - 2);
 	}
 
 	private void addQuantities()
@@ -642,11 +651,13 @@ public class GetData implements Runnable
 
 			Double close = csv.getClose().get(i);
 			// addPoint is for technical indicators
-//			getShortTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
+			// getShortTB().addData(close.floatValue(),
+			// csv.getVolume().get(i).floatValue());
 			// addCandle History is made for previous data, volume is not
 			// accumulated
-//			getShortTB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
-//					csv.getOpen().get(i), close, csv.getVolume().get(i));
+			// getShortTB().addCandleHistory(getCSVTime(csv.getTime().get(i)),
+			// csv.getHigh().get(i), csv.getLow().get(i),
+			// csv.getOpen().get(i), close, csv.getVolume().get(i));
 
 			if (i == 0)
 			{
@@ -671,8 +682,8 @@ public class GetData implements Runnable
 			if (j == 5)
 			{
 				getLongTB().addData(close.floatValue(), csv.getVolume().get(i).floatValue());
-				getLongTB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i), csv.getLow().get(i),
-						csv.getOpen().get(i), close, csv.getVolume().get(i));
+				getLongTB().addCandleHistory(getCSVTime(csv.getTime().get(i)), csv.getHigh().get(i),
+						csv.getLow().get(i), csv.getOpen().get(i), close, csv.getVolume().get(i));
 				j = 0;
 			}
 
@@ -685,7 +696,7 @@ public class GetData implements Runnable
 			}
 
 		}
-		
+
 		Global.addLog("Previous m1_EMA250: " + getEma250().getEMA());
 
 	}
