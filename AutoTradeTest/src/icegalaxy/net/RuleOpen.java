@@ -41,7 +41,7 @@ public class RuleOpen extends Rules
 //			chasing = new Chasing();
 //		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getOpen() == 0)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getOpen() == 0 || shutdown)
 			return;
 		
 //		while (Math.abs(Global.getCurrentPoint() - Global.getOpen()) < 20)
@@ -92,6 +92,9 @@ public class RuleOpen extends Rules
 				
 			}
 			
+			if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
+				return;
+			
 			longContract();
 			cutLoss = buyingPoint - refLow;
 			
@@ -136,6 +139,10 @@ public class RuleOpen extends Rules
 			
 				
 			}
+			
+			if (GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
+				return;
+			
 			shortContract();		
 			cutLoss = refHigh - buyingPoint;
 		}
@@ -246,7 +253,7 @@ public class RuleOpen extends Rules
 		
 		
 		
-		return 50;
+		return 20;
 	}
 
 	@Override
