@@ -285,7 +285,7 @@ public class Setting extends JFrame {
 		Global.isSidewayMrt = sidewayBtn.isSelected();
 		Global.setChasing(new Chasing());
 
-		int noOfThreads = 17;
+		int noOfThreads = 18;
 
 		WaitAndNotify[] wan = new WaitAndNotify[noOfThreads];
 
@@ -383,6 +383,7 @@ public class Setting extends JFrame {
 
 		RulePLow pL = new RulePLow(wan[6], wan[7], false);
 		RuleIBT ibt = new RuleIBT(wan[7], wan[8], true);
+		
 		RuleOpen open = new RuleOpen(wan[8], wan[9], false);
 		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], false);
 		RuleChasing chasing = new RuleChasing(wan[10], wan[11], false);
@@ -390,6 +391,8 @@ public class Setting extends JFrame {
 		RuleDanny250Pena danny250 = new RuleDanny250Pena(wan[12], wan[13], false);
 		RuleDanny250Pena2 danny2502 = new RuleDanny250Pena2(wan[13], wan[14], false);
 		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(wan[14], wan[15], false);
+		RuleIBT2 ibt2 = new RuleIBT2(wan[15], wan[16], false);
+//		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(wan[15], wan[16], false);
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M
 //		RuleBouncing3 bouncing3 = new RuleBouncing3(wan[19], wan[20], false);
@@ -398,7 +401,7 @@ public class Setting extends JFrame {
 
 //		RuleSeconds sec = new RuleSeconds(wan[23], wan[24], false);
 		
-		Runnable[] r = {sdc, tpd,  login, ruleRSI, ema56, test2, pH, danny240, pL, ibt, open, danny50, chasing, danny2, danny250, danny2502, danny2503};
+		Runnable[] r = {sdc, tpd,  login, ruleRSI, ema56, test2, pH, danny240, pL, ibt, open, danny50, chasing, danny2, danny250, danny2502, danny2503, ibt2};
 		
 		Thread[] t = new Thread[noOfThreads];
 
