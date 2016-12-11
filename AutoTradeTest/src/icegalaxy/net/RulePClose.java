@@ -6,7 +6,7 @@ import com.sun.org.apache.xalan.internal.xsltc.cmdline.getopt.GetOptsException;
 
 //Use the OPEN Line
 
-public class RulePLow extends Rules
+public class RulePClose extends Rules
 {
 
 
@@ -15,7 +15,7 @@ public class RulePLow extends Rules
 	private double refHigh;
 	private double refLow;
 
-	public RulePLow(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
+	public RulePClose(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(93000, 115500, 130500, 160000, 231500, 231500);
@@ -40,18 +40,18 @@ public class RulePLow extends Rules
 //			chasing = new Chasing();
 //		}
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpLow() == 0 || shutdown)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || Global.getpClose() == 0 || shutdown)
 			return;
 		
-//		while (Math.abs(Global.getCurrentPoint() - Global.getpLow()) < 20)
+//		while (Math.abs(Global.getCurrentPoint() - Global.getpClose()) < 20)
 //			{
 //				wanPrevious.middleWaiter(wanNext);
 //				if (!isOrderTime())
 //					return;
 //			}
 
-		if (GetData.getEma5().getPreviousEMA(1) < Global.getpLow()
-				&& GetData.getEma5().getEMA() > Global.getpLow())
+		if (GetData.getEma5().getPreviousEMA(1) < Global.getpClose()
+				&& GetData.getEma5().getEMA() > Global.getpClose())
 		{
 			refHigh = 0;
 			refLow = 99999;
@@ -65,7 +65,7 @@ public class RulePLow extends Rules
 //				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
 //					break;
 				
-				if (GetData.getEma5().getEMA() < Global.getpLow())
+				if (GetData.getEma5().getEMA() < Global.getpClose())
 					return;
 				
 				if (GetData.getEma5().getEMA() > refHigh)
@@ -83,7 +83,7 @@ public class RulePLow extends Rules
 //				if (TimePeriodDecider.getTime() > 100000)
 //					return;
 				
-				if (GetData.getEma5().getEMA() < Global.getpLow())
+				if (GetData.getEma5().getEMA() < Global.getpClose())
 					return;
 
 			 if (GetData.getEma5().getEMA() < refLow)
@@ -97,8 +97,8 @@ public class RulePLow extends Rules
 			longContract();
 			cutLoss = buyingPoint - refLow;
 			
-		}else if (GetData.getEma5().getPreviousEMA(1) > Global.getpLow()
-				&& GetData.getEma5().getEMA() < Global.getpLow())
+		}else if (GetData.getEma5().getPreviousEMA(1) > Global.getpClose()
+				&& GetData.getEma5().getEMA() < Global.getpClose())
 		{	
 			refHigh = 0;
 			refLow = 99999;
@@ -112,7 +112,7 @@ public class RulePLow extends Rules
 //				if (GetData.getEma5().getEMA() > GetData.getShortTB().getEMA(6))
 //					break;
 				
-				if (GetData.getEma5().getEMA()  > Global.getpLow())
+				if (GetData.getEma5().getEMA()  > Global.getpClose())
 					return;
 				
 //				if (GetData.getEma5().getEMA() > refHigh)
@@ -130,7 +130,7 @@ public class RulePLow extends Rules
 //				if (TimePeriodDecider.getTime() > 100000)
 //					return;
 				
-				if (GetData.getEma5().getEMA() > Global.getpLow())
+				if (GetData.getEma5().getEMA() > Global.getpClose())
 					return;
 
 				if (GetData.getEma5().getEMA() > refHigh)
