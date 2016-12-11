@@ -28,15 +28,16 @@ public class RuleRSI extends Rules {
     @Override
     public void openContract() {
     	
-		if (shutdown) {
-			lossTimes++;
-			shutdown = false;
-
-		}
+//		if (shutdown) {
+//			lossTimes++;
+//			shutdown = false;
+//
+//		}
 
         refRSI = 50;
 
         if (!Global.isOrderTime()
+        		|| shutdown
 //        		|| lossTimes >= 2
 //                || noOfCutLoss >= 3
         // || Global.getDayHigh() - Global.getDayLow() > 100
@@ -52,7 +53,9 @@ public class RuleRSI extends Rules {
 
         }
 
-        if (getTimeBase().getRSI() < lowerRSI && GetData.getEma5().getEMA() < GetData.getEma25().getEMA()) {
+        if (getTimeBase().getRSI() < lowerRSI) {
+        	
+        	refPt = 99999;
         	
         	while(GetData.getEma5().getEMA() < GetData.getEma25().getEMA())
         	{
@@ -60,6 +63,12 @@ public class RuleRSI extends Rules {
         		 
         		 if (!isOrderTime())
         			 return;
+        		 
+        		 if (GetData.getEma5().getEMA() < refPt)
+        		 {
+        			 refPt = GetData.getEma5().getEMA();
+        		 }
+        		 
         	}
 
             longContract();
@@ -68,14 +77,21 @@ public class RuleRSI extends Rules {
 
 
         } else
-        if (getTimeBase().getRSI() > upperRSI && GetData.getEma5().getEMA() < GetData.getEma25().getEMA()) {
+        if (getTimeBase().getRSI() > upperRSI) {
 
+        	refPt = 0;
+        	
         	while(GetData.getEma5().getEMA() > GetData.getEma25().getEMA())
         	{
         		 wanPrevious.middleWaiter(wanNext);
         		 
         		 if (!isOrderTime())
         			 return;
+        		 
+        		 if (GetData.getEma5().getEMA() > refPt)
+        		 {
+        			 refPt = GetData.getEma5().getEMA();
+        		 }
         	}
 
             shortContract();
@@ -143,14 +159,14 @@ public class RuleRSI extends Rules {
 		{
 
 //			if (getProfit() > 30)
-				return GetData.getEma5().getEMA() < GetData.getEma25().getEMA();
+				return GetData.getEma5().getEMA() < refPt;
 //			else
 //				return GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1);
 
 		} else
 		{
 //			if (getProfit() > 30)
-				return GetData.getEma5().getEMA() > GetData.getEma25().getEMA();
+				return GetData.getEma5().getEMA() > refPt;
 //			else
 //				return GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1);
 		}
@@ -177,16 +193,11 @@ public class RuleRSI extends Rules {
 		if (Global.getNoOfContracts() > 0)
 		{
 
-			if (isUpTrend2() && getProfit() > 50)
-			{
-				ema5 = GetData.getEma5().getEMA();
-				ema6 = GetData.getEma50().getEMA();
-			}
 
 			if (buyingPoint > tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint + 5;
+				tempCutLoss = buyingPoint + 30;
 			}
 
 			if (ema5 < ema6)
@@ -198,16 +209,12 @@ public class RuleRSI extends Rules {
 		} else if (Global.getNoOfContracts() < 0)
 		{
 
-			if (isDownTrend2() && getProfit() > 50)
-			{
-				ema5 = GetData.getEma5().getEMA();
-				ema6 = GetData.getEma50().getEMA();
-			}
+	
 
 			if (buyingPoint < tempCutLoss && getProfit() > 50)
 			{
 				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint - 5;
+				tempCutLoss = buyingPoint - 30;
 
 			}
 
