@@ -13,11 +13,7 @@ public class RuleRSI extends Rules {
     double lowerRSI = 30;
     double upperRSI = 70;
 
-    private float refRSI;
-
-	private float refEMA;
-
-	private int lossTimes;
+ 
 
     public RuleRSI(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
         super(wan1, wan2, globalRunRule);
@@ -34,7 +30,6 @@ public class RuleRSI extends Rules {
 //
 //		}
 
-        refRSI = 50;
 
         if (!Global.isOrderTime()
         		|| shutdown
