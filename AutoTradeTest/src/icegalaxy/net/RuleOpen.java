@@ -11,7 +11,6 @@ public class RuleOpen extends Rules
 
 
 	private double cutLoss;
-	private Chasing chasing;
 	private double OHLC;
 	private double refHigh;
 	private double refLow;
@@ -20,7 +19,7 @@ public class RuleOpen extends Rules
 	{
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(93000, 115500, 130500, 160000, 231500, 231500);
-		chasing = new Chasing();
+		
 		// wait for EMA6, that's why 0945
 	}
 
@@ -218,10 +217,7 @@ public class RuleOpen extends Rules
 
 		}
 		
-		if (Global.getCurrentPoint() > chasing.getRefHigh())
-			chasing.setRefHigh(Global.getCurrentPoint());
-		if (Global.getCurrentPoint() < chasing.getRefLow())
-			chasing.setRefLow(Global.getCurrentPoint());
+		
 		
 	}
 	
