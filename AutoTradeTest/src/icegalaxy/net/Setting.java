@@ -285,7 +285,7 @@ public class Setting extends JFrame {
 		Global.isSidewayMrt = sidewayBtn.isSelected();
 		Global.setChasing(new Chasing());
 
-		int noOfThreads = 19;
+		int noOfThreads = 20;
 
 		WaitAndNotify[] wan = new WaitAndNotify[noOfThreads];
 
@@ -393,6 +393,7 @@ public class Setting extends JFrame {
 		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(wan[14], wan[15], true);
 		RuleIBT2 ibt2 = new RuleIBT2(wan[15], wan[16], true);
 		RulePClose pC = new RulePClose(wan[16], wan[17], true);
+		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(wan[17], wan[18], true);
 //		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(wan[15], wan[16], false);
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M
@@ -402,7 +403,7 @@ public class Setting extends JFrame {
 
 //		RuleSeconds sec = new RuleSeconds(wan[23], wan[24], false);
 		
-		Runnable[] r = {sdc, tpd,  login, ruleRSI, ema56, test2, pH, danny240, pL, ibt, open, danny50, chasing, danny2, danny250, danny2502, danny2503, ibt2, pC};
+		Runnable[] r = {sdc, tpd,  login, ruleRSI, ema56, test2, pH, danny240, pL, ibt, open, danny50, chasing, danny2, danny250, danny2502, danny2503, ibt2, pC, danny2504};
 		
 		Thread[] t = new Thread[noOfThreads];
 

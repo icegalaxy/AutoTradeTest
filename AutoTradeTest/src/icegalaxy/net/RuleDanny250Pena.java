@@ -16,7 +16,7 @@ public class RuleDanny250Pena extends Rules
 	public RuleDanny250Pena(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(93000, 115500, 130500, 160000, 230000, 230000);
+		setOrderTime(93000, 103000, 150000, 160000, 230000, 230000);
 		chasing = new Chasing();
 		// wait for EMA6, that's why 0945
 	}
@@ -45,7 +45,8 @@ public class RuleDanny250Pena extends Rules
 			Global.addLog("LossTimes: " + lossTimes);
 		}
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 10)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || lossTimes >= 10
+				|| Math.abs(GetData.getEma250().getEMA() - GetData.getEma1200().getEMA()) > 100)
 			return;
 
 //		Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
