@@ -137,7 +137,7 @@ public class RuleRSI extends Rules {
     }
 
     double getCutLossPt() {
-        return 30;
+        return 15;
     }
 
     double getStopEarnPt() {
