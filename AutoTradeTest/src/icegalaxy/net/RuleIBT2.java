@@ -183,7 +183,8 @@ public class RuleIBT2 extends Rules
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return 15;
+		//should not give too much, since it is not following trend
+		return 20;
 	}
 
 	@Override
