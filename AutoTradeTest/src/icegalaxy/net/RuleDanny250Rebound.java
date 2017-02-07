@@ -14,7 +14,7 @@ public class RuleDanny250Rebound extends Rules
 	public RuleDanny250Rebound(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(93000, 115500, 130500, 160000, 230000, 230000);
+		setOrderTime(93000, 103000, 150000, 160000, 230000, 230000);
 		
 	}
 	
@@ -44,28 +44,23 @@ public class RuleDanny250Rebound extends Rules
 			return;
 
 		
-		if (Global.getCurrentPoint() < GetData.getEma250().getEMA()
-				&& GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
+		if (GetData.getShortTB().getLatestCandle().getLow() < GetData.getEma250().getEMA()
+				&& GetData.getShortTB().getPreviousCandle(1).getClose() > GetData.getEma250().getEMA())
 		{
 			
-			Global.addLog("---------------------");
-			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
-			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
-			Global.addLog("5: " + GetData.getEma5().getEMA());
-			Global.addLog("250: " + GetData.getEma250().getEMA());
-			Global.addLog("---------------------");
 			
 			refPt = GetData.getEma5().getEMA();
 			
-			while (GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1))
+			while (GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1)
+					|| GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
 			{
 				wanPrevious.middleWaiter(wanNext);	
 				
-				if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
-				{
-					Global.addLog("Trend Change");
-					return;
-				}
+//				if (GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
+//				{
+//					Global.addLog("Trend Change");
+//					return;
+//				}
 
 				if (!isOrderTime())
 				{
@@ -82,28 +77,24 @@ public class RuleDanny250Rebound extends Rules
 			cutLossPt = buyingPoint - GetData.getEma250().getEMA();
 			
 			
-		}else if (Global.getCurrentPoint() > GetData.getEma250().getEMA()
-				&& GetData.getEma5().getEMA() < GetData.getEma250().getEMA())
+		}else if (GetData.getShortTB().getLatestCandle().getHigh() > GetData.getEma250().getEMA()
+				&& GetData.getShortTB().getPreviousCandle(1).getClose()  < GetData.getEma250().getEMA())
 		{
 			
-			Global.addLog("---------------------");
-			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
-			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
-			Global.addLog("5: " + GetData.getEma5().getEMA());
-			Global.addLog("250: " + GetData.getEma250().getEMA());
-			Global.addLog("---------------------");
+			
 			
 			refPt = GetData.getEma5().getEMA();
 			
-			while (GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1))
+			while (GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1)
+					|| GetData.getEma5().getEMA() > GetData.getEma250().getEMA())
 			{
 				wanPrevious.middleWaiter(wanNext);	
 				
-				if (GetData.getEma5().getEMA() >  GetData.getEma250().getEMA())
-				{
-					Global.addLog("Trend Change");
-					return;
-				}
+//				if (GetData.getEma5().getEMA() >  GetData.getEma250().getEMA())
+//				{
+//					Global.addLog("Trend Change");
+//					return;
+//				}
 
 				if (!isOrderTime())
 				{
@@ -124,15 +115,15 @@ public class RuleDanny250Rebound extends Rules
 
 	}
 
-	@Override
-	boolean trendReversed(){
-		
-		if (Global.getNoOfContracts() > 0)
-			return GetData.getEma5().getEMA() < refPt;
-		else
-			return GetData.getEma5().getEMA() > refPt;
-		
-	}
+//	@Override
+//	boolean trendReversed(){
+//		
+//		if (Global.getNoOfContracts() > 0)
+//			return GetData.getEma5().getEMA() < refPt;
+//		else
+//			return GetData.getEma5().getEMA() > refPt;
+//		
+//	}
 
 	// use 1min instead of 5min
 	void updateStopEarn()
@@ -201,7 +192,7 @@ public class RuleDanny250Rebound extends Rules
 
 		
 //		return Math.min(cutLossPt + 10, 40);
-		return 100;
+		return 20;
 
 	}
 

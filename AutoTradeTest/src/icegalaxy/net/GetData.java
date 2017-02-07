@@ -81,6 +81,7 @@ public class GetData implements Runnable
 		}
 
 		ohlc = new XMLReader(tableName);
+		ohlc.findOHLC();
 
 		// ema5 = new EMA(ohlc.getpEMA5(), 5);
 		// ema25 = new EMA(ohlc.getpEMA25(), 25);
