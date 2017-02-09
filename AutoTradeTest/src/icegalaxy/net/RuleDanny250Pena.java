@@ -58,12 +58,12 @@ public class RuleDanny250Pena extends Rules
 				&& getHighestMA() - getLowestMA() > getTimeBase().getHL(1).getFluctuation())
 		{
 			
-			Global.addLog("---------------------");
-			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
-			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
-			Global.addLog("5: " + GetData.getEma5().getEMA());
-			Global.addLog("250: " + GetData.getEma250().getEMA());
-			Global.addLog("---------------------");
+//			Global.addLog("---------------------");
+//			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
+//			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
+//			Global.addLog("5: " + GetData.getEma5().getEMA());
+//			Global.addLog("250: " + GetData.getEma250().getEMA());
+//			Global.addLog("---------------------");
 					
 			longContract();
 			cutLossPt = buyingPoint - GetData.getEma250().getEMA();
@@ -74,12 +74,12 @@ public class RuleDanny250Pena extends Rules
 				&& getHighestMA() - getLowestMA() > getTimeBase().getHL(1).getFluctuation())
 		{
 			
-			Global.addLog("---------------------");
-			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
-			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
-			Global.addLog("5: " + GetData.getEma5().getEMA());
-			Global.addLog("250: " + GetData.getEma250().getEMA());
-			Global.addLog("---------------------");
+//			Global.addLog("---------------------");
+//			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
+//			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
+//			Global.addLog("5: " + GetData.getEma5().getEMA());
+//			Global.addLog("250: " + GetData.getEma250().getEMA());
+//			Global.addLog("---------------------");
 			
 			shortContract();
 			cutLossPt = GetData.getEma250().getEMA() - buyingPoint;

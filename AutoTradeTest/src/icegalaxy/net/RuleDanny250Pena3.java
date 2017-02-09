@@ -59,12 +59,12 @@ public class RuleDanny250Pena3 extends Rules
 				&& GetData.getEma250().getEMA() == getLowestMA())
 		{
 			
-			Global.addLog("---------------------");
-			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
-			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
-			Global.addLog("5: " + GetData.getEma5().getEMA());
-			Global.addLog("250: " + GetData.getEma250().getEMA());
-			Global.addLog("---------------------");
+//			Global.addLog("---------------------");
+//			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
+//			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
+//			Global.addLog("5: " + GetData.getEma5().getEMA());
+//			Global.addLog("250: " + GetData.getEma250().getEMA());
+//			Global.addLog("---------------------");
 			
 			while (GetData.getEma5().getEMA() < GetData.getEma50().getEMA())
 			{
@@ -93,12 +93,12 @@ public class RuleDanny250Pena3 extends Rules
 				&& GetData.getEma250().getEMA() == getHighestMA())
 		{
 			
-			Global.addLog("---------------------");
-			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
-			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
-			Global.addLog("5: " + GetData.getEma5().getEMA());
-			Global.addLog("250: " + GetData.getEma250().getEMA());
-			Global.addLog("---------------------");
+//			Global.addLog("---------------------");
+//			Global.addLog("P5: " + GetData.getEma5().getPreviousEMA(1));
+//			Global.addLog("P250: " + GetData.getEma250().getPreviousEMA(1));
+//			Global.addLog("5: " + GetData.getEma5().getEMA());
+//			Global.addLog("250: " + GetData.getEma250().getEMA());
+//			Global.addLog("---------------------");
 			
 			
 			while (GetData.getEma5().getEMA() > GetData.getEma50().getEMA())
