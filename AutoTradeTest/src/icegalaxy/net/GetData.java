@@ -15,12 +15,12 @@ public class GetData implements Runnable
 
 	XMLReader ohlc;
 
-	private static EMA ema5;
-	private static EMA ema25;
-	private static EMA ema50;
-	private static EMA ema100;
-	private static EMA ema250;
-	private static EMA ema1200;
+//	private static EMA ema5;
+//	private static EMA ema25;
+//	private static EMA ema50;
+//	private static EMA ema100;
+//	private static EMA ema250;
+//	private static EMA ema1200;
 
 	private boolean isOpenAdded = false;
 
@@ -68,6 +68,8 @@ public class GetData implements Runnable
 
 	// StockDataController.CandleData secData;
 	ArrayList<Float> m1Deal;
+	
+	int[] EMAs = new int[]{5, 25, 50, 100, 250, 1200};
 
 	public GetData(String tableName, WaitAndNotify wan)
 	{
@@ -125,14 +127,13 @@ public class GetData implements Runnable
 
 		setOHLC();
 
-		if (ohlc.getpEMA250() != 0)
+		
+		if (ohlc.getpEMA250() != 0) // for days without spData
 		{
-			ema5 = new EMA(ohlc.getpEMA5(), 5);
-			ema25 = new EMA(ohlc.getpEMA25(), 25);
-			ema50 = new EMA(ohlc.getpEMA50(), 50);
-			ema100 = new EMA(ohlc.getpEMA100(), 100);
-			ema250 = new EMA(ohlc.getpEMA250(), 250);
-			ema1200 = new EMA(ohlc.getpEMA1200(), 1200);
+		
+	
+			for (int i=0; i <shortTB.EMAs.length ; i++)
+				shortTB.EMAs[i] = new EMA(ohlc.getpEMA5(), EMAs[i]);
 		} else
 		{
 			getPreviousData();
@@ -278,12 +279,9 @@ public class GetData implements Runnable
 				getShortTB().addCandle(getTime(), shortData.periodHigh, shortData.periodLow, shortData.openPt,
 						getPreviousPt(), totalQuantity);
 
-				ema5.setlatestEMA(calDeal);
-				ema25.setlatestEMA(calDeal);
-				ema50.setlatestEMA(calDeal);
-				ema100.setlatestEMA(calDeal);
-				ema250.setlatestEMA(calDeal);
-				ema1200.setlatestEMA(calDeal);
+				for (int x=0; x <shortTB.EMAs.length ; x++)
+					shortTB.EMAs[x].setlatestEMA(calDeal);
+			
 				// getShortTB().getMACD();
 
 				// Global.addLog("EMA250: " + getEma250().getEMA());
@@ -447,32 +445,32 @@ public class GetData implements Runnable
 
 	public static EMA getEma5()
 	{
-		return ema5;
+		return shortTB.ema5;
 	}
 
 	public static EMA getEma25()
 	{
-		return ema25;
+		return shortTB.ema25;
 	}
 
 	public static EMA getEma50()
 	{
-		return ema50;
+		return shortTB.ema50;
 	}
 
 	public static EMA getEma100()
 	{
-		return ema100;
+		return shortTB.ema100;
 	}
 
 	public static EMA getEma250()
 	{
-		return ema250;
+		return shortTB.ema250;
 	}
 
 	public static EMA getEma1200()
 	{
-		return ema1200;
+		return shortTB.ema1200;
 	}
 
 	private Date getCSVTime(String time)

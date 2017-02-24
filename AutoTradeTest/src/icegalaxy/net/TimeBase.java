@@ -10,6 +10,16 @@ import org.jfree.ui.RefineryUtilities;
 
 
 public class TimeBase {
+	
+	public EMA ema5;
+	public EMA ema25;
+	public EMA ema50;
+	public EMA ema100;
+	public EMA ema250;
+	public EMA ema1200;
+	
+	public EMA[] EMAs = new EMA[]{ema5, ema25, ema50, ema100, ema250, ema1200};
+	
 	ArrayList<Float> point = new ArrayList<Float>();
 	ArrayList<Float> quantity = new ArrayList<Float>();
 	ArrayList<Float> agalPt = new ArrayList<Float>();
