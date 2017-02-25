@@ -660,20 +660,20 @@ public class GetData implements Runnable
 
 			if (i == 0)
 			{
-				ema5 = new EMA(close, 5);
-				ema25 = new EMA(close, 25);
-				ema50 = new EMA(close, 50);
-				ema100 = new EMA(close, 100);
-				ema250 = new EMA(close, 250);
-				ema1200 = new EMA(close, 1200);
+				
+				for (int x =0; x<EMAs.length; x++)
+				{
+					shortTB.EMAs[x] = new EMA(close, EMAs[x]); // creating new instance of EMA and set it to the EMA is array, changing it's reference. It is not the field in shortTB anymore 
+//					System.out.println("Initializing EMA" + EMAs[x]);
+				}
 			} else
 			{
-				ema5.setlatestEMA(close);
-				ema25.setlatestEMA(close);
-				ema50.setlatestEMA(close);
-				ema100.setlatestEMA(close);
-				ema250.setlatestEMA(close);
-				ema1200.setlatestEMA(close);
+				
+				for (int x =0; x<EMAs.length; x++)
+				{
+					shortTB.EMAs[x].setlatestEMA(close);
+//					System.out.println("settting latest EMA" + EMAs[x]);
+				}
 			}
 			j++;
 			k++;

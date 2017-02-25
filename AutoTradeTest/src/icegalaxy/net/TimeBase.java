@@ -15,7 +15,7 @@ public class TimeBase {
 	public EMA ema25;
 	public EMA ema50;
 	public EMA ema100;
-	public EMA ema250;
+	public EMA ema250 = null;
 	public EMA ema1200;
 	
 	public EMA[] EMAs = new EMA[]{ema5, ema25, ema50, ema100, ema250, ema1200};

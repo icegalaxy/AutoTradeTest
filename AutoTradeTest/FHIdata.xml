@@ -18,7 +18,7 @@
 		<pEMA1200> 22566.57 </pEMA1200>
 		<pSMA20> 22478.90 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22645 </open>
 	</OHLC>
 	
 	<OHLC>
@@ -35,7 +35,7 @@
 		<pEMA1200> 22760 </pEMA1200>
 		<pSMA20> 22940.75 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22923 </open>
 	</OHLC>
 	
 	<OHLC>
@@ -52,7 +52,7 @@
 		<pEMA1200> 22854.30 </pEMA1200>
 		<pSMA20> 22888.60 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 23150 </open>
 	</OHLC>
 	
 	<OHLC>
@@ -69,7 +69,7 @@
 		<pEMA1200> 22579.37 </pEMA1200>
 		<pSMA20> 22642.2 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22853 </open>
 	</OHLC>
 
 	<OHLC>
@@ -86,7 +86,7 @@
 		<pEMA1200> 22772.19 </pEMA1200>
 		<pSMA20> 22608.60 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22650 </open>
 	</OHLC>
 
 	<OHLC>
@@ -103,7 +103,7 @@
 		<pEMA1200> 22467.74 </pEMA1200>
 		<pSMA20> 22209.35 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22359 </open>
 	</OHLC>
     
     <OHLC>
@@ -120,7 +120,7 @@
         <pEMA1200> 22280.23 </pEMA1200>
         <pSMA20> 22262.70 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22250 </open>
     </OHLC>
     
     <OHLC>
@@ -137,7 +137,7 @@
         <pEMA1200> 22283.53 </pEMA1200>
         <pSMA20> 22326.85 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22445 </open>
     </OHLC>
     
     <OHLC>
@@ -154,7 +154,7 @@
         <pEMA1200> 22239.77 </pEMA1200>
         <pSMA20> 22169.40 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22182 </open>
     </OHLC>
     
     <OHLC>
@@ -171,7 +171,7 @@
         <pEMA1200> 22262.85 </pEMA1200>
         <pSMA20> 22296.95 </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22250 </open>
     </OHLC>
     
 	 <OHLC>
@@ -188,7 +188,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22331 </open>
     </OHLC>
 	
     <OHLC>
@@ -205,7 +205,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22450 </open>
     </OHLC>
 
     <OHLC>
@@ -222,7 +222,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22665 </open>
     </OHLC>
     
     <OHLC>
@@ -239,7 +239,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22607 </open>
     </OHLC>
     
     <OHLC>
@@ -256,7 +256,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22627 </open>
     </OHLC>
     
     <OHLC>
@@ -273,7 +273,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22713 </open>
     </OHLC>
     
     <OHLC>
@@ -290,7 +290,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22751 </open>
     </OHLC>
     
     <OHLC>
@@ -307,7 +307,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22820 </open>
     </OHLC>
     
     <OHLC>
@@ -324,7 +324,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22900 </open>
     </OHLC>
     
     <OHLC>
@@ -341,7 +341,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22624 </open>
     </OHLC>
     
     <OHLC>
@@ -358,7 +358,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22800 </open>
     </OHLC>
     
     <OHLC>
@@ -375,7 +375,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22850 </open>
     </OHLC>
     
     <OHLC>
@@ -392,7 +392,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22873 </open>
     </OHLC>
     
     <OHLC>
@@ -409,7 +409,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22447 </open>
     </OHLC>
     
     <OHLC>
@@ -426,7 +426,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22595 </open>
     </OHLC>
     
     <OHLC>
@@ -443,7 +443,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22309 </open>
     </OHLC>
     
     <OHLC>
@@ -460,7 +460,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 21983 </open>
     </OHLC>
     
     <OHLC>
@@ -477,7 +477,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 21948 </open>
     </OHLC>
     
     <OHLC>
@@ -494,7 +494,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 21784 </open>
     </OHLC>
     
     <OHLC>
@@ -511,7 +511,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 21738 </open>
     </OHLC>
     
     <OHLC>
@@ -528,7 +528,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22175 </open>
     </OHLC>
 	
 	 <OHLC>
@@ -545,7 +545,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22257 </open>
     </OHLC>
 
 	 <OHLC>
@@ -562,7 +562,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22540 </open>
     </OHLC>
 
 	 <OHLC>
@@ -579,7 +579,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22590 </open>
     </OHLC>
 
 	 <OHLC>
@@ -596,7 +596,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22537 </open>
     </OHLC>
 
 	 <OHLC>
@@ -613,7 +613,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22800 </open>
     </OHLC>
 
 	 <OHLC>
@@ -630,7 +630,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22971 </open>
     </OHLC>
 
 	 <OHLC>
@@ -647,7 +647,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22929 </open>
     </OHLC>
 
 	 <OHLC>
@@ -664,7 +664,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22872 </open>
     </OHLC>
 
 	 <OHLC>
@@ -681,7 +681,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22850 </open>
     </OHLC>
 
 	 <OHLC>
@@ -698,7 +698,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22901 </open>
     </OHLC>
 
 	 <OHLC>
@@ -715,7 +715,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 23083 </open>
     </OHLC>
 
 	 <OHLC>
@@ -732,7 +732,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22990 </open>
     </OHLC>
 
 	 <OHLC>
@@ -749,7 +749,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22950 </open>
     </OHLC>
 
 	 <OHLC>
@@ -766,7 +766,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 22970 </open>
     </OHLC>
 
 	 <OHLC>
@@ -783,7 +783,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 23044 </open>
     </OHLC>
 
 	 <OHLC>
@@ -800,7 +800,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 23169 </open>
     </OHLC>
 
 	 <OHLC>
@@ -817,7 +817,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 23250 </open>
     </OHLC>	
 
 	 <OHLC>
@@ -834,7 +834,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 23200 </open>
     </OHLC>		
 
 	 <OHLC>
@@ -851,7 +851,7 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
-        <open>  </open>
+        <open> 23270 </open>
     </OHLC>			
 
 	 <OHLC>
@@ -868,6 +868,80 @@
         <pEMA1200>  </pEMA1200>
         <pSMA20>  </pSMA20>
         <stop> false </stop>
+        <open> 23198 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170206 </date>
+        <pOpen> 23198 </pOpen>
+        <pHigh> 23205 </pHigh>
+        <pLow> 22914 </pLow>
+        <pClose> 23026 </pClose>
+        <pEMA5>  </pEMA5>
+        <pEMA25>  </pEMA25>
+        <pEMA50>  </pEMA50>
+        <pEMA100>  </pEMA100>
+        <pEMA250>  </pEMA250>
+        <pEMA1200>  </pEMA1200>
+        <pSMA20>  </pSMA20>
+        <stop> false </stop>
+        <open> 23142 </open>
+    </OHLC>		
+
+	 <OHLC>
+        <date> 170207 </date>
+        <pOpen> 23142 </pOpen>
+        <pHigh> 23298 </pHigh>
+        <pLow> 23071 </pLow>
+        <pClose> 23250 </pClose>
+        <pEMA5>  </pEMA5>
+        <pEMA25>  </pEMA25>
+        <pEMA50>  </pEMA50>
+        <pEMA100>  </pEMA100>
+        <pEMA250>  </pEMA250>
+        <pEMA1200>  </pEMA1200>
+        <pSMA20>  </pSMA20>
+        <stop> false </stop>
+        <open> 23195 </open>
+    </OHLC>			
+
+	 <OHLC>
+        <date> 170208 </date>
+        <pOpen> 23195 </pOpen>
+        <pHigh> 23342 </pHigh>
+        <pLow> 23167 </pLow>
+        <pClose> 23261 </pClose>
+        <stop> false </stop>
+        <open> 23248 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170209 </date>
+        <pOpen> 23248 </pOpen>
+        <pHigh> 23473 </pHigh>
+        <pLow> 23091 </pLow>
+        <pClose> 23426 </pClose>
+        <stop> false </stop>
+        <open> 23398 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170210 </date>
+        <pOpen> 23398 </pOpen>
+        <pHigh> 23555 </pHigh>
+        <pLow> 23384 </pLow>
+        <pClose> 23435 </pClose>
+        <stop> false </stop>
+        <open> 23590 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170213 </date>
+        <pOpen> 23590 </pOpen>
+        <pHigh> 23666 </pHigh>
+        <pLow> 23494 </pLow>
+        <pClose> 23527 </pClose>
+        <stop> false </stop>
         <open>  </open>
     </OHLC>	
 
@@ -877,20 +951,14 @@
         <pHigh>  </pHigh>
         <pLow>  </pLow>
         <pClose>  </pClose>
-        <pEMA5>  </pEMA5>
-        <pEMA25>  </pEMA25>
-        <pEMA50>  </pEMA50>
-        <pEMA100>  </pEMA100>
-        <pEMA250>  </pEMA250>
-        <pEMA1200>  </pEMA1200>
-        <pSMA20>  </pSMA20>
         <stop> false </stop>
         <open>  </open>
-    </OHLC>		
-	
-	
-	
-	
-	
-	
+    </OHLC>	
+
+
+
+
+
+
+
 </FHIdata>
