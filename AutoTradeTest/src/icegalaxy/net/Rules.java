@@ -16,6 +16,9 @@ public abstract class Rules implements Runnable
 	protected String className;
 	double stopEarnPt;
 	double cutLossPt;
+	
+	double refLow = 99999;
+	double refHigh = 0;
 
 	public int lossTimes;
 
@@ -304,6 +307,7 @@ public abstract class Rules implements Runnable
 		while (!reachGreatProfitPt())
 		{
 
+			updateHighLow();
 			updateCutLoss();
 			cutLoss();
 
@@ -384,6 +388,15 @@ public abstract class Rules implements Runnable
 			wanPrevious.middleWaiter(wanNext);
 			;
 		}
+	}
+
+	private void updateHighLow()
+	{
+		if (Global.getCurrentPoint() > refHigh)
+			refHigh = Global.getCurrentPoint();
+		else if (Global.getCurrentPoint() < refLow)
+			refLow = Global.getCurrentPoint();
+		
 	}
 
 	public void trendReversedAction()

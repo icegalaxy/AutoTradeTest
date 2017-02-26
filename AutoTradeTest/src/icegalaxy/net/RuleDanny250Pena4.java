@@ -26,6 +26,9 @@ public class RuleDanny250Pena4 extends Rules
 
 	public void openContract()
 	{
+		
+		refHigh = 0;
+		refLow = 99999;
 
 //		if (shutdown)
 //		{
@@ -58,6 +61,7 @@ public class RuleDanny250Pena4 extends Rules
 		
 			
 			longContract();
+			refLow = buyingPoint;
 			cutLoss = buyingPoint - refLow;
 			
 		}else if (GetData.getLongTB().getEma5().getPreviousEMA(1) > GetData.getLongTB().getEma250().getPreviousEMA(1)
@@ -65,7 +69,8 @@ public class RuleDanny250Pena4 extends Rules
 		{	
 			
 			
-			shortContract();		
+			shortContract();	
+			refHigh = buyingPoint;
 			cutLoss = refHigh - buyingPoint;
 		}
 		
@@ -152,6 +157,8 @@ public class RuleDanny250Pena4 extends Rules
 	{
 		return Math.max(100, cutLoss);
 	}
+	
+	
 
 	@Override
 	protected void cutLoss()
@@ -183,32 +190,30 @@ public class RuleDanny250Pena4 extends Rules
 
 	double getStopEarnPt()
 	{
-//		if (Global.getNoOfContracts() > 0)
-//		{
-//			if (StockDataController.getShortTB().getLatestCandle().getClose() > getTimeBase().getEMA(5))
-//				return -100;
-//			
-//			
-//			
-//			
-//		} else if (Global.getNoOfContracts() < 0)
-//		{
-//			if (StockDataController.getShortTB().getLatestCandle().getClose() < getTimeBase().getEMA(6))
-//				return -100;
-//		}
-		int pt;
+		double adjustPt = 0;
+		
+		if (Global.getNoOfContracts() > 0)
+		{
+			
+			adjustPt = buyingPoint - refLow;
+			
+		} else if (Global.getNoOfContracts() < 0)
+		{
+			adjustPt = refHigh - buyingPoint;
+		}
+		double pt;
 		
 		pt = (160000 - TimePeriodDecider.getTime()) / 1000;
 		
 		if (trendReversed)
 		{
 			shutdown = true;
-			return 5;
-//			return Math.min(5, (160000 - TimePeriodDecider.getTime()) / 2000);		
+//			return 5;
+			return Math.min(5, pt - adjustPt);		
 		}
 		else if (pt < 20)
-			return 20;
-		else return pt;
+			return 20 - adjustPt;
+		else return pt - adjustPt;
 	}
 
 	@Override
