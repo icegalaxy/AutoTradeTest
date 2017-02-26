@@ -11,14 +11,9 @@ import org.jfree.ui.RefineryUtilities;
 
 public class TimeBase {
 	
-	public EMA ema5;
-	public EMA ema25;
-	public EMA ema50;
-	public EMA ema100;
-	public EMA ema250 = null;
-	public EMA ema1200;
+
 	
-	public EMA[] EMAs = new EMA[]{ema5, ema25, ema50, ema100, ema250, ema1200};
+	public EMA[] EMAs = new EMA[6];
 	
 	ArrayList<Float> point = new ArrayList<Float>();
 	ArrayList<Float> quantity = new ArrayList<Float>();
@@ -692,6 +687,36 @@ public class TimeBase {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return null;
 		}
+	}
+	
+	public EMA getEma5()
+	{
+		return EMAs[0];
+	}
+
+	public EMA getEma25()
+	{
+		return EMAs[1];
+	}
+
+	public EMA getEma50()
+	{
+		return EMAs[2];
+	}
+
+	public EMA getEma100()
+	{
+		return EMAs[3];
+	}
+
+	public EMA getEma250()
+	{
+		return EMAs[4];
+	}
+
+	public EMA getEma1200()
+	{
+		return EMAs[5];
 	}
 
 	class Rail {

@@ -100,6 +100,7 @@ public class XMLReader
 		setpHigh(Double.parseDouble(eElement.getElementsByTagName("pHigh").item(0).getTextContent()));
 		setpLow(Double.parseDouble(eElement.getElementsByTagName("pLow").item(0).getTextContent()));
 		setpClose(Double.parseDouble(eElement.getElementsByTagName("pClose").item(0).getTextContent()));
+		setOpen(Double.parseDouble(eElement.getElementsByTagName("open").item(0).getTextContent()));
 		// setpFluc(Double.parseDouble(eElement.getElementsByTagName("pFluc").item(0).getTextContent()));
 		// setAOH(Double.parseDouble(eElement.getElementsByTagName("AOH").item(0).getTextContent()));
 		// setAOL(Double.parseDouble(eElement.getElementsByTagName("AOL").item(0).getTextContent()));

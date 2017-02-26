@@ -311,14 +311,7 @@ public abstract class Rules implements Runnable
 			// checkDayHighLow();
 			if (trendReversed())
 			{
-				if (getProfit() < 0)
-				{
-					closeContract(className + ": Trend reversed");
-					shutdown = true;
-				} else
-					closeContract(className + ": Trend reversed");
-				
-				return;
+				trendReversedAction();
 			}
 
 			if (trendUnstable())
@@ -336,9 +329,7 @@ public abstract class Rules implements Runnable
 			}
 
 			if (Global.getNoOfContracts() == 0)
-			{ // �i��ڨ�Lrule
-				// close���A��Trend
-				// truned�A�̧Y�Y�४�աA��
+			{ 
 				hasContract = false;
 				break;
 			}
@@ -393,6 +384,16 @@ public abstract class Rules implements Runnable
 			wanPrevious.middleWaiter(wanNext);
 			;
 		}
+	}
+
+	public void trendReversedAction()
+	{
+		if (getProfit() < 0)
+		{
+			closeContract(className + ": Trend reversed");
+			shutdown = true;
+		} else
+			closeContract(className + ": Trend reversed");
 	}
 
 	boolean trendReversed2()

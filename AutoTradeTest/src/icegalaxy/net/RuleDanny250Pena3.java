@@ -83,7 +83,10 @@ public class RuleDanny250Pena3 extends Rules
 				}
 					
 			}
-					
+			
+			if (GetData.getLongTB().getEma5().getEMA() < GetData.getLongTB().getEma250().getEMA())
+				return;
+			
 			longContract();
 			cutLossPt = buyingPoint - GetData.getEma250().getEMA();
 			
@@ -118,6 +121,9 @@ public class RuleDanny250Pena3 extends Rules
 				}
 					
 			}
+			
+			if(GetData.getLongTB().getEma5().getEMA() > GetData.getLongTB().getEma250().getEMA())
+				return;
 			
 			shortContract();
 			cutLossPt = GetData.getEma250().getEMA() - buyingPoint;
