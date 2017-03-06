@@ -421,6 +421,28 @@ public class Global {
 		Global.chasing = chasing;
 	}
 
+	
+	
+	public static synchronized boolean isRapidRise()
+	{
+		return rapidRise;
+	}
+
+	public static synchronized void setRapidRise(boolean rapidRise)
+	{
+		Global.rapidRise = rapidRise;
+	}
+
+	public static synchronized boolean isRapidDrop()
+	{
+		return rapidDrop;
+	}
+
+	public static synchronized void setRapidDrop(boolean rapidDrop)
+	{
+		Global.rapidDrop = rapidDrop;
+	}
+
 	static Chasing chasing;
 
 	static double pOpen;
@@ -432,6 +454,9 @@ public class Global {
 	static double AOH;
 	static double AOL;
 	static double open;
+	
+	static boolean rapidRise;
+	static boolean rapidDrop;
 
 	static String tableName;;
 	

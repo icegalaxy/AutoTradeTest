@@ -431,7 +431,7 @@ public abstract class Rules implements Runnable
 	public void shortContract()
 	{
 
-		if (!Global.isOrderTime())
+		if (!isOrderTime())
 		{
 			Global.addLog(className + ": not order time");
 			return;
@@ -455,7 +455,7 @@ public abstract class Rules implements Runnable
 	public void longContract()
 	{
 
-		if (!Global.isOrderTime())
+		if (!isOrderTime())
 		{
 			Global.addLog(className + ": not order time");
 			return;

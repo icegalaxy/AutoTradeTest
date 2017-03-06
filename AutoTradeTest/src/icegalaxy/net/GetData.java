@@ -22,7 +22,7 @@ public class GetData implements Runnable
 	// private static EMA ema250;
 	// private static EMA ema1200;
 
-//	private boolean isOpenAdded = false;
+	// private boolean isOpenAdded = false;
 
 	private int quantityCounter = 0;
 
@@ -128,15 +128,15 @@ public class GetData implements Runnable
 
 		setOHLC();
 
-//		if (ohlc.getpEMA250() != 0) // for days without spData
-//		{
-//
-//			for (int i = 0; i < shortTB.EMAs.length; i++)
-//				shortTB.EMAs[i] = new EMA(ohlc.getpEMA5(), EMAs[i]);
-//		} else
-//		{
-			getPreviousData();
-//		}
+		// if (ohlc.getpEMA250() != 0) // for days without spData
+		// {
+		//
+		// for (int i = 0; i < shortTB.EMAs.length; i++)
+		// shortTB.EMAs[i] = new EMA(ohlc.getpEMA5(), EMAs[i]);
+		// } else
+		// {
+		getPreviousData();
+		// }
 		// getLongTB().setPreviousEMA(5, (float) 23628.89);
 		// getLongTB().setPreviousEMA(6, (float) 23635.57);
 
@@ -232,11 +232,11 @@ public class GetData implements Runnable
 				Global.setDayLow(calDeal);
 			}
 
-//			if (!isOpenAdded)
-//			{
-//				Global.setOpen(calDeal);
-//				isOpenAdded = true;
-//			}
+			// if (!isOpenAdded)
+			// {
+			// Global.setOpen(calDeal);
+			// isOpenAdded = true;
+			// }
 
 			shortData.getHighLow();
 			shortData.getOpen();
@@ -246,6 +246,19 @@ public class GetData implements Runnable
 
 			longData.getHighLow();
 			longData.getOpen();
+
+			if (TimePeriodDecider.getTime() > 92000)
+			{
+				if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 20)
+					Global.setRapidRise(true);
+				else
+					Global.setRapidRise(false);
+
+				if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 20)
+					Global.setRapidDrop(true);
+				else
+					Global.setRapidDrop(false);
+			}
 
 			// that Math.abs is for when min = 59 and ref = -1
 			if (min > refMin && Math.abs(min - refMin) < 10)
@@ -338,7 +351,7 @@ public class GetData implements Runnable
 
 				for (int x = 0; x < longTB.EMAs.length; x++)
 					longTB.EMAs[x].setlatestEMA(calDeal);
-				
+
 				// getLongTB().getMACD();
 				// System.out.println("MACD Histo: "
 				// + getLongTB().getMACDHistogram());
@@ -691,7 +704,7 @@ public class GetData implements Runnable
 					shortTB.EMAs[x].setlatestEMA(close);
 					// System.out.println("settting latest EMA" + EMAs[x]);
 				}
-				
+
 				m5Period++;
 
 				if (m5Period == 5)
