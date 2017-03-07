@@ -247,19 +247,25 @@ public class GetData implements Runnable
 			longData.getHighLow();
 			longData.getOpen();
 
+			try
+			{
 			if (TimePeriodDecider.getTime() > 92000)
 			{
-				if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 20)
+				if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 25)
 					Global.setRapidRise(true);
 				else
 					Global.setRapidRise(false);
 
-				if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 20)
+				if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 25)
 					Global.setRapidDrop(true);
 				else
 					Global.setRapidDrop(false);
 			}
-
+			}catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			
 			// that Math.abs is for when min = 59 and ref = -1
 			if (min > refMin && Math.abs(min - refMin) < 10)
 			{
