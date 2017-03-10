@@ -445,15 +445,15 @@ public class Global {
 
 	static Chasing chasing;
 
-	static double pOpen;
+	static double pOpen = 0;
 	static boolean OpenDown;
-	static double pHigh;
-	static double pLow;
-	static double pClose;
+	static double pHigh = 0;
+	static double pLow = 0;
+	static double pClose = 0;
 	static double pFluc;
-	static double AOH;
-	static double AOL;
-	static double open;
+	static double AOH = 0;
+	static double AOL = 0;
+	static double open = 0;
 	
 	static boolean rapidRise;
 	static boolean rapidDrop;
