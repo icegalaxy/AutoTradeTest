@@ -4,7 +4,7 @@ import com.sun.javafx.css.parser.StopConverter;
 
 //m1 EMA5 x EMA250, wait EMA5 x EMA50
 
-public class RuleDanny250Rebound extends Rules
+public class RuleRebound extends Rules
 {
 
 	private double cutLoss;
@@ -16,7 +16,7 @@ public class RuleDanny250Rebound extends Rules
 	private boolean trendReversed;
 	
 
-	public RuleDanny250Rebound(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
+	public RuleRebound(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(93000, 103000, 150000, 160000, 230000, 230000);
@@ -31,11 +31,13 @@ public class RuleDanny250Rebound extends Rules
 		refHigh = 0;
 		refLow = 99999;
 		
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
+			return;
+		
 		ohlcs = new double[]
 				{ Global.getOpen(), Global.getpHigh(), Global.getpLow(), Global.getpClose(), Global.getAOH(), Global.getAOL(), GetData.getShortTB().getEma250().getEMA() };
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
-			return;
+	
 
 		for (double item : ohlcs)
 		{

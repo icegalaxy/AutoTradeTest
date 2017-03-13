@@ -6,7 +6,7 @@ import com.sun.org.apache.xalan.internal.xsltc.cmdline.getopt.GetOptsException;
 
 //Use the OPEN Line
 
-public class RuleOpen extends Rules
+public class RuleBreakThrough extends Rules
 {
 
 	private double cutLoss;
@@ -17,7 +17,7 @@ public class RuleOpen extends Rules
 
 	private boolean trendReversed;
 
-	public RuleOpen(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
+	public RuleBreakThrough(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
 	{
 		super(wan1, wan2, globalRunRule);
 		setOrderTime(93000, 113000, 130000, 160000, 231500, 231500);
@@ -31,11 +31,13 @@ public class RuleOpen extends Rules
 		refHigh = 0;
 		refLow = 99999;
 		
+		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
+			return;
+		
 		ohlcs = new double[]
 				{ Global.getOpen(), Global.getpHigh(), Global.getpLow(), Global.getpClose(), Global.getAOH(), Global.getAOL(), GetData.getShortTB().getEma250().getEMA() };
 
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
-			return;
+		
 
 		for (double item : ohlcs)
 		{
