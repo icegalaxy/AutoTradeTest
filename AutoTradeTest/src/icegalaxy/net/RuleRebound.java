@@ -52,6 +52,9 @@ public class RuleRebound extends Rules
 			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5)
 			{
 
+				refHigh = Global.getCurrentPoint();
+				refLow = Global.getCurrentPoint();
+				
 				while (!Global.isRapidRise())
 				{
 
@@ -79,10 +82,13 @@ public class RuleRebound extends Rules
 				
 
 				longContract();
+				return;
 
 			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5)
 			{
 
+				refHigh = Global.getCurrentPoint();
+				refLow = Global.getCurrentPoint();
 				
 				while (!Global.isRapidDrop())
 				{
@@ -111,7 +117,7 @@ public class RuleRebound extends Rules
 			
 
 				shortContract();
-
+				return;
 			}
 			wanPrevious.middleWaiter(wanNext);
 		}

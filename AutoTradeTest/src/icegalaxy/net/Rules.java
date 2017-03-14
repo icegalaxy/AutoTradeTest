@@ -300,7 +300,7 @@ public abstract class Rules implements Runnable
 			tempStopEarn = buyingPoint - getStopEarnPt();
 		}
 
-		stopEarnPt = getStopEarnPt();
+		stopEarnPt = getStopEarnPt();  // this will invoke the getStopEarnPt method before the uupdateHighLow
 		cutLossPt = 100; // �O�׫Y�O�I�A��ĤG��set���H�Pcut loss�Ӥj,
 		// �O�ӫYMaximum
 
