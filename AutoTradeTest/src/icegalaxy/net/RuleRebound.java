@@ -51,6 +51,9 @@ public class RuleRebound extends Rules
 			
 			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
 				continue;
+			
+//			if (Global.isHugeDrop() || Global.isHugeRise())
+//				return;
 
 			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5)
 			{
@@ -74,6 +77,9 @@ public class RuleRebound extends Rules
 					
 					if (Global.getCurrentPoint() - ohlc > 30)
 						return;
+					
+//					if (Global.isHugeRise())
+//						return;
 
 //					if (GetData.getShortTB().getRSI() > 70 || Global.isRapidDrop())
 //					{
@@ -112,6 +118,9 @@ public class RuleRebound extends Rules
 					
 					if (ohlc - Global.getCurrentPoint() > 30)
 						return;
+					
+//					if (Global.isHugeDrop())
+//						return;
 
 //					if (GetData.getShortTB().getRSI() < 30 || Global.isRapidRise())
 //					{
