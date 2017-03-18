@@ -275,6 +275,25 @@ public class GetData implements Runnable
 				e.printStackTrace();
 			}
 			
+			try
+			{
+			if (TimePeriodDecider.getTime() > 92000)
+			{
+				if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 50)
+					Global.setHugeRise(true);
+				else
+					Global.setHugeRise(false);
+
+				if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 50)
+					Global.setHugeDrop(true);
+				else
+					Global.setHugeDrop(false);
+			}
+			}catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			
 			// that Math.abs is for when min = 59 and ref = -1
 			if (min > refMin && Math.abs(min - refMin) < 10)
 			{
