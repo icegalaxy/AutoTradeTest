@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
-
-<FHIdata>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><FHIdata>
 
 
 	
@@ -942,8 +940,248 @@
         <pLow> 23494 </pLow>
         <pClose> 23527 </pClose>
         <stop> false </stop>
-        <open>  </open>
+        <open> 23551 </open>
     </OHLC>	
+
+	 <OHLC>
+        <date> 170214 </date>
+        <pOpen> 23551 </pOpen>
+        <pHigh> 23672 </pHigh>
+        <pLow> 23533 </pLow>
+        <pClose> 23616 </pClose>
+        <stop> false </stop>
+        <open> 23650 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170215 </date>
+        <pOpen> 23650 </pOpen>
+        <pHigh> 23675 </pHigh>
+        <pLow> 23560 </pLow>
+        <pClose> 23654 </pClose>
+        <stop> false </stop>
+        <open> 23708 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170216 </date>
+        <pOpen> 23708 </pOpen>
+        <pHigh> 23998 </pHigh>
+        <pLow> 23693 </pLow>
+        <pClose> 23969 </pClose>
+        <stop> false </stop>
+        <open> 24042 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170217 </date>
+        <pOpen> 24042 </pOpen>
+        <pHigh> 24090 </pHigh>
+        <pLow> 23933 </pLow>
+        <pClose> 24058 </pClose>
+        <stop> false </stop>
+        <open> 24038 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170220 </date>
+        <pOpen> 24038 </pOpen>
+        <pHigh> 24078 </pHigh>
+        <pLow> 23925 </pLow>
+        <pClose> 23997 </pClose>
+        <stop> false </stop>
+        <open> 23973 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170221 </date>
+        <pOpen> 23973 </pOpen>
+        <pHigh> 24168 </pHigh>
+        <pLow> 23952 </pLow>
+        <pClose> 24120 </pClose>
+        <stop> false </stop>
+        <open> 24109 </open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170222 </date>
+        <pOpen> 24109 </pOpen>
+        <pHigh> 24167 </pHigh>
+        <pLow> 23890 </pLow>
+        <pClose> 23902 </pClose>
+        <stop> false </stop>
+        <open> 23995 </open>
+    </OHLC>
+
+	 <OHLC>
+        <date> 170223 </date>
+        <pOpen> 23995 </pOpen>
+        <pHigh> 24128 </pHigh>
+        <pLow> 23962 </pLow>
+        <pClose> 24128 </pClose>
+        <stop> false </stop>
+        <open>24060.0</open>
+    </OHLC>
+
+	 <OHLC>
+        <date> 170224 </date>
+        <pOpen> 24060 </pOpen>
+        <pHigh> 24214 </pHigh>
+        <pLow> 24032 </pLow>
+        <pClose> 24136 </pClose>
+        <stop> false </stop>
+        <open>24130.0</open>
+    </OHLC>
+
+	 <OHLC>
+        <date> 170227 </date>
+        <pOpen> 24124 </pOpen>
+        <pHigh> 24134 </pHigh>
+        <pLow> 23970 </pLow>
+        <pClose> 24008 </pClose>
+        <stop> false </stop>
+        <open> 23949 </open>
+    </OHLC>
+
+	 <OHLC>
+        <date> 170228 </date>
+        <pOpen> 23949 </pOpen>
+        <pHigh> 24090 </pHigh>
+        <pLow> 23837 </pLow>
+        <pClose> 23928 </pClose>
+        <stop> false </stop>
+        <open>23927.0</open>
+    </OHLC>
+
+	 <OHLC>
+        <date> 170301 </date>
+        <pOpen> 23927 </pOpen>
+        <pHigh> 24011 </pHigh>
+        <pLow> 23725 </pLow>
+        <pClose> 23742 </pClose>
+        <stop> false </stop>
+        <open>23801.0</open>
+    </OHLC>
+
+	 <OHLC>
+        <date> 170302 </date>
+        <pOpen> 23801 </pOpen>
+        <pHigh> 23854 </pHigh>
+        <pLow> 23737 </pLow>
+        <pClose> 23793 </pClose>
+        <stop> false </stop>
+        <open>24040</open>
+    </OHLC>	
+
+	 <OHLC>
+        <date> 170303 </date>
+        <pOpen> 24040 </pOpen>
+        <pHigh> 24087 </pHigh>
+        <pLow> 23638 </pLow>
+        <pClose> 23639 </pClose>
+        <stop> false </stop>
+        <open> 23638 </open>
+    </OHLC>		
+
+	 <OHLC>
+        <date> 170306 </date>
+        <pOpen> 23638 </pOpen>
+        <pHigh> 23640 </pHigh>
+        <pLow> 23486 </pLow>
+        <pClose> 23550 </pClose>
+        <stop> false </stop>
+        <open>23604.0</open>
+    </OHLC>		
+
+	 <OHLC>
+        <date> 170307 </date>
+        <pOpen> 23604 </pOpen>
+        <pHigh> 23688 </pHigh>
+        <pLow> 23554 </pLow>
+        <pClose> 23581 </pClose>
+        <stop> false </stop>
+        <open>23619.0</open>
+    </OHLC>		
+
+	 <OHLC>
+        <date> 170308 </date>
+        <pOpen> 23619 </pOpen>
+        <pHigh> 23712 </pHigh>
+        <pLow> 23584 </pLow>
+        <pClose> 23670 </pClose>
+        <stop> false </stop>
+        <open>23653.0</open>
+    </OHLC>		
+
+	 <OHLC>
+        <date> 170309 </date>
+        <pOpen> 23653 </pOpen>
+        <pHigh> 23799 </pHigh>
+        <pLow> 23534 </pLow>
+        <pClose> 23777 </pClose>
+        <stop> false </stop>
+        <open>23676.0</open>
+    </OHLC>		
+
+	 <OHLC>
+        <date> 170310 </date>
+        <pOpen> 23676 </pOpen>
+        <pHigh> 23676 </pHigh>
+        <pLow> 23430 </pLow>
+        <pClose> 23499 </pClose>
+        <stop> false </stop>
+        <open>23498.0</open>
+    </OHLC>		
+
+	 <OHLC>
+        <date> 170313 </date>
+        <pOpen> 23498 </pOpen>
+        <pHigh> 23590 </pHigh>
+        <pLow> 23423 </pLow>
+        <pClose> 23556 </pClose>
+        <stop> false </stop>
+        <open> 23601 </open>
+    </OHLC>		
+	
+	 <OHLC>
+        <date> 170314 </date>
+        <pOpen> 23601 </pOpen>
+        <pHigh> 23850 </pHigh>
+        <pLow> 23556 </pLow>
+        <pClose> 23802 </pClose>
+        <stop> false </stop>
+        <open>23817.0</open>
+    </OHLC>		
+		
+	 <OHLC>
+        <date> 170315 </date>
+        <pOpen> 23817 </pOpen>
+        <pHigh> 23905 </pHigh>
+        <pLow> 23751 </pLow>
+        <pClose> 23784 </pClose>
+        <stop> false </stop>
+        <open>23732.0</open>
+    </OHLC>		
+		
+	 <OHLC>
+        <date> 170316 </date>
+        <pOpen> 23732 </pOpen>
+        <pHigh> 23833 </pHigh>
+        <pLow> 23619 </pLow>
+        <pClose> 23778 </pClose>
+        <stop> false </stop>
+        <open>23944.0</open>
+    </OHLC>		
+
+	 <OHLC>
+        <date> 170317 </date>
+        <pOpen> 23944 </pOpen>
+        <pHigh> 24349 </pHigh>
+        <pLow> 23944 </pLow>
+        <pClose> 24329 </pClose>
+        <stop> false </stop>
+        <open>24347.0</open>
+    </OHLC>		
 
 	 <OHLC>
         <date>  </date>
@@ -953,11 +1191,12 @@
         <pClose>  </pClose>
         <stop> false </stop>
         <open>  </open>
-    </OHLC>	
+    </OHLC>		
 
-
-
-
+	
+	
+	
+	
 
 
 

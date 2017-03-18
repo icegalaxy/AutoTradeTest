@@ -128,7 +128,6 @@ public class RuleRebound extends Rules
 				shortContract();
 				return;
 			}
-			wanPrevious.middleWaiter(wanNext);
 		}
 	}
 

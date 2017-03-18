@@ -219,8 +219,17 @@ public class GetData implements Runnable
 			m1Deal.add(dealPt);
 
 			Global.setCurrentDeal(calDeal);
-			Global.setCurrentAsk(askPt);
-			Global.setCurrentBid(bidPt);
+			
+			// for those dont have ask
+			if (askPt < 5000)
+				Global.setCurrentAsk(calDeal + 1);
+			else
+				Global.setCurrentAsk(askPt);
+			
+			if (bidPt < 5000)
+				Global.setCurrentBid(calDeal - 1);
+			else
+				Global.setCurrentBid(bidPt);
 			Global.setCurrentPoint(calDeal);
 
 			// addRenko(); ???

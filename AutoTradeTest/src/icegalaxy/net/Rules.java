@@ -91,7 +91,6 @@ public abstract class Rules implements Runnable
 				}
 
 				wanPrevious.middleWaiter(wanNext);
-				;
 			}
 		}
 	}

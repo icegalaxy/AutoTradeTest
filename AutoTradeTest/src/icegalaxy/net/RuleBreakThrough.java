@@ -129,9 +129,9 @@ public class RuleBreakThrough extends Rules
 				shortContract();
 				return;
 
-			}
-			wanPrevious.middleWaiter(wanNext);
+			}			
 		}
+		
 	}
 
 	public double getCurrentClose()
