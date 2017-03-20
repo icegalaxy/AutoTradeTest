@@ -384,7 +384,7 @@ public class Setting extends JFrame {
 		RulePLow pL = new RulePLow(wan[6], wan[7], false);
 		RuleIBT ibt = new RuleIBT(wan[7], wan[8], false);
 		
-		RuleBreakThrough open = new RuleBreakThrough(wan[8], wan[9], true);
+		RuleBreakThrough open = new RuleBreakThrough(wan[8], wan[9], false);
 		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], false);
 		RuleChasing chasing = new RuleChasing(wan[10], wan[11], false);
 		RuleDanny2 danny2 = new RuleDanny2(wan[11], wan[12], false);
@@ -393,7 +393,7 @@ public class Setting extends JFrame {
 		RuleDanny250Pena3 danny2503 = new RuleDanny250Pena3(wan[14], wan[15], false);
 		RuleIBT2 ibt2 = new RuleIBT2(wan[15], wan[16], false);
 		RulePClose pC = new RulePClose(wan[16], wan[17], false);
-		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(wan[17], wan[18], true);
+		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(wan[17], wan[18], false);
 		RuleRebound danny250rebound = new RuleRebound(wan[18], wan[19], true);
 //		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(wan[15], wan[16], false);
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
