@@ -11,7 +11,7 @@ public class RuleBreakThrough extends Rules
 
 	private double cutLoss;
 
-	double[] ohlcs;
+	OHLC[] ohlcs;
 
 	double ohlc = 0;
 
@@ -34,19 +34,22 @@ public class RuleBreakThrough extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
 			return;
 		
-		ohlcs = new double[]
-				{ Global.getOpen(), Global.getpHigh(), Global.getpLow(), Global.getpClose(), Global.getAOH(), Global.getAOL(), GetData.getShortTB().getEma250().getEMA() };
+		ohlcs = new OHLC[]
+				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose, GetData.AOH, GetData.AOL};
 
 		
 
-		for (double item : ohlcs)
+		for (OHLC item : ohlcs)
 		{
-			ohlc = item;
+			ohlc = item.position;
 
 			if (Global.getNoOfContracts() !=0)
 				return;
 			
 			if (ohlc == 0)
+				continue;
+			
+			if (!item.breakThroughValid)
 				continue;
 			
 
@@ -145,7 +148,12 @@ public class RuleBreakThrough extends Rules
 		if (getProfit() > 5)
 			profitedStopEarn();
 		else
-			super.updateStopEarn();
+			{
+			if (Global.getNoOfContracts() > 0)
+				tempCutLoss = 99999;
+			else
+				tempCutLoss = 0;
+			}
 
 	}
 

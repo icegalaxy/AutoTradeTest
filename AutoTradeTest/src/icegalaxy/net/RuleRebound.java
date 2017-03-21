@@ -2,6 +2,8 @@ package icegalaxy.net;
 
 import com.sun.javafx.css.parser.StopConverter;
 
+
+
 //m1 EMA5 x EMA250, wait EMA5 x EMA50
 
 public class RuleRebound extends Rules
@@ -9,7 +11,7 @@ public class RuleRebound extends Rules
 
 	private double cutLoss;
 
-	double[] ohlcs;
+	OHLC[] ohlcs;
 
 	double ohlc = 0;
 
@@ -34,14 +36,14 @@ public class RuleRebound extends Rules
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
 			return;
 		
-		ohlcs = new double[]
-				{ Global.getOpen(), Global.getpHigh(), Global.getpLow(), Global.getpClose(), Global.getAOH(), Global.getAOL(), GetData.getShortTB().getEma250().getEMA() };
+		ohlcs = new OHLC[]
+				{GetData.open, GetData.pHigh};
 
 	
 
-		for (double item : ohlcs)
+		for (OHLC item : ohlcs)
 		{
-			ohlc = item;
+			ohlc = item.position;
 
 			if (Global.getNoOfContracts() !=0)
 				return;
@@ -49,13 +51,17 @@ public class RuleRebound extends Rules
 			if (ohlc == 0)
 				continue;
 			
+//			if (!item.reboundValid)
+//				continue;
+			
 			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
 				continue;
 			
 //			if (Global.isHugeDrop() || Global.isHugeRise())
 //				return;
 
-			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5)
+			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5
+					&& GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1))
 			{
 
 				refHigh = Global.getCurrentPoint();
@@ -94,9 +100,11 @@ public class RuleRebound extends Rules
 				
 
 				longContract();
+				Global.addLog("XXXXXX: " + item.name);
 				return;
 
-			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5)
+			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5
+					&& GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1))
 			{
 
 				refHigh = Global.getCurrentPoint();

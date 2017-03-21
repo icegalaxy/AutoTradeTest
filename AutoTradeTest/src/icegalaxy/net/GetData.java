@@ -14,6 +14,13 @@ public class GetData implements Runnable
 	private static TimeBase longTB;
 
 	XMLReader ohlc;
+	
+	public static OHLC open;
+	public static OHLC pHigh;
+	public static OHLC pLow;
+	public static OHLC pClose;
+	public static OHLC AOL;
+	public static OHLC AOH;
 
 	// private static EMA ema5;
 	// private static EMA ema25;
@@ -74,6 +81,21 @@ public class GetData implements Runnable
 
 	public GetData(String tableName, WaitAndNotify wan)
 	{
+		
+		open = new OHLC();
+		open.name = "Open";
+		pHigh = new OHLC();
+		pHigh.name = "P.High";
+		pLow = new OHLC();
+		pLow.name = "P.Low";
+		pClose = new OHLC();
+		pClose.name = "P.Close";
+		AOH = new OHLC();
+		AOH.name = "AOH";
+		AOL = new OHLC();
+		AOL.name = "AOL";
+		
+		
 		this.wan = wan;
 		this.tableName = tableName;
 		m1Deal = new ArrayList<Float>();
@@ -127,6 +149,8 @@ public class GetData implements Runnable
 			asql = new SQLite(Setting.dataBase);
 
 		setOHLC();
+		
+		
 
 		// if (ohlc.getpEMA250() != 0) // for days without spData
 		// {
@@ -368,6 +392,9 @@ public class GetData implements Runnable
 						Global.addLog("AOH: " + Global.getAOH());
 						Global.addLog("AOL: " + Global.getAOL());
 						Global.addLog("--------------------");
+						
+						AOH.position = Global.getAOH();
+						AOL.position = Global.getAOL();
 
 					}
 
@@ -798,6 +825,12 @@ public class GetData implements Runnable
 			Global.addLog("P.Low: " + Global.getpLow());
 			Global.addLog("-------------------------------------");
 		}
+		
+		open.position = Global.getOpen();
+		pHigh.position = Global.getpHigh();
+		pLow.position = Global.getpLow();
+		pClose.position = Global.getpClose();
+		
 	}
 
 }
