@@ -35,7 +35,7 @@ public class RuleBreakThrough extends Rules
 			return;
 		
 		ohlcs = new OHLC[]
-				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose, GetData.AOH, GetData.AOL};
+				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose};
 
 		
 
@@ -49,8 +49,8 @@ public class RuleBreakThrough extends Rules
 			if (ohlc == 0)
 				continue;
 			
-			if (!item.breakThroughValid)
-				continue;
+//			if (!item.breakThroughValid)
+//				continue;
 			
 
 			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
@@ -268,7 +268,7 @@ public class RuleBreakThrough extends Rules
 			// return 5;
 			return Math.min(5, pt / 2 - adjustPt);
 		} else if (refHigh > Global.getDayHigh() - 5 || refLow < Global.getDayLow() + 5)
-			return 5;
+			return 10;
 		
 		
 		

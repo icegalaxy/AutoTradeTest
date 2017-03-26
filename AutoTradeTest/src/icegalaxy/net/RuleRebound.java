@@ -4,6 +4,7 @@ import com.sun.javafx.css.parser.StopConverter;
 
 
 
+
 //m1 EMA5 x EMA250, wait EMA5 x EMA50
 
 public class RuleRebound extends Rules
@@ -16,6 +17,7 @@ public class RuleRebound extends Rules
 	double ohlc = 0;
 
 	private boolean trendReversed;
+	private boolean isStealing;
 	
 
 	public RuleRebound(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule)
@@ -37,7 +39,7 @@ public class RuleRebound extends Rules
 			return;
 		
 		ohlcs = new OHLC[]
-				{GetData.open, GetData.pHigh};
+				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose};
 
 	
 
@@ -60,8 +62,7 @@ public class RuleRebound extends Rules
 //			if (Global.isHugeDrop() || Global.isHugeRise())
 //				return;
 
-			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5
-					&& GetData.getEma5().getEMA() < GetData.getEma5().getPreviousEMA(1))
+			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5)
 			{
 
 				refHigh = Global.getCurrentPoint();
@@ -97,14 +98,16 @@ public class RuleRebound extends Rules
 					wanPrevious.middleWaiter(wanNext);
 				}
 
-				
+				if (Global.getCurrentPoint() > GetData.getShortTB().getEma5().getEMA())
+					isStealing = false;
+				else
+					isStealing = true;
 
 				longContract();
 				Global.addLog("XXXXXX: " + item.name);
 				return;
 
-			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5
-					&& GetData.getEma5().getEMA() > GetData.getEma5().getPreviousEMA(1))
+			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5)
 			{
 
 				refHigh = Global.getCurrentPoint();
@@ -140,7 +143,10 @@ public class RuleRebound extends Rules
 					wanPrevious.middleWaiter(wanNext);
 				}
 
-			
+				if (Global.getCurrentPoint() < GetData.getShortTB().getEma5().getEMA())
+					isStealing = false;
+				else
+					isStealing = true;
 
 				shortContract();
 				return;
@@ -243,6 +249,10 @@ public class RuleRebound extends Rules
 
 	double getStopEarnPt()
 	{
+		
+		if (isStealing)
+			return 10;
+		
 		double adjustPt = 0;
 
 		if (Global.getNoOfContracts() > 0)
@@ -274,7 +284,7 @@ public class RuleRebound extends Rules
 			// return 5;
 			return Math.min(5, pt / 2 - adjustPt);
 		} else if (refHigh > Global.getDayHigh() - 5 || refLow < Global.getDayLow() + 5)
-			return 5;
+			return 10;
 		
 		
 		
