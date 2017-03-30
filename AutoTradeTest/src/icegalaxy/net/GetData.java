@@ -21,6 +21,8 @@ public class GetData implements Runnable
 	public static OHLC pClose;
 	public static OHLC AOL;
 	public static OHLC AOH;
+	
+	public static ArrayList<SpeedZone> speedZones;
 
 	// private static EMA ema5;
 	// private static EMA ema25;
@@ -108,6 +110,8 @@ public class GetData implements Runnable
 		ohlc = new XMLReader(tableName);
 		ohlc.findOHLC();
 
+		speedZones = new ArrayList<SpeedZone>();
+		
 		// ema5 = new EMA(ohlc.getpEMA5(), 5);
 		// ema25 = new EMA(ohlc.getpEMA25(), 25);
 		// ema50 = new EMA(ohlc.getpEMA50(), 50);
@@ -301,19 +305,27 @@ public class GetData implements Runnable
 			
 			try
 			{
-			if (TimePeriodDecider.getTime() > 92000)
+			if (TimePeriodDecider.getTime() >= 91600)
 			{
 				if (shortData.periodHigh - getShortTB().getLatestCandle().getLow() > 50
 //						|| longData.periodHigh - getLongTB().getLatestCandle().getLow() > 50 
 						)
+				{
 					Global.setHugeRise(true);
+//					Global.addLog("Adding SpeedZone");
+					speedZones.add(new SpeedZone(shortData.periodHigh, getShortTB().getLatestCandle().getLow()));
+				}
 				else
 					Global.setHugeRise(false);
 
 				if (getShortTB().getLatestCandle().getHigh() - shortData.periodLow > 50
 //						|| getLongTB().getLatestCandle().getHigh() - longData.periodLow  > 50 
 						)
+				{
 					Global.setHugeDrop(true);
+//					Global.addLog("Adding SpeedZone");
+					speedZones.add(new SpeedZone(getShortTB().getLatestCandle().getHigh(),shortData.periodLow));
+				}
 				else
 					Global.setHugeDrop(false);
 			}
@@ -321,6 +333,8 @@ public class GetData implements Runnable
 			{
 				e.printStackTrace();
 			}
+			
+			
 			
 			// that Math.abs is for when min = 59 and ref = -1
 			if (min > refMin && Math.abs(min - refMin) < 10)
@@ -355,6 +369,8 @@ public class GetData implements Runnable
 
 				for (int x = 0; x < shortTB.EMAs.length; x++)
 					shortTB.EMAs[x].setlatestEMA(calDeal);
+				
+			
 
 				// getShortTB().getMACD();
 
@@ -834,6 +850,31 @@ public class GetData implements Runnable
 		pHigh.position = Global.getpHigh();
 		pLow.position = Global.getpLow();
 		pClose.position = Global.getpClose();
+		
+	}
+	
+	class SpeedZone
+	{
+		double upper;
+		double lower;
+		
+		private SpeedZone(double upper, double lower)
+		{
+			this.upper = upper;
+			this.lower = lower;
+			
+		}
+	}
+	
+	public static boolean isInSpeedZone(){
+		
+		for (SpeedZone sz : speedZones)
+		{
+			if (Global.getCurrentPoint() > sz.lower - 10 && Global.getCurrentPoint() < sz.upper + 10)
+				return true;
+		}
+		
+		return false;
 		
 	}
 
