@@ -866,6 +866,14 @@ public abstract class Rules implements Runnable
 			// }
 		}
 	}
+	
+	public void Liquidate()
+	{	
+		if (Global.getNoOfContracts() > 0)
+			tempCutLoss = 99999;
+		else
+			tempCutLoss = 0;
+	}
 
 	public void waitForANewCandle()
 	{

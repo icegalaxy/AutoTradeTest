@@ -164,7 +164,9 @@ public class RuleRebound extends Rules
 	// use 1min instead of 5min
 	void updateStopEarn()
 	{
-		if (getProfit() > 5)
+		if (getProfit() < 1)
+			Liquidate();
+		else if (getProfit() > 5)
 			profitedStopEarn();
 		else
 			super.updateStopEarn();
