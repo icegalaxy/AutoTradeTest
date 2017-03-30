@@ -86,8 +86,8 @@ public class RuleRebound extends Rules
 					if (Global.getCurrentPoint() - ohlc > 30)
 						return;
 					
-//					if (Global.isHugeRise())
-//						return;
+					if (Global.isHugeDrop())
+						return;
 
 //					if (GetData.getShortTB().getRSI() > 70 || Global.isRapidDrop())
 //					{
@@ -99,10 +99,10 @@ public class RuleRebound extends Rules
 					wanPrevious.middleWaiter(wanNext);
 				}
 
-				if (Global.getCurrentPoint() > GetData.getShortTB().getEma5().getEMA())
-					isStealing = false;
-				else
-					isStealing = true;
+//				if (Global.getCurrentPoint() > GetData.getShortTB().getEma5().getEMA())
+//					isStealing = false;
+//				else
+//					isStealing = true;
 
 				longContract();
 				Global.addLog("XXXXXX: " + item.name);
@@ -132,8 +132,8 @@ public class RuleRebound extends Rules
 					if (ohlc - Global.getCurrentPoint() > 30)
 						return;
 					
-//					if (Global.isHugeDrop())
-//						return;
+					if (Global.isHugeRise())
+						return;
 
 //					if (GetData.getShortTB().getRSI() < 30 || Global.isRapidRise())
 //					{
@@ -145,10 +145,10 @@ public class RuleRebound extends Rules
 					wanPrevious.middleWaiter(wanNext);
 				}
 
-				if (Global.getCurrentPoint() < GetData.getShortTB().getEma5().getEMA())
-					isStealing = false;
-				else
-					isStealing = true;
+//				if (Global.getCurrentPoint() < GetData.getShortTB().getEma5().getEMA())
+//					isStealing = false;
+//				else
+//					isStealing = true;
 
 				shortContract();
 				return;
@@ -257,21 +257,21 @@ public class RuleRebound extends Rules
 		
 		double adjustPt = 0;
 
-		if (Global.getNoOfContracts() > 0)
-		{
-
-			adjustPt = buyingPoint - refLow;
+//		if (Global.getNoOfContracts() > 0)
+//		{
+//
+//			adjustPt = buyingPoint - refLow;
 
 //			if (Global.isRapidDrop())
 //				tempCutLoss = 99999;
 
-		} else if (Global.getNoOfContracts() < 0)
-		{
-			adjustPt = refHigh - buyingPoint;
+//		} else if (Global.getNoOfContracts() < 0)
+//		{
+			adjustPt = refHigh - refLow;
 
 //			if (Global.isRapidRise())
 //				tempCutLoss = 0;
-		}
+//		}
 		double pt;
 		double stopEarn;
 
