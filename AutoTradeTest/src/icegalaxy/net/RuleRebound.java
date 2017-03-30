@@ -62,7 +62,8 @@ public class RuleRebound extends Rules
 //			if (Global.isHugeDrop() || Global.isHugeRise())
 //				return;
 
-			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5)
+			if (GetData.getEma5().getEMA() > ohlc && Global.getCurrentPoint() < ohlc + 5
+					&& !Global.isHugeDrop())
 			{
 
 				refHigh = Global.getCurrentPoint();
@@ -107,7 +108,8 @@ public class RuleRebound extends Rules
 				Global.addLog("XXXXXX: " + item.name);
 				return;
 
-			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5)
+			} else if (GetData.getEma5().getEMA() < ohlc && Global.getCurrentPoint() > ohlc - 5
+					&& !Global.isHugeRise())
 			{
 
 				refHigh = Global.getCurrentPoint();

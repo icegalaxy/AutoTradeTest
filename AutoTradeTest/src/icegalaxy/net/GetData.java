@@ -303,12 +303,12 @@ public class GetData implements Runnable
 			{
 			if (TimePeriodDecider.getTime() > 92000)
 			{
-				if (Global.getCurrentPoint() - getShortTB().getLatestCandle().getLow() > 50)
+				if (shortData.periodHigh - getShortTB().getLatestCandle().getLow() > 50)
 					Global.setHugeRise(true);
 				else
 					Global.setHugeRise(false);
 
-				if (getShortTB().getLatestCandle().getHigh() - Global.getCurrentPoint() > 50)
+				if (getShortTB().getLatestCandle().getHigh() - shortData.periodLow > 50)
 					Global.setHugeDrop(true);
 				else
 					Global.setHugeDrop(false);
