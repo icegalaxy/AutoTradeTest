@@ -31,7 +31,7 @@ public class RuleBreakThrough extends Rules
 		refHigh = 0;
 		refLow = 99999;
 		
-		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
+		if (!isOrderTime() || Global.getNoOfContracts() != 0)
 			return;
 		
 		ohlcs = new OHLC[]
@@ -56,85 +56,59 @@ public class RuleBreakThrough extends Rules
 			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
 				continue;
 
-			if (GetData.getEma5().getPreviousEMA(1) < ohlc && GetData.getEma5().getEMA() > ohlc)
+			if (Global.isHugeRise() && GetData.getShortTB().getLatestCandle().getOpen() < ohlc - 10 && Global.getCurrentPoint() > ohlc + 10)
 			{
 				
-				refHigh = Global.getCurrentPoint();
-				refLow = Global.getCurrentPoint();
-
-				while (!Global.isRapidRise())
-				{
-
-					if (Global.getCurrentPoint() > refHigh)
-						refHigh = Global.getCurrentPoint();
-					else if (Global.getCurrentPoint() < refLow)
-						refLow = Global.getCurrentPoint();
-
-					if (GetData.getEma5().getEMA() < ohlc)
-					{
-						Global.addLog("EMA5 < Open, EMA5: " + GetData.getEma5().getEMA() + ", Open: " + ohlc);
-						return;
-					}
-					
-					if (Global.getCurrentPoint() - ohlc > 30)
-						return;
-
-//					if (GetData.getShortTB().getRSI() > 70 || Global.isRapidDrop())
-//					{
-//						Global.addLog("RSI > 70");
-//						return;
-//
-//					}
-
-					wanPrevious.middleWaiter(wanNext);
-				}
-
 				
-
+				//recordRecentLow
+				
+				//if < ohlc then return
+				
+				//waitForAPullBackToRecentLow + 5
+				
+//				while (Global.getCurrentPoint() > ohlc + 10)
+//				{
+//					
+//					if (Global.getCurrentPoint() > ohlc + 50)
+//						return;
+//					
+//					wanPrevious.middleWaiter(wanNext);
+//				}
+				
+				
+				
+				
+				
 				longContract();
 				return;
-
-			} else if (GetData.getEma5().getPreviousEMA(1) > ohlc && GetData.getEma5().getEMA() < ohlc)
+			}else if (Global.isHugeDrop() && GetData.getShortTB().getLatestCandle().getOpen() > ohlc + 10 && Global.getCurrentPoint() < ohlc - 10)
 			{
-
-				refHigh = Global.getCurrentPoint();
-				refLow = Global.getCurrentPoint();
 				
-				while (!Global.isRapidDrop())
-				{
-
-					if (Global.getCurrentPoint() > refHigh)
-						refHigh = Global.getCurrentPoint();
-					else if (Global.getCurrentPoint() < refLow)
-						refLow = Global.getCurrentPoint();
-
-					if (GetData.getEma5().getEMA() > ohlc)
-					{
-						Global.addLog("EMA5: " + GetData.getEma5().getEMA() + ", Open: " + ohlc);
-						return;
-					}
-
-					if (ohlc - Global.getCurrentPoint() > 30)
-						return;
-					
-//					if (GetData.getShortTB().getRSI() < 30 || Global.isRapidRise())
-//					{
-//						Global.addLog("RSI < 30");
+				
+				//recordRecentLow
+				
+				//if < ohlc then return
+				
+				//waitForAPullBackToRecentLow + 5
+				
+//				while (Global.getCurrentPoint() < ohlc - 10)
+//				{
+//					if (Global.getCurrentPoint() < ohlc - 50)
 //						return;
-//
-//					}
-
-					wanPrevious.middleWaiter(wanNext);
-				}
-
-			
-
+//					
+//					wanPrevious.middleWaiter(wanNext);
+//				}
+				
+				
+				
+				
 				shortContract();
 				return;
-
-			}			
+			}
+			
+			
+			
 		}
-		
 	}
 
 	public double getCurrentClose()
@@ -205,7 +179,14 @@ public class RuleBreakThrough extends Rules
 	// use 1min instead of 5min
 	double getCutLossPt()
 	{
-		return Math.max(50, cutLoss);
+//		if (Global.getNoOfContracts() > 0 && GetData.getEma5().getEMA() < ohlc)
+//			return 10;
+//		
+//		else if (Global.getNoOfContracts() < 0 && GetData.getEma5().getEMA() > ohlc)
+//			return 10;
+//		
+//		else
+		return Math.abs(buyingPoint - ohlc) + 3;
 	}
 
 	@Override
@@ -237,47 +218,16 @@ public class RuleBreakThrough extends Rules
 
 	double getStopEarnPt()
 	{
-		double adjustPt = 0;
-
-		if (Global.getNoOfContracts() > 0)
-		{
-
-			adjustPt = buyingPoint - refLow;
-
-//			if (Global.isRapidDrop())
-//				tempCutLoss = 99999;
-
-		} else if (Global.getNoOfContracts() < 0)
-		{
-			adjustPt = refHigh - buyingPoint;
-
-//			if (Global.isRapidRise())
-//				tempCutLoss = 0;
-		}
-		double pt;
-		double stopEarn;
-
-		pt = (160000 - TimePeriodDecider.getTime()) / 1000;
-
-		if (trendReversed)
-		{
-//			shutdown = true;
-			if (refHigh > Global.getDayHigh() - 5 || refLow < Global.getDayLow() + 5)
-				return 5 - adjustPt;
-
-			// return 5;
-			return Math.min(5, pt / 2 - adjustPt);
-		} else if (refHigh > Global.getDayHigh() - 5 || refLow < Global.getDayLow() + 5)
-			return 10;
 		
+//		if (Global.getNoOfContracts() > 0 && GetData.getEma5().getEMA() < ohlc)
+//			return 15;
+//		
+//		else if (Global.getNoOfContracts() < 0 && GetData.getEma5().getEMA() > ohlc)
+//			return 15;
+//		
+//		else
 		
-		
-		else if (pt < 20)
-			stopEarn = 20 - adjustPt;
-		else
-			stopEarn = pt - adjustPt;
-		
-			return Math.max(5, stopEarn);
+		return (Math.abs(buyingPoint - ohlc)) * 2;
 
 	}
 
