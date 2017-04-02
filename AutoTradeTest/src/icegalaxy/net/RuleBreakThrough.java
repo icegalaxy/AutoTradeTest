@@ -52,9 +52,9 @@ public class RuleBreakThrough extends Rules
 //			if (!item.breakThroughValid)
 //				continue;
 			
-
-			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
-				continue;
+//
+//			if (Math.abs(Global.getCurrentPoint() - ohlc) > 30)
+//				continue;
 
 			if (Global.isHugeRise() && GetData.getShortTB().getLatestCandle().getOpen() < ohlc - 10 && Global.getCurrentPoint() > ohlc + 10)
 			{
