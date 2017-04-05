@@ -1234,15 +1234,75 @@
     </OHLC>		
 
 	<OHLC>
+        <date> 170327 </date>
+        <pOpen> 24430 </pOpen>
+        <pHigh> 24449 </pHigh>
+        <pLow> 24281 </pLow>
+        <pClose> 24381 </pClose>
+        <stop> false </stop>
+        <open> 24235 </open>
+    </OHLC>		
+
+	<OHLC>
+        <date> 170328 </date>
+        <pOpen> 24235 </pOpen>
+        <pHigh> 24454 </pHigh>
+        <pLow> 24148 </pLow>
+        <pClose> 24255 </pClose>
+		<kkResist> 24400 </kkResist>
+		<kkSupport> 24200 </kkSupport>
+        <stop> false </stop>
+        <open>24369.0</open>
+    </OHLC>		
+
+	<OHLC>
+        <date> 170329 </date>
+        <pOpen> 24369 </pOpen>
+        <pHigh> 24400 </pHigh>
+        <pLow> 24304 </pLow>
+        <pClose> 24355 </pClose>
+		<kkResist> 24440 </kkResist>
+		<kkSupport> 24150 </kkSupport>
+        <stop> false </stop>
+        <open>24475.0</open>
+    </OHLC>		
+
+	<OHLC>
+        <date> 170330 </date>
+        <pOpen> 24499 </pOpen>
+        <pHigh> 24526 </pHigh>
+        <pLow> 24375 </pLow>
+        <pClose> 24427 </pClose>
+		<kkResist> 24520 </kkResist>
+		<kkSupport> 24330 </kkSupport>
+        <stop> false </stop>
+        <open>24481.0</open>
+    </OHLC>		
+
+	<OHLC>
+        <date> 170331 </date>
+        <pOpen> 24481 </pOpen>
+        <pHigh> 24481 </pHigh>
+        <pLow> 24245 </pLow>
+        <pClose> 24313 </pClose>
+		<kkResist> 24440 </kkResist>
+		<kkSupport> 24300 </kkSupport>
+        <stop> false </stop>
+        <open>24321.0</open>
+    </OHLC>		
+
+	<OHLC>
         <date>  </date>
         <pOpen>  </pOpen>
         <pHigh>  </pHigh>
         <pLow>  </pLow>
         <pClose>  </pClose>
+		<kkResist>  </kkResist>
+		<kkSupport>  </kkSupport>
         <stop> false </stop>
         <open>  </open>
     </OHLC>		
-	
+
 	
 	
 	
