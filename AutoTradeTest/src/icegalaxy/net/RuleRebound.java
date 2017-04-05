@@ -277,7 +277,9 @@ public class RuleRebound extends Rules
 		double pt;
 		double stopEarn;
 
-		pt = (160000 - TimePeriodDecider.getTime()) / 1000;
+		pt = GetData.getShortTB().getHL(15).getTempHigh() - GetData.getShortTB().getHL(15).getTempLow();
+		
+//		pt = (160000 - TimePeriodDecider.getTime()) / 1000;
 
 		if (trendReversed)
 		{
