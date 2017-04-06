@@ -13,6 +13,8 @@ public class RuleRebound extends Rules
 	private double cutLoss;
 
 	OHLC[] ohlcs;
+	
+	OHLC currentOHLC;
 
 	double ohlc = 0;
 
@@ -34,23 +36,31 @@ public class RuleRebound extends Rules
 
 		refHigh = 0;
 		refLow = 99999;
+		trendReversed = false;
 		
 		if (!isOrderTime() || Global.getNoOfContracts() != 0 || shutdown || Global.balance < -30)
 			return;
 		
-		ohlcs = new OHLC[]
+		if (ohlcs == null)
+			ohlcs = new OHLC[]
 				{GetData.open, GetData.pHigh, GetData.pLow, GetData.pClose};
 
+		ohlcs[0].setOrderTime(93000, 103000, 160000, 160000);
 	
 
 		for (OHLC item : ohlcs)
 		{
+			currentOHLC = item;
 			ohlc = item.position;
+			setOrderTime(item.getOrderTime());
 
 			if (Global.getNoOfContracts() !=0)
 				return;
 			
 			if (ohlc == 0)
+				continue;
+			
+			if (item.shutdown)
 				continue;
 			
 //			if (!item.reboundValid)
@@ -232,11 +242,12 @@ public class RuleRebound extends Rules
 		{
 			closeContract(className + ": CutLoss, short @ " + Global.getCurrentBid());
 			shutdown = true;
+			currentOHLC.shutdown = true;
 		} else if (Global.getNoOfContracts() < 0 && Global.getCurrentPoint() > tempCutLoss)
 		{
 			closeContract(className + ": CutLoss, long @ " + Global.getCurrentAsk());
 			shutdown = true;
-
+			currentOHLC.shutdown = true;
 		}
 
 	}
@@ -254,8 +265,8 @@ public class RuleRebound extends Rules
 	double getStopEarnPt()
 	{
 		
-		if (isStealing)
-			return 10;
+//		if (isStealing)
+//			return 10;
 		
 		double adjustPt = 0;
 
@@ -315,4 +326,6 @@ public class RuleRebound extends Rules
 	{
 		return GetData.getLongTB();
 	}
+	
+	
 }

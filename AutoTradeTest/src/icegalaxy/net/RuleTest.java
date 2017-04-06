@@ -7,7 +7,7 @@ public class RuleTest extends Rules {
 	public RuleTest(WaitAndNotify wan1, WaitAndNotify wan2,
 			boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(91500, 114500, 131500, 16000);
+		setOrderTime(91500, 114500, 131500, 16000, 190000, 190000);
 
 	}
 
