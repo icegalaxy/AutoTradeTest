@@ -21,6 +21,8 @@ public class GetData implements Runnable
 	public static OHLC pClose;
 	public static OHLC AOL;
 	public static OHLC AOH;
+	public static OHLC KKSupport;
+	public static OHLC KKResist;
 	
 	public static ArrayList<SpeedZone> speedZones;
 
@@ -96,6 +98,11 @@ public class GetData implements Runnable
 		AOH.name = "AOH";
 		AOL = new OHLC();
 		AOL.name = "AOL";
+		
+		KKSupport = new OHLC();
+		KKSupport.name = "KKSupport";
+		KKResist = new OHLC();
+		KKSupport.name = "KKResist";
 		
 		
 		this.wan = wan;
@@ -310,6 +317,7 @@ public class GetData implements Runnable
 			if (TimePeriodDecider.getTime() >= 91600)
 			{
 				if (shortData.periodHigh - getShortTB().getLatestCandle().getLow() > 50
+//				Math.min((shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow()) * 0.5, 50)
 //						|| longData.periodHigh - getLongTB().getLatestCandle().getLow() > 50 
 						)
 				{
@@ -321,6 +329,7 @@ public class GetData implements Runnable
 					Global.setHugeRise(false);
 
 				if (getShortTB().getLatestCandle().getHigh() - shortData.periodLow > 50
+//				Math.min((shortTB.getHL(15).getTempHigh() - shortTB.getHL(15).getTempLow()) * 0.5, 50)
 //						|| getLongTB().getLatestCandle().getHigh() - longData.periodLow  > 50 
 						)
 				{
@@ -852,6 +861,9 @@ public class GetData implements Runnable
 		pHigh.position = Global.getpHigh();
 		pLow.position = Global.getpLow();
 		pClose.position = Global.getpClose();
+		
+		KKSupport.position = ohlc.getKkSupport();
+		KKResist.position = ohlc.getKkResist();
 		
 	}
 	
