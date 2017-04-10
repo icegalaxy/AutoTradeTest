@@ -1,193 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?><FHIdata>
 
-
-	
-	<OHLC>
-		<date> 161107 </date>
-		<pOpen> 22599 </pOpen>
-		<pHigh> 22767 </pHigh>
-		<pLow> 22580 </pLow>
-		<pClose> 22612 </pClose>
-        <pEMA5> 22472.85 </pEMA5>
-		<pEMA25> 22479.43 </pEMA25>
-		<pEMA50> 22481.71 </pEMA50>
-		<pEMA100> 22482.62 </pEMA100>
-		<pEMA250> 22494.08 </pEMA250>
-		<pEMA1200> 22566.57 </pEMA1200>
-		<pSMA20> 22478.90 </pSMA20>
-        <stop> false </stop>
-        <open> 22645 </open>
-	</OHLC>
-	
-	<OHLC>
-		<date> 161108 </date>
-		<pOpen> 22645 </pOpen>
-		<pHigh> 22875 </pHigh>
-		<pLow> 22623 </pLow>
-		<pClose> 22786 </pClose>
-		<pEMA5> 22950.16 </pEMA5>
-		<pEMA25> 22939.48 </pEMA25>
-		<pEMA50> 22929.69 </pEMA50>
-		<pEMA100> 22913.68 </pEMA100>
-		<pEMA250> 22882.60 </pEMA250>
-		<pEMA1200> 22760 </pEMA1200>
-		<pSMA20> 22940.75 </pSMA20>
-        <stop> false </stop>
-        <open> 22923 </open>
-	</OHLC>
-	
-	<OHLC>
-		<date> 161109 </date>
-		<pOpen> 22923 </pOpen>
-		<pHigh> 22998 </pHigh>
-		<pLow> 22800 </pLow>
-		<pClose> 22929 </pClose>
-        <pEMA5> 22897.77 </pEMA5>
-		<pEMA25> 22888.74 </pEMA25>
-		<pEMA50> 22882.74 </pEMA50>
-		<pEMA100> 22879.76 </pEMA100>
-		<pEMA250> 22885.98 </pEMA250>
-		<pEMA1200> 22854.30 </pEMA1200>
-		<pSMA20> 22888.60 </pSMA20>
-        <stop> false </stop>
-        <open> 23150 </open>
-	</OHLC>
-	
-	<OHLC>
-		<date> 161110 </date>
-		<pOpen> 23150 </pOpen>
-		<pHigh> 23152 </pHigh>
-		<pLow> 21904 </pLow>
-		<pClose> 22403 </pClose>
-		<pEMA5> 22653.02 </pEMA5>
-		<pEMA25> 22642.55 </pEMA25>
-		<pEMA50> 22638.41 </pEMA50>
-		<pEMA100> 22619.22 </pEMA100>
-		<pEMA250> 22567.04 </pEMA250>
-		<pEMA1200> 22579.37 </pEMA1200>
-		<pSMA20> 22642.2 </pSMA20>
-        <stop> false </stop>
-        <open> 22853 </open>
-	</OHLC>
-
-	<OHLC>
-		<date> 161111 </date>
-		<pOpen> 22853 </pOpen>
-		<pHigh> 22940 </pHigh>
-		<pLow> 22775 </pLow>
-		<pClose> 22932 </pClose>
-		<pEMA5> 22575.78 </pEMA5>
-		<pEMA25> 22614.55 </pEMA25>
-		<pEMA50> 22654.34 </pEMA50>
-		<pEMA100> 22708 </pEMA100>
-		<pEMA250> 22783.19 </pEMA250>
-		<pEMA1200> 22772.19 </pEMA1200>
-		<pSMA20> 22608.60 </pSMA20>
-        <stop> false </stop>
-        <open> 22650 </open>
-	</OHLC>
-
-	<OHLC>
-		<date> 161114 </date>
-		<pOpen> 22650 </pOpen>
-		<pHigh> 22706 </pHigh>
-		<pLow> 22432 </pLow>
-		<pClose> 22489 </pClose>
-		<pEMA5> 22223.85 </pEMA5>
-		<pEMA25> 22215.90 </pEMA25>
-		<pEMA50> 22221.44 </pEMA50>
-		<pEMA100> 22234.63 </pEMA100>
-		<pEMA250> 22261.34 </pEMA250>
-		<pEMA1200> 22467.74 </pEMA1200>
-		<pSMA20> 22209.35 </pSMA20>
-        <stop> false </stop>
-        <open> 22359 </open>
-	</OHLC>
-    
-    <OHLC>
-        <date> 161115 </date>
-        <pOpen> 22359 </pOpen>
-        <pHigh> 22378 </pHigh>
-        <pLow> 22101 </pLow>
-        <pClose> 22279 </pClose>
-        <pEMA5> 22242.9 </pEMA5>
-        <pEMA25> 22257.64 </pEMA25>
-        <pEMA50> 22249.13 </pEMA50>
-        <pEMA100> 22234.02 </pEMA100>
-        <pEMA250> 22213.49 </pEMA250>
-        <pEMA1200> 22280.23 </pEMA1200>
-        <pSMA20> 22262.70 </pSMA20>
-        <stop> false </stop>
-        <open> 22250 </open>
-    </OHLC>
-    
-    <OHLC>
-        <date> 161116 </date>
-        <pOpen> 22250 </pOpen>
-        <pHigh> 22412 </pHigh>
-        <pLow> 22225 </pLow>
-        <pClose> 22328 </pClose>
-        <pEMA5> 22308.22 </pEMA5>
-        <pEMA25> 22325.10 </pEMA25>
-        <pEMA50> 22323.50 </pEMA50>
-        <pEMA100> 22307.45 </pEMA100>
-        <pEMA250> 22285.96 </pEMA250>
-        <pEMA1200> 22283.53 </pEMA1200>
-        <pSMA20> 22326.85 </pSMA20>
-        <stop> false </stop>
-        <open> 22445 </open>
-    </OHLC>
-    
-    <OHLC>
-        <date> 161117 </date>
-        <pOpen> 22445 </pOpen>
-        <pHigh> 22485 </pHigh>
-        <pLow> 22189 </pLow>
-        <pClose> 22213 </pClose>
-        <pEMA5> 22173.58 </pEMA5>
-        <pEMA25> 22167.56 </pEMA25>
-        <pEMA50> 22159.58 </pEMA50>
-        <pEMA100> 22147.32 </pEMA100>
-        <pEMA250> 22145.07 </pEMA250>
-        <pEMA1200> 22239.77 </pEMA1200>
-        <pSMA20> 22169.40 </pSMA20>
-        <stop> false </stop>
-        <open> 22182 </open>
-    </OHLC>
-    
-    <OHLC>
-        <date> 161118 </date>
-        <pOpen> 22182 </pOpen>
-        <pHigh> 22367 </pHigh>
-        <pLow> 22111 </pLow>
-        <pClose> 22249 </pClose>
-        <pEMA5> ?22300.61 </pEMA5>
-        <pEMA25> 22298.08 </pEMA25>
-        <pEMA50> 22292.09 </pEMA50>
-        <pEMA100> 22273.98 </pEMA100>
-        <pEMA250> 22247.75 </pEMA250>
-        <pEMA1200> 22262.85 </pEMA1200>
-        <pSMA20> 22296.95 </pSMA20>
-        <stop> false </stop>
-        <open> 22250 </open>
-    </OHLC>
-    
-	 <OHLC>
-        <date> 161121 </date>
-        <pOpen> 22250 </pOpen>
-        <pHigh> 22364 </pHigh>
-        <pLow> 22115 </pLow>
-        <pClose> 22331 </pClose>
-        <pEMA5>  </pEMA5>
-        <pEMA25>  </pEMA25>
-        <pEMA50>  </pEMA50>
-        <pEMA100>  </pEMA100>
-        <pEMA250>  </pEMA250>
-        <pEMA1200>  </pEMA1200>
-        <pSMA20>  </pSMA20>
-        <stop> false </stop>
-        <open> 22331 </open>
-    </OHLC>
 	
     <OHLC>
         <date> 161122 </date>
@@ -1292,6 +1104,66 @@
     </OHLC>		
 
 	<OHLC>
+        <date> 170403 </date>
+        <pOpen> 24321 </pOpen>
+        <pHigh> 24340 </pHigh>
+        <pLow> 24094 </pLow>
+        <pClose> 24131 </pClose>
+		<kkResist> 24330 </kkResist>
+		<kkSupport> 24160 </kkSupport>
+        <stop> false </stop>
+        <open>24204.0</open>
+    </OHLC>		
+
+	<OHLC>
+        <date> 170405 </date>
+        <pOpen> 24204 </pOpen>
+        <pHigh> 24271 </pHigh>
+        <pLow> 24173 </pLow>
+        <pClose> 24243 </pClose>
+		<kkResist> 24330 </kkResist>
+		<kkSupport> 24160 </kkSupport>
+        <stop> false </stop>
+        <open>24305.0</open>
+    </OHLC>		
+
+	<OHLC>
+        <date> 170406 </date>
+        <pOpen> 24305 </pOpen>
+        <pHigh> 24419 </pHigh>
+        <pLow> 24143 </pLow>
+        <pClose> 24400 </pClose>
+		<kkResist> 24480 </kkResist>
+		<kkSupport> 24270 </kkSupport>
+        <stop> false </stop>
+        <open>24310.0</open>
+    </OHLC>		
+
+	<OHLC>
+        <date> 170407 </date>
+        <pOpen> 24310 </pOpen>
+        <pHigh> 24381 </pHigh>
+        <pLow> 24185 </pLow>
+        <pClose> 24289 </pClose>
+		<kkResist> 24380 </kkResist>
+		<kkSupport> 24200 </kkSupport>
+        <stop> false </stop>
+        <open>24323.0</open>
+    </OHLC>		
+
+	<OHLC>
+        <date> 170410 </date>
+        <pOpen> 24323 </pOpen>
+        <pHigh> 24327 </pHigh>
+        <pLow> 23953 </pLow>
+        <pClose> 24263 </pClose>
+		<kkResist>  </kkResist>
+		<kkSupport>  </kkSupport>
+        <stop> false </stop>
+        <open>  </open>
+    </OHLC>		
+
+	<OHLC>
         <date>  </date>
         <pOpen>  </pOpen>
         <pHigh>  </pHigh>
@@ -1302,7 +1174,7 @@
         <stop> false </stop>
         <open>  </open>
     </OHLC>		
-
+	
 	
 	
 	
