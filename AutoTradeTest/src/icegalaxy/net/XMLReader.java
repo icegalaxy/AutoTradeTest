@@ -16,6 +16,9 @@ public class XMLReader
 {
 
 	private String tradeDate;
+	
+	double kkResist;
+	double kkSupport;
 
 	double pOpen;
 	double pHigh;
@@ -101,6 +104,15 @@ public class XMLReader
 		setpLow(Double.parseDouble(eElement.getElementsByTagName("pLow").item(0).getTextContent()));
 		setpClose(Double.parseDouble(eElement.getElementsByTagName("pClose").item(0).getTextContent()));
 		setOpen(Double.parseDouble(eElement.getElementsByTagName("open").item(0).getTextContent()));
+		
+		try{
+			setKkResist(Double.parseDouble(eElement.getElementsByTagName("kkResist").item(0).getTextContent()));
+			setKkSupport(Double.parseDouble(eElement.getElementsByTagName("kkSupport").item(0).getTextContent()));
+		}catch (Exception e)
+		{
+			System.out.println("No KK data");
+		}
+		
 		// setpFluc(Double.parseDouble(eElement.getElementsByTagName("pFluc").item(0).getTextContent()));
 		// setAOH(Double.parseDouble(eElement.getElementsByTagName("AOH").item(0).getTextContent()));
 		// setAOL(Double.parseDouble(eElement.getElementsByTagName("AOL").item(0).getTextContent()));
@@ -303,6 +315,26 @@ public class XMLReader
 	private void setOpen(double open)
 	{
 		this.open = open;
+	}
+	
+	public double getKkResist()
+	{
+		return kkResist;
+	}
+
+	public void setKkResist(double kkResist)
+	{
+		this.kkResist = kkResist;
+	}
+
+	public double getKkSupport()
+	{
+		return kkSupport;
+	}
+
+	public void setKkSupport(double kkSupport)
+	{
+		this.kkSupport = kkSupport;
 	}
 
 }
