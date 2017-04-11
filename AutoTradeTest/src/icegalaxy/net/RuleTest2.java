@@ -8,14 +8,17 @@ public class RuleTest2 extends Rules {
 	// private double refEMA;
 	private boolean firstCorner = false;
 	private double cutLoss;
+	private boolean trendReversed;
 
 	public RuleTest2(WaitAndNotify wan1, WaitAndNotify wan2, boolean globalRunRule) {
 		super(wan1, wan2, globalRunRule);
-		setOrderTime(93000, 113000, 130500, 160000, 230000, 230000);
+		setOrderTime(103000, 113000, 130500, 140000, 230000, 230000);
 		// wait for EMA6, that's why 0945
 	}
 
 	public void openContract() {
+		
+		trendReversed = false;
 
 		if (shutdown) {
 			lossTimes++;
@@ -28,32 +31,22 @@ public class RuleTest2 extends Rules {
 		)
 			return;
 		
-		if (isUpTrend() && GetData.getShortTB().getRSI() < 30 - lossTimes * 10)
+		if (GetData.getShortTB().getRSI() < 35 && GetData.getShortTB().getRSI() > 30 && GetData.getShortTB().getHL(15).getFluctuation() < 50
+				&& Global.getCurrentPoint() > Global.getAOL())
 		{
 			
-			refPt = Global.getCurrentPoint();
-			while (GetData.getShortTB().getLatestCandle().getClose() < GetData.getShortTB().getPreviousCandle(1).getClose())
-				{
-					wanPrevious.middleWaiter(wanNext);
-					if (Global.getCurrentPoint() < refPt)
-						refPt = Global.getCurrentPoint();
-				}
+			
 			
 			
 			longContract();
 			
 			cutLoss = buyingPoint - refPt;
 		}
-		else if  (isDownTrend() && GetData.getShortTB().getRSI() > 70 + lossTimes * 10)
+		else if  (GetData.getShortTB().getRSI() > 65 && GetData.getShortTB().getRSI() < 70 && GetData.getShortTB().getHL(15).getFluctuation() < 50
+				&& Global.getCurrentPoint() < Global.getAOH())
 		{
 			
-			while (GetData.getShortTB().getLatestCandle().getClose() > GetData.getShortTB().getPreviousCandle(1).getClose())
-				{
-					wanPrevious.middleWaiter(wanNext);
-					
-					if (Global.getCurrentPoint() > refPt)
-						refPt = Global.getCurrentPoint();
-				}
+			
 			
 			shortContract();
 			cutLoss = refPt - buyingPoint;
@@ -67,33 +60,20 @@ public class RuleTest2 extends Rules {
 
 	// use 1min instead of 5min
 	void updateStopEarn() {
+		
+		
 
 		if (Global.getNoOfContracts() > 0) {
 			
-			if (tempCutLoss < Global.getCurrentPoint() - 30){
-				tempCutLoss = Global.getCurrentPoint() - 30;
-			}
-
-			if (buyingPoint > tempCutLoss && getProfit() > 30){
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint;
-			}
 			
-			if (getTimeBase().getEMA(5) < getTimeBase().getEMA(6) && getProfit() > 50)
+			if (GetData.getShortTB().getRSI() > 60)
 				tempCutLoss = 99999;
 			
 		} else if (Global.getNoOfContracts() < 0) {
 			
-			if (tempCutLoss > Global.getCurrentPoint() + 30){
-				tempCutLoss = Global.getCurrentPoint() + 30;
-			}
-
-			if (buyingPoint < tempCutLoss && getProfit() > 30){
-				Global.addLog("Free trade");
-				tempCutLoss = buyingPoint;
-			}
+		
 			
-			if (getTimeBase().getEMA(5) > getTimeBase().getEMA(6) && getProfit() > 50)
+			if (GetData.getShortTB().getRSI() < 40)
 				tempCutLoss = 0;
 
 		}
@@ -103,10 +83,7 @@ public class RuleTest2 extends Rules {
 	// use 1min instead of 5min
 	double getCutLossPt() {
 
-		if (cutLoss < 10)
-			return 10;
-		else
-			return cutLoss;
+		return 50;
 
 	}
 
@@ -126,18 +103,32 @@ public class RuleTest2 extends Rules {
 
 	double getStopEarnPt() {
 		
-		if (Global.getNoOfContracts() > 0 && getTimeBase().getEMA(5) > getTimeBase().getEMA(6))
-			return -100;
-		else 	if (Global.getNoOfContracts() < 0 && getTimeBase().getEMA(5) < getTimeBase().getEMA(6))
-			return -100;
-		
-		//有可能行夠50點都未 5 > 6，咁會即刻食左
-		return  30;
+		if (trendReversed)
+			return 5;
+		else
+			return 30;
 	}
 
 	@Override
 	public TimeBase getTimeBase() {
 		return GetData.getLongTB();
+	}
+	
+	@Override
+	boolean trendReversed()
+	{
+
+		if (Global.getNoOfContracts() > 0)
+			return GetData.getShortTB().getRSI() < 30;
+		else
+			return GetData.getShortTB().getRSI() > 70;
+	}
+	
+	@Override
+	public void trendReversedAction()
+	{
+
+		trendReversed = true;
 	}
 
 }

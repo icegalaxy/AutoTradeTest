@@ -377,14 +377,14 @@ public class Setting extends JFrame {
 
 		
 		RuleEMA56 ema56 = new RuleEMA56(wan[3], wan[4], false); 
-		RuleTest2 test2 = new RuleTest2(wan[2], wan[3], false); 
+		RuleTest2 test2 = new RuleTest2(wan[2], wan[3], true); 
 		RulePHigh pH = new RulePHigh(wan[4], wan[5], false); 
 		RuleDanny240 danny240 = new RuleDanny240(wan[5], wan[6], false);
 
 		TestRebound pL = new TestRebound(wan[6], wan[7], false);
 		RuleIBT ibt = new RuleIBT(wan[7], wan[8], false);
 		
-		RuleBreakThrough open = new RuleBreakThrough(wan[8], wan[9], true);
+		RuleBreakThrough open = new RuleBreakThrough(wan[8], wan[9], false);
 		RuleDanny50 danny50 = new RuleDanny50(wan[9], wan[10], false);
 		RuleChasing chasing = new RuleChasing(wan[10], wan[11], false);
 		RuleDanny2 danny2 = new RuleDanny2(wan[11], wan[12], false);
@@ -394,7 +394,7 @@ public class Setting extends JFrame {
 		RuleIBT2 ibt2 = new RuleIBT2(wan[15], wan[16], false);
 		TestBreakThrough pC = new TestBreakThrough(wan[16], wan[17], false);
 		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(wan[17], wan[18], false);
-		RuleRebound danny250rebound = new RuleRebound(wan[18], wan[19], true);
+		RuleRebound danny250rebound = new RuleRebound(wan[18], wan[19], false);
 //		RuleDanny250Pena4 danny2504 = new RuleDanny250Pena4(wan[15], wan[16], false);
 //		RuleTest3 test3 = new RuleTest3(wan[22], wan[23], false); //Good
 //		RuleBouncing2 bouncing2 = new RuleBouncing2(wan[8], wan[9], false); //���M
